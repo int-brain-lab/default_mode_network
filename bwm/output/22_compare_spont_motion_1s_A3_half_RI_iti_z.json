@@ -1,0 +1,245 @@
+{
+ "btag": "spont_motion_1s",
+ "atag": "A3_half",
+ "ri": "RI_iti",
+ "zcol": "z",
+ "n_pairs": 2145,
+ "n_sessions": 144,
+ "n_subjects": 84,
+ "dmn_pairs|core": {
+  "n": {
+   "other-other": 73,
+   "dmn-other": 49,
+   "dmn-dmn": 30
+  },
+  "n_cross_probe": {
+   "dmn-other": 21,
+   "other-other": 14,
+   "dmn-dmn": 7
+  },
+  "resid": {
+   "dmn-dmn": 0.0885,
+   "dmn-other": 0.0277,
+   "other-other": 0.0224
+  },
+  "raw_cross_probe": {
+   "dmn-dmn": 0.3283,
+   "dmn-other": 0.1367,
+   "other-other": 0.1305
+  },
+  "ci_dmn-dmn_minus_dmn-other": [
+   -0.1008,
+   0.1466
+  ],
+  "ci_dmn-dmn_minus_other-other": [
+   -0.1267,
+   0.197
+  ]
+ },
+ "dmn_pairs|core+lateral": {
+  "n": {
+   "dmn-other": 64,
+   "other-other": 54,
+   "dmn-dmn": 34
+  },
+  "n_cross_probe": {
+   "dmn-other": 21,
+   "other-other": 12,
+   "dmn-dmn": 9
+  },
+  "resid": {
+   "dmn-dmn": 0.0764,
+   "dmn-other": 0.0132,
+   "other-other": 0.041
+  },
+  "raw_cross_probe": {
+   "dmn-dmn": 0.2983,
+   "dmn-other": 0.1202,
+   "other-other": 0.1488
+  },
+  "ci_dmn-dmn_minus_dmn-other": [
+   -0.0774,
+   0.1586
+  ],
+  "ci_dmn-dmn_minus_other-other": [
+   -0.1492,
+   0.1921
+  ]
+ },
+ "dmn_core_pairs_covered": 16,
+ "dmn_core_pairs_cross_probe": 7,
+ "dmn_anterior_posterior_pairs": {
+  "n_pairs": 0,
+  "n_sessions": 0,
+  "mean_resid": null
+ },
+ "align_slope|brainwide": {
+  "n": 1850,
+  "spearman": -0.0424,
+  "slope": -0.0951,
+  "ci": [
+   -0.2311,
+   0.0385
+  ]
+ },
+ "align_slope|cross_probe": {
+  "n": 736,
+  "spearman": -0.0452,
+  "slope": -0.0651,
+  "ci": [
+   -0.2411,
+   0.1224
+  ]
+ },
+ "align_slope|isocortex": {
+  "n": 134,
+  "spearman": 0.0343,
+  "slope": 0.0456,
+  "ci": [
+   -0.295,
+   0.5341
+  ]
+ },
+ "terciles_cross_probe": {
+  "mid-mid": {
+   "n": 83,
+   "r": 0.0648,
+   "zz": 0.0687,
+   "frac_neg": 0.3614
+  },
+  "mid-taskpos": {
+   "n": 182,
+   "r": 0.1112,
+   "zz": 0.1157,
+   "frac_neg": 0.2527
+  },
+  "mid-tneg": {
+   "n": 135,
+   "r": 0.0729,
+   "zz": 0.0753,
+   "frac_neg": 0.2889
+  },
+  "taskpos-taskpos": {
+   "n": 106,
+   "r": 0.1363,
+   "zz": 0.1436,
+   "frac_neg": 0.2264
+  },
+  "taskpos-tneg": {
+   "n": 160,
+   "r": 0.0488,
+   "zz": 0.0511,
+   "frac_neg": 0.4375
+  },
+  "tneg-tneg": {
+   "n": 70,
+   "r": 0.1178,
+   "zz": 0.1311,
+   "frac_neg": 0.3143
+  }
+ },
+ "arousal|r_pupil_vs_RI_iti": {
+  "n": 97,
+  "spearman": -0.4072
+ },
+ "arousal|r_pupil|core|vs_other_ctx": {
+  "dmn": 0.1375,
+  "other": 0.1413,
+  "p_perm": 0.91145
+ },
+ "arousal|r_pupil|core|vs_higher_order": {
+  "dmn": 0.1375,
+  "other": 0.1156,
+  "p_perm": 0.62667
+ },
+ "arousal|r_pupil|core+lateral|vs_other_ctx": {
+  "dmn": 0.1236,
+  "other": 0.1558,
+  "p_perm": 0.35468
+ },
+ "arousal|r_pupil|core+lateral|vs_higher_order": {
+  "dmn": 0.1236,
+  "other": 0.1382,
+  "p_perm": 0.76301
+ },
+ "arousal|r_pupil|ctx_ranking": {
+  "RSPd": 0.012,
+  "TEa": 0.045,
+  "ACAd": 0.05,
+  "ECT": 0.05,
+  "FRP": 0.056,
+  "MOp": 0.06,
+  "AId": 0.065,
+  "AIp": 0.074,
+  "RSPagl": 0.084,
+  "RSPv": 0.094,
+  "VISp": 0.108,
+  "ORBl": 0.119,
+  "ORBm": 0.127,
+  "VISa": 0.136,
+  "ILA": 0.137,
+  "SSp-bfd": 0.16,
+  "MOs": 0.167,
+  "SSp-tr": 0.178,
+  "PL": 0.18,
+  "SSs": 0.187,
+  "SSp-m": 0.193,
+  "VISam": 0.199,
+  "AUDp": 0.215,
+  "AUDd": 0.281,
+  "SSp-ul": 0.284,
+  "ORBvl": 0.374
+ },
+ "arousal|r_me_vs_RI_iti": {
+  "n": 97,
+  "spearman": -0.5896
+ },
+ "arousal|r_me|core|vs_other_ctx": {
+  "dmn": 0.2992,
+  "other": 0.3177,
+  "p_perm": 0.75616
+ },
+ "arousal|r_me|core|vs_higher_order": {
+  "dmn": 0.2992,
+  "other": 0.2916,
+  "p_perm": 0.9128
+ },
+ "arousal|r_me|core+lateral|vs_other_ctx": {
+  "dmn": 0.2631,
+  "other": 0.3567,
+  "p_perm": 0.10114
+ },
+ "arousal|r_me|core+lateral|vs_higher_order": {
+  "dmn": 0.2631,
+  "other": 0.3673,
+  "p_perm": 0.12804
+ },
+ "arousal|r_me|ctx_ranking": {
+  "TEa": -0.013,
+  "ECT": 0.143,
+  "MOp": 0.174,
+  "RSPd": 0.195,
+  "ILA": 0.197,
+  "AUDp": 0.201,
+  "PL": 0.202,
+  "ORBm": 0.228,
+  "ACAd": 0.238,
+  "FRP": 0.241,
+  "VISp": 0.253,
+  "RSPv": 0.259,
+  "MOs": 0.313,
+  "VISam": 0.326,
+  "ORBl": 0.329,
+  "SSs": 0.331,
+  "RSPagl": 0.34,
+  "SSp-bfd": 0.362,
+  "SSp-tr": 0.366,
+  "AIp": 0.375,
+  "VISa": 0.385,
+  "SSp-m": 0.391,
+  "AUDd": 0.42,
+  "AId": 0.524,
+  "ORBvl": 0.591,
+  "SSp-ul": 0.685
+ }
+}

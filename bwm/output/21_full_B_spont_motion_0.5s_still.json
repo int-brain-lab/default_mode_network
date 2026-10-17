@@ -1,0 +1,9 @@
+{
+ "tag": "spont_motion_0.5s_still",
+ "n_sessions": 370,
+ "n_pairs": 5389,
+ "median_bins": 609.0,
+ "mean_r_same_probe": 0.0937,
+ "mean_r_cross_probe": 0.0629,
+ "median_rel": 0.432
+}

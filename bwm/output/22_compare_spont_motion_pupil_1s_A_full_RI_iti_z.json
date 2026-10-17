@@ -1,0 +1,267 @@
+{
+ "btag": "spont_motion_pupil_1s",
+ "atag": "A_full",
+ "ri": "RI_iti",
+ "zcol": "z",
+ "n_pairs": 5637,
+ "n_sessions": 375,
+ "n_subjects": 128,
+ "dmn_pairs|core": {
+  "n": {
+   "other-other": 156,
+   "dmn-other": 88,
+   "dmn-dmn": 62
+  },
+  "n_cross_probe": {
+   "dmn-other": 40,
+   "other-other": 28,
+   "dmn-dmn": 16
+  },
+  "resid": {
+   "dmn-dmn": 0.0845,
+   "dmn-other": 0.0285,
+   "other-other": 0.0344
+  },
+  "raw_cross_probe": {
+   "dmn-dmn": 0.2819,
+   "dmn-other": 0.1307,
+   "other-other": 0.1368
+  },
+  "ci_dmn-dmn_minus_dmn-other": [
+   -0.0322,
+   0.1277
+  ],
+  "ci_dmn-dmn_minus_other-other": [
+   -0.0598,
+   0.145
+  ]
+ },
+ "dmn_pairs|core+lateral": {
+  "n": {
+   "other-other": 121,
+   "dmn-other": 117,
+   "dmn-dmn": 68
+  },
+  "n_cross_probe": {
+   "dmn-other": 40,
+   "other-other": 26,
+   "dmn-dmn": 18
+  },
+  "resid": {
+   "dmn-dmn": 0.0733,
+   "dmn-other": 0.0234,
+   "other-other": 0.0446
+  },
+  "raw_cross_probe": {
+   "dmn-dmn": 0.2716,
+   "dmn-other": 0.1222,
+   "other-other": 0.1458
+  },
+  "ci_dmn-dmn_minus_dmn-other": [
+   -0.0403,
+   0.1144
+  ],
+  "ci_dmn-dmn_minus_other-other": [
+   -0.075,
+   0.1202
+  ]
+ },
+ "dmn_core_pairs_covered": 18,
+ "dmn_core_pairs_cross_probe": 13,
+ "dmn_anterior_posterior_pairs": {
+  "n_pairs": 0,
+  "n_sessions": 0,
+  "mean_resid": null
+ },
+ "align_slope|brainwide": {
+  "n": 5491,
+  "spearman": -0.0852,
+  "slope": -0.1449,
+  "ci": [
+   -0.2385,
+   -0.0619
+  ]
+ },
+ "align_slope|cross_probe": {
+  "n": 2212,
+  "spearman": -0.0883,
+  "slope": -0.1379,
+  "ci": [
+   -0.2529,
+   -0.026
+  ]
+ },
+ "align_slope|isocortex": {
+  "n": 306,
+  "spearman": -0.0153,
+  "slope": -0.0917,
+  "ci": [
+   -0.3916,
+   0.2004
+  ]
+ },
+ "terciles_cross_probe": {
+  "mid-mid": {
+   "n": 357,
+   "r": 0.0847,
+   "zz": 0.0886,
+   "frac_neg": 0.3221
+  },
+  "mid-taskpos": {
+   "n": 515,
+   "r": 0.0908,
+   "zz": 0.0942,
+   "frac_neg": 0.2893
+  },
+  "mid-tneg": {
+   "n": 531,
+   "r": 0.0642,
+   "zz": 0.0667,
+   "frac_neg": 0.3559
+  },
+  "taskpos-taskpos": {
+   "n": 244,
+   "r": 0.1529,
+   "zz": 0.1651,
+   "frac_neg": 0.2049
+  },
+  "taskpos-tneg": {
+   "n": 380,
+   "r": 0.036,
+   "zz": 0.0373,
+   "frac_neg": 0.4026
+  },
+  "tneg-tneg": {
+   "n": 185,
+   "r": 0.0851,
+   "zz": 0.0899,
+   "frac_neg": 0.3243
+  }
+ },
+ "arousal|r_pupil_vs_RI_iti": {
+  "n": 167,
+  "spearman": -0.4722
+ },
+ "arousal|r_pupil|core|vs_other_ctx": {
+  "dmn": 0.1434,
+  "other": 0.1422,
+  "p_perm": 0.97255
+ },
+ "arousal|r_pupil|core|vs_higher_order": {
+  "dmn": 0.1434,
+  "other": 0.1326,
+  "p_perm": 0.78841
+ },
+ "arousal|r_pupil|core+lateral|vs_other_ctx": {
+  "dmn": 0.1331,
+  "other": 0.1484,
+  "p_perm": 0.65802
+ },
+ "arousal|r_pupil|core+lateral|vs_higher_order": {
+  "dmn": 0.1331,
+  "other": 0.142,
+  "p_perm": 0.82311
+ },
+ "arousal|r_pupil|ctx_ranking": {
+  "VISrl": -0.084,
+  "SSp-un": -0.015,
+  "ECT": -0.007,
+  "VISam": 0.01,
+  "RSPagl": 0.036,
+  "FRP": 0.042,
+  "AUDv": 0.056,
+  "RSPd": 0.076,
+  "MOp": 0.08,
+  "MOs": 0.082,
+  "AIp": 0.095,
+  "ILA": 0.1,
+  "AIv": 0.104,
+  "SSp-tr": 0.11,
+  "AId": 0.114,
+  "VISa": 0.129,
+  "ACAd": 0.129,
+  "ORBm": 0.137,
+  "VISp": 0.144,
+  "ACAv": 0.146,
+  "TEa": 0.15,
+  "VISpm": 0.156,
+  "SSp-bfd": 0.161,
+  "RSPv": 0.165,
+  "SSp-m": 0.168,
+  "SSp-ul": 0.172,
+  "SSp-ll": 0.178,
+  "ORBl": 0.183,
+  "SSs": 0.189,
+  "AUDp": 0.215,
+  "VISpl": 0.249,
+  "PL": 0.262,
+  "AUDd": 0.268,
+  "VISl": 0.273,
+  "VISli": 0.303,
+  "ORBvl": 0.347,
+  "SSp-n": 0.353
+ },
+ "arousal|r_me_vs_RI_iti": {
+  "n": 167,
+  "spearman": -0.6968
+ },
+ "arousal|r_me|core|vs_other_ctx": {
+  "dmn": 0.2932,
+  "other": 0.37,
+  "p_perm": 0.11129
+ },
+ "arousal|r_me|core|vs_higher_order": {
+  "dmn": 0.2932,
+  "other": 0.3548,
+  "p_perm": 0.24454
+ },
+ "arousal|r_me|core+lateral|vs_other_ctx": {
+  "dmn": 0.2715,
+  "other": 0.3899,
+  "p_perm": 0.0087
+ },
+ "arousal|r_me|core+lateral|vs_higher_order": {
+  "dmn": 0.2715,
+  "other": 0.3877,
+  "p_perm": 0.0213
+ },
+ "arousal|r_me|ctx_ranking": {
+  "ECT": 0.059,
+  "ILA": 0.112,
+  "ORBm": 0.172,
+  "RSPagl": 0.179,
+  "FRP": 0.196,
+  "AUDp": 0.201,
+  "TEa": 0.224,
+  "RSPd": 0.232,
+  "VISam": 0.242,
+  "MOp": 0.256,
+  "MOs": 0.262,
+  "RSPv": 0.266,
+  "ACAv": 0.289,
+  "AUDv": 0.296,
+  "SSp-un": 0.308,
+  "PL": 0.313,
+  "SSp-bfd": 0.324,
+  "ACAd": 0.328,
+  "VISp": 0.347,
+  "ORBl": 0.357,
+  "AId": 0.365,
+  "SSp-tr": 0.371,
+  "AIp": 0.373,
+  "VISa": 0.376,
+  "VISrl": 0.384,
+  "SSs": 0.39,
+  "VISl": 0.392,
+  "VISpm": 0.411,
+  "AIv": 0.432,
+  "SSp-m": 0.438,
+  "SSp-ll": 0.446,
+  "AUDd": 0.485,
+  "VISli": 0.509,
+  "VISpl": 0.543,
+  "SSp-n": 0.611,
+  "SSp-ul": 0.627,
+  "ORBvl": 0.652
+ }
+}

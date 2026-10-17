@@ -1,0 +1,121 @@
+{
+ "tag": "dt25",
+ "detrend": 25,
+ "window": "rest+quies",
+ "n_sessions": 329,
+ "n_pairs": 5189,
+ "n_unique_region_pairs": 2600,
+ "frac_pairs_same_probe": 0.59,
+ "mean_z_same_probe": 0.1151,
+ "mean_z_cross_probe": 0.0735,
+ "core": {
+  "n_pairs": {
+   "other-other": 115,
+   "dmn-other": 104,
+   "dmn-dmn": 81
+  },
+  "n_sessions": {
+   "dmn-dmn": 38,
+   "dmn-other": 36,
+   "other-other": 41
+  },
+  "raw_mean_z": {
+   "dmn-dmn": 0.2152,
+   "dmn-other": 0.1097,
+   "other-other": 0.1622
+  },
+  "resid_mean_z": {
+   "dmn-dmn": 0.0394,
+   "dmn-other": -0.028,
+   "other-other": -0.0025
+  },
+  "cross_probe_raw_mean_z": {
+   "dmn-dmn": 0.1591,
+   "dmn-other": 0.0706,
+   "other-other": 0.1649
+  },
+  "cross_probe_n": {
+   "dmn-other": 41,
+   "dmn-dmn": 23,
+   "other-other": 22
+  },
+  "boot_ci95_dmn-dmn_minus_dmn-other": [
+   0.0196,
+   0.1173
+  ],
+  "boot_ci95_dmn-dmn_minus_other-other": [
+   -0.021,
+   0.1027
+  ]
+ },
+ "core+lateral": {
+  "n_pairs": {
+   "dmn-other": 120,
+   "other-other": 93,
+   "dmn-dmn": 87
+  },
+  "n_sessions": {
+   "dmn-dmn": 42,
+   "dmn-other": 39,
+   "other-other": 39
+  },
+  "raw_mean_z": {
+   "dmn-dmn": 0.2013,
+   "dmn-other": 0.1065,
+   "other-other": 0.185
+  },
+  "resid_mean_z": {
+   "dmn-dmn": 0.0285,
+   "dmn-other": -0.0299,
+   "other-other": 0.0119
+  },
+  "cross_probe_raw_mean_z": {
+   "dmn-dmn": 0.1394,
+   "dmn-other": 0.0775,
+   "other-other": 0.1684
+  },
+  "cross_probe_n": {
+   "dmn-other": 39,
+   "dmn-dmn": 26,
+   "other-other": 21
+  },
+  "boot_ci95_dmn-dmn_minus_dmn-other": [
+   0.0136,
+   0.1107
+  ],
+  "boot_ci95_dmn-dmn_minus_other-other": [
+   -0.0455,
+   0.0754
+  ]
+ },
+ "dmn_core_pair_coverage": {
+  "RSPd-RSPv": 10,
+  "ACAd-ACAv": 8,
+  "ACAd-PL": 7,
+  "ILA-PL": 6,
+  "ORBvl-PL": 4,
+  "ORBm-ORBvl": 4,
+  "RSPagl-RSPv": 4,
+  "VISa-VISam": 4,
+  "ACAd-ILA": 3,
+  "ORBm-PL": 3,
+  "ACAv-PL": 3,
+  "RSPagl-RSPd": 2,
+  "ILA-ORBvl": 2,
+  "ACAv-ILA": 2,
+  "ACAv-VISa": 1,
+  "ACAd-ORBvl": 1,
+  "ACAd-VISa": 1,
+  "ILA-ORBm": 1,
+  "ORBvl-VISam": 1,
+  "ORBl-ORBvl": 1,
+  "ORBm-VISam": 1,
+  "PL-VISa": 1,
+  "PL-VISam": 1,
+  "RSPd-VISam": 1,
+  "RSPv-VISam": 1
+ },
+ "dmn_core_pairs_covered_of_possible": "25 / 66",
+ "dmn_core_pairs_cross_probe": 20,
+ "dmn_core_pairs_cross_probe_sessions": 9
+}

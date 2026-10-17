@@ -1,0 +1,36 @@
+{
+ "btag": "spont_motion_pupil_1s",
+ "set": "core+lateral",
+ "n_sessions": 16,
+ "n_subjects": 13,
+ "resid": {
+  "n_subjects": 13,
+  "mean": -0.0053,
+  "boot_ci95": [
+   -0.0698,
+   0.0684
+  ],
+  "frac_subjects_pos": 0.385,
+  "wilcoxon_p": 0.83935546875
+ },
+ "raw": {
+  "n_subjects": 13,
+  "mean": 0.0536,
+  "boot_ci95": [
+   -0.0096,
+   0.1253
+  ],
+  "frac_subjects_pos": 0.615,
+  "wilcoxon_p": 0.414306640625
+ },
+ "dist_matched": {
+  "n_subjects": 12,
+  "mean": 0.0419,
+  "boot_ci95": [
+   -0.0269,
+   0.1129
+  ],
+  "frac_subjects_pos": 0.667,
+  "wilcoxon_p": 0.30126953125
+ }
+}

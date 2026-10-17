@@ -1,0 +1,132 @@
+{
+ "tag": "dt25",
+ "ri": "RI_task",
+ "zcol": "z_dis",
+ "pair_brainwide": {
+  "n_pairs": 3284,
+  "n_sessions": 304,
+  "spearman": -0.0957,
+  "p_naive": 3.92942478957836e-08,
+  "slope": -0.3982,
+  "slope_boot_ci95": [
+   -0.5901,
+   -0.1903
+  ]
+ },
+ "pair_isocortex": {
+  "n_pairs": 190,
+  "n_sessions": 71,
+  "spearman": 0.0065,
+  "p_naive": 0.9293946167953443,
+  "slope": -0.1936,
+  "slope_boot_ci95": [
+   -1.4313,
+   1.2746
+  ]
+ },
+ "pair_brainwide_cross_probe": {
+  "n_pairs": 1399,
+  "n_sessions": 158,
+  "spearman": -0.1607,
+  "p_naive": 1.4799321579652864e-09,
+  "slope": -0.5847,
+  "slope_boot_ci95": [
+   -0.7989,
+   -0.3556
+  ]
+ },
+ "task_negative_set": {
+  "n_regions": 49,
+  "regions": [
+   "AAA",
+   "AIv",
+   "BLA",
+   "BMA",
+   "COAp",
+   "DCO",
+   "DG",
+   "DN",
+   "ECT",
+   "ENTl",
+   "EPv",
+   "FL",
+   "FN",
+   "FOTU",
+   "HATA",
+   "ICB",
+   "ILA",
+   "IP",
+   "LA",
+   "LAV",
+   "LING",
+   "LPO",
+   "LSr",
+   "LSv",
+   "MA",
+   "MEA",
+   "MOB",
+   "MPO",
+   "MS",
+   "NOD",
+   "P5",
+   "PA",
+   "PAA",
+   "PAR",
+   "PF",
+   "PPT",
+   "PR",
+   "PS",
+   "PYR",
+   "ProS",
+   "SAG",
+   "SI",
+   "SPIV",
+   "SUV",
+   "TEa",
+   "TR",
+   "TTd",
+   "VCO",
+   "VISal"
+  ],
+  "dmn_core_in_set": [
+   "ILA"
+  ],
+  "n_pairs": {
+   "other-other": 2325,
+   "tn-other": 862,
+   "tn-tn": 97
+  },
+  "resid_mean": {
+   "other-other": 0.0428,
+   "tn-other": -0.0978,
+   "tn-tn": -0.1561
+  },
+  "boot_ci95_tn-tn_minus_tn-other": [
+   -0.1595,
+   0.0495
+  ]
+ },
+ "region_dmn_affinity_vs_RI": {
+  "n_regions": 16,
+  "spearman": 0.0559,
+  "p": 0.8371372217954723,
+  "affinity": {
+   "ACAd": 0.08,
+   "ACAv": 0.565,
+   "AUDp": -0.194,
+   "FRP": -0.122,
+   "ILA": 0.08,
+   "MOp": 0.52,
+   "MOs": 0.037,
+   "ORBm": 0.376,
+   "ORBvl": 0.297,
+   "PL": 0.315,
+   "RSPd": -0.075,
+   "TEa": -0.011,
+   "VISa": 0.287,
+   "VISam": 0.029,
+   "VISp": -0.465,
+   "VISpm": 0.416
+  }
+ }
+}

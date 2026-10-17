@@ -1,0 +1,36 @@
+{
+ "btag": "iti_motion_0.5s_still",
+ "set": "core+lateral",
+ "n_sessions": 17,
+ "n_subjects": 14,
+ "resid": {
+  "n_subjects": 14,
+  "mean": 0.0048,
+  "boot_ci95": [
+   -0.0904,
+   0.1073
+  ],
+  "frac_subjects_pos": 0.357,
+  "wilcoxon_p": 0.8077392578125
+ },
+ "raw": {
+  "n_subjects": 14,
+  "mean": 0.0637,
+  "boot_ci95": [
+   -0.0326,
+   0.1634
+  ],
+  "frac_subjects_pos": 0.5,
+  "wilcoxon_p": 0.625732421875
+ },
+ "dist_matched": {
+  "n_subjects": 12,
+  "mean": 0.0082,
+  "boot_ci95": [
+   -0.095,
+   0.1156
+  ],
+  "frac_subjects_pos": 0.5,
+  "wilcoxon_p": 0.90966796875
+ }
+}

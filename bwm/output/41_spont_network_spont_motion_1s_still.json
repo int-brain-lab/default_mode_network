@@ -1,0 +1,495 @@
+{
+ "btag": "spont_motion_1s_still",
+ "baseline": "cortex+CA1 pairs, 0.5 mm bins x probe relation",
+ "n_sessions": 104,
+ "n_mice": 70,
+ "n_pairs": 343,
+ "n_pairs_cortex": 262,
+ "n_sessions_cortex_pair": 70,
+ "n_pairs_cross_probe_cortex": 72,
+ "coverage": {
+  "ours_core": {
+   "n_possible_edges": 66,
+   "n_edges_any": 17,
+   "n_edges_ge3_mice": 5,
+   "n_edges_cross_probe_ge3_mice": 0
+  },
+  "ours_all": {
+   "n_possible_edges": 105,
+   "n_edges_any": 20,
+   "n_edges_ge3_mice": 6,
+   "n_edges_cross_probe_ge3_mice": 0
+  },
+  "lu": {
+   "n_possible_edges": 153,
+   "n_edges_any": 34,
+   "n_edges_ge3_mice": 7,
+   "n_edges_cross_probe_ge3_mice": 3
+  }
+ },
+ "any_frontal_x_rsp_any_variant_note": "checked in review: 0 pairs in all grey/ITI variants",
+ "lu_hub_pfc_rsp": {
+  "n_pairs": 0,
+  "n_sessions": 0,
+  "n_mice": 0
+ },
+ "lu_between_module": {
+  "n_pairs": 6,
+  "n_sessions": 2,
+  "n_mice": 2,
+  "edges": "{('AUDd', 'CA1'): 1, ('AUDd', 'RSPagl'): 1, ('AUDp', 'CA1'): 1, ('AUDp', 'RSPagl'): 1, ('AUDv', 'CA1'): 1, ('CA1', 'TEa'): 1}"
+ },
+ "classes": {
+  "ours_core|cortex": {
+   "n": {
+    "other-other": 138,
+    "dmn-other": 73,
+    "dmn-dmn": 51
+   },
+   "n_mice_dd": 20,
+   "dmn-dmn minus dmn-other": [
+    0.0797,
+    -0.008,
+    0.1627
+   ],
+   "dmn-dmn minus other-other": [
+    0.068,
+    -0.0338,
+    0.1567
+   ],
+   "dmn-other minus other-other": [
+    -0.0117,
+    -0.0798,
+    0.0478
+   ],
+   "means": {
+    "dmn-dmn": 0.0776,
+    "dmn-other": -0.0021,
+    "other-other": 0.0096
+   },
+   "mde_80pct_power": 0.1219,
+   "loo_session_min_max": [
+    0.0519,
+    0.0951
+   ],
+   "drop_top_pair": 0.066,
+   "dd_sessions_top2_share": 0.353,
+   "dd_median_dist": 0.67,
+   "do_median_dist": 1.53
+  },
+  "ours_core|cortex_cross_probe": {
+   "n": {
+    "dmn-other": 32,
+    "other-other": 26,
+    "dmn-dmn": 14
+   },
+   "n_mice_dd": 5,
+   "dmn-dmn minus dmn-other": [
+    0.105,
+    0.0187,
+    0.2273
+   ],
+   "dmn-dmn minus other-other": [
+    0.1436,
+    0.0252,
+    0.2761
+   ],
+   "dmn-other minus other-other": [
+    0.0387,
+    -0.0411,
+    0.1255
+   ],
+   "means": {
+    "dmn-dmn": 0.1228,
+    "dmn-other": 0.0178,
+    "other-other": -0.0208
+   },
+   "mde_80pct_power": 0.149,
+   "loo_session_min_max": [
+    0.0845,
+    0.1377
+   ],
+   "drop_top_pair": 0.062,
+   "dd_sessions_top2_share": 0.714,
+   "dd_median_dist": 1.78,
+   "do_median_dist": 2.68
+  },
+  "ours_core+lateral|cortex": {
+   "n": {
+    "other-other": 107,
+    "dmn-other": 98,
+    "dmn-dmn": 57
+   },
+   "n_mice_dd": 22,
+   "dmn-dmn minus dmn-other": [
+    0.0717,
+    -0.011,
+    0.1536
+   ],
+   "dmn-dmn minus other-other": [
+    0.034,
+    -0.0734,
+    0.131
+   ],
+   "dmn-other minus other-other": [
+    -0.0378,
+    -0.1033,
+    0.035
+   ],
+   "means": {
+    "dmn-dmn": 0.0603,
+    "dmn-other": -0.0115,
+    "other-other": 0.0263
+   },
+   "mde_80pct_power": 0.1176,
+   "loo_session_min_max": [
+    0.0465,
+    0.0827
+   ],
+   "drop_top_pair": 0.0592,
+   "dd_sessions_top2_share": 0.316,
+   "dd_median_dist": 0.66,
+   "do_median_dist": 1.53
+  },
+  "ours_core+lateral|cortex_cross_probe": {
+   "n": {
+    "dmn-other": 32,
+    "other-other": 24,
+    "dmn-dmn": 16
+   },
+   "n_mice_dd": 6,
+   "dmn-dmn minus dmn-other": [
+    0.1199,
+    0.0428,
+    0.2287
+   ],
+   "dmn-dmn minus other-other": [
+    0.1205,
+    0.0202,
+    0.2201
+   ],
+   "dmn-other minus other-other": [
+    0.0006,
+    -0.0739,
+    0.0809
+   ],
+   "means": {
+    "dmn-dmn": 0.1178,
+    "dmn-other": -0.0022,
+    "other-other": -0.0027
+   },
+   "mde_80pct_power": 0.1328,
+   "loo_session_min_max": [
+    0.1018,
+    0.1473
+   ],
+   "drop_top_pair": 0.0823,
+   "dd_sessions_top2_share": 0.625,
+   "dd_median_dist": 1.9,
+   "do_median_dist": 2.68
+  },
+  "lu_all|cortex": {
+   "n": {
+    "dmn-other": 146,
+    "dmn-dmn": 109,
+    "other-other": 88
+   },
+   "n_mice_dd": 40,
+   "dmn-dmn minus dmn-other": [
+    0.008,
+    -0.0448,
+    0.0569
+   ],
+   "dmn-dmn minus other-other": [
+    0.004,
+    -0.0695,
+    0.0671
+   ],
+   "dmn-other minus other-other": [
+    -0.004,
+    -0.0644,
+    0.0516
+   ],
+   "means": {
+    "dmn-dmn": 0.0044,
+    "dmn-other": -0.0036,
+    "other-other": 0.0004
+   },
+   "mde_80pct_power": 0.0726,
+   "loo_session_min_max": [
+    -0.0013,
+    0.0145
+   ],
+   "drop_top_pair": 0.001,
+   "dd_sessions_top2_share": 0.165,
+   "dd_median_dist": 0.82,
+   "do_median_dist": 1.21
+  },
+  "lu_all|cortex_cross_probe": {
+   "n": {
+    "dmn-other": 49,
+    "dmn-dmn": 37,
+    "other-other": 18
+   },
+   "n_mice_dd": 15,
+   "dmn-dmn minus dmn-other": [
+    -0.0104,
+    -0.0685,
+    0.0452
+   ],
+   "dmn-dmn minus other-other": [
+    -0.0051,
+    -0.0856,
+    0.0702
+   ],
+   "dmn-other minus other-other": [
+    0.0053,
+    -0.0501,
+    0.0661
+   ],
+   "means": {
+    "dmn-dmn": -0.0058,
+    "dmn-other": 0.0046,
+    "other-other": -0.0007
+   },
+   "mde_80pct_power": 0.0812,
+   "loo_session_min_max": [
+    -0.0222,
+    -0.0023
+   ],
+   "drop_top_pair": -0.0295,
+   "dd_sessions_top2_share": 0.216,
+   "dd_median_dist": 3.07,
+   "do_median_dist": 2.83
+  },
+  "lu_pfc_temporal|cortex": {
+   "n": {
+    "other-other": 116,
+    "dmn-other": 107,
+    "dmn-dmn": 39
+   },
+   "n_mice_dd": 14,
+   "dmn-dmn minus dmn-other": [
+    0.0925,
+    0.0097,
+    0.1681
+   ],
+   "dmn-dmn minus other-other": [
+    0.0675,
+    -0.0323,
+    0.1538
+   ],
+   "dmn-other minus other-other": [
+    -0.025,
+    -0.0893,
+    0.0351
+   ],
+   "means": {
+    "dmn-dmn": 0.0873,
+    "dmn-other": -0.0053,
+    "other-other": 0.0197
+   },
+   "mde_80pct_power": 0.1131,
+   "loo_session_min_max": [
+    0.0719,
+    0.1038
+   ],
+   "drop_top_pair": 0.0769,
+   "dd_sessions_top2_share": 0.282,
+   "dd_median_dist": 0.7,
+   "do_median_dist": 1.22
+  },
+  "lu_pfc_temporal|cortex_cross_probe": {
+   "n": {
+    "dmn-other": 33,
+    "other-other": 30,
+    "dmn-dmn": 9
+   },
+   "n_mice_dd": 4,
+   "dmn-dmn minus dmn-other": [
+    0.1033,
+    -0.013,
+    0.2452
+   ],
+   "dmn-dmn minus other-other": [
+    0.0898,
+    -0.0653,
+    0.2301
+   ],
+   "dmn-other minus other-other": [
+    -0.0135,
+    -0.079,
+    0.0355
+   ],
+   "means": {
+    "dmn-dmn": 0.1091,
+    "dmn-other": 0.0058,
+    "other-other": 0.0193
+   },
+   "mde_80pct_power": 0.1844,
+   "loo_session_min_max": [
+    0.0294,
+    0.1553
+   ],
+   "drop_top_pair": 0.0318,
+   "dd_sessions_top2_share": 0.667,
+   "dd_median_dist": 2.13,
+   "do_median_dist": 2.68
+  },
+  "lu_parietal|cortex": {
+   "n": {
+    "other-other": 232,
+    "dmn-dmn": 64,
+    "dmn-other": 47
+   },
+   "n_mice_dd": 30,
+   "dmn-dmn minus dmn-other": [
+    -0.0135,
+    -0.0942,
+    0.0556
+   ],
+   "dmn-dmn minus other-other": [
+    -0.0487,
+    -0.1141,
+    0.0142
+   ],
+   "dmn-other minus other-other": [
+    -0.0352,
+    -0.0942,
+    0.0304
+   ],
+   "means": {
+    "dmn-dmn": -0.0348,
+    "dmn-other": -0.0213,
+    "other-other": 0.0139
+   },
+   "mde_80pct_power": 0.107,
+   "loo_session_min_max": [
+    -0.034,
+    -0.0018
+   ],
+   "drop_top_pair": -0.0262,
+   "dd_sessions_top2_share": 0.188,
+   "dd_median_dist": 0.81,
+   "do_median_dist": 1.95
+  },
+  "lu_parietal|cortex_cross_probe": {
+   "n": {
+    "other-other": 58,
+    "dmn-other": 24,
+    "dmn-dmn": 22
+   },
+   "n_mice_dd": 10,
+   "dmn-dmn minus dmn-other": [
+    0.0192,
+    -0.0923,
+    0.099
+   ],
+   "dmn-dmn minus other-other": [
+    -0.0489,
+    -0.151,
+    0.0391
+   ],
+   "dmn-other minus other-other": [
+    -0.0681,
+    -0.1451,
+    0.0148
+   ],
+   "means": {
+    "dmn-dmn": -0.0228,
+    "dmn-other": -0.042,
+    "other-other": 0.026
+   },
+   "mde_80pct_power": 0.1366,
+   "loo_session_min_max": [
+    -0.0059,
+    0.0346
+   ],
+   "drop_top_pair": -0.0004,
+   "dd_sessions_top2_share": 0.273,
+   "dd_median_dist": 3.92,
+   "do_median_dist": 3.29
+  }
+ },
+ "cv_restpref": {
+  "resid_means": {
+   "rest-rest": 0.0226,
+   "rest-task": 0.015,
+   "task-task": -0.0293
+  },
+  "resid_q025_q975": {
+   "rest-rest": [
+    -0.1421,
+    0.2438
+   ],
+   "rest-task": [
+    -0.063,
+    0.1226
+   ],
+   "task-task": [
+    -0.1273,
+    0.0903
+   ]
+  },
+  "rest-rest minus rest-task": [
+   0.0076,
+   0.5175
+  ],
+  "task-task minus rest-task": [
+   -0.044,
+   0.2425
+  ],
+  "cross_probe_z_means": {
+   "rest-rest": 0.1974,
+   "rest-task": 0.1415,
+   "task-task": 0.0906
+  },
+  "note": "second entry = fraction of 400 half-splits with difference > 0"
+ },
+ "within": {
+  "ours_core": {
+   "n_sessions": 10,
+   "n_mice": 9,
+   "mean": 0.0294,
+   "frac_pos": 0.667,
+   "wilcoxon_p": 0.8203
+  },
+  "ours_core+lateral": {
+   "n_sessions": 13,
+   "n_mice": 11,
+   "mean": 0.0323,
+   "frac_pos": 0.636,
+   "wilcoxon_p": 0.6377
+  },
+  "lu_all": {
+   "n_sessions": 17,
+   "n_mice": 15,
+   "mean": -0.0145,
+   "frac_pos": 0.533,
+   "wilcoxon_p": 0.8469
+  },
+  "lu_pfc_temporal": {
+   "n_sessions": 15,
+   "n_mice": 13,
+   "mean": 0.0642,
+   "frac_pos": 0.692,
+   "wilcoxon_p": 0.2734
+  },
+  "lu_parietal": {
+   "n_sessions": 2,
+   "n_mice": 2,
+   "mean": -0.271,
+   "frac_pos": 0.0,
+   "wilcoxon_p": null
+  }
+ },
+ "grey_vs_iti_pair_z": {
+  "n_pairs": 3516,
+  "n_sessions": 238,
+  "spearman_all": 0.386,
+  "n_cortex": 216,
+  "spearman_cortex": 0.262,
+  "mean_z_grey": 0.091,
+  "mean_z_iti": 0.1265
+ }
+}

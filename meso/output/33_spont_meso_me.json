@@ -1,0 +1,427 @@
+{
+ "min_dur": 200.0,
+ "require_me": true,
+ "n_sessions_long_spont": 23,
+ "n_mice_long_spont": 8,
+ "n_sessions_with_pairs": 13,
+ "n_mice_with_pairs": 7,
+ "n_pairs": 354,
+ "sessions": [
+  {
+   "eid": "09ed0989-c00c-40f2-b2d2-8ab6ff19fee4",
+   "dur": 600.063,
+   "n_bins": 597,
+   "wheel_cov": 1.0,
+   "me_cov": 1.0,
+   "frac_wheel": 0.166,
+   "frac_me_high": 0.141,
+   "n_still": 463.0,
+   "subject": "SP054"
+  },
+  {
+   "eid": "198bc994-6a9f-4e18-a058-5918bb0d6ceb",
+   "dur": 253.649,
+   "n_bins": 251,
+   "wheel_cov": 1.0,
+   "me_cov": 1.0,
+   "frac_wheel": 0.179,
+   "frac_me_high": 0.159,
+   "n_still": 37.0,
+   "subject": "SP054"
+  },
+  {
+   "eid": "19ac39ab-0856-4b83-80a7-ee3b25ddaedf",
+   "dur": 600.082,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 0.0,
+   "frac_wheel": NaN,
+   "frac_me_high": NaN,
+   "n_still": NaN,
+   "subject": "SP081"
+  },
+  {
+   "eid": "23c63322-b1e8-4e25-9386-2b9f90ba4057",
+   "dur": 600.048,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 1.0,
+   "frac_wheel": NaN,
+   "frac_me_high": 0.134,
+   "n_still": 517.0,
+   "subject": "SP072"
+  },
+  {
+   "eid": "27ff0b82-b0ba-42dd-845e-00c18d4a0316",
+   "dur": 600.064,
+   "n_bins": 597,
+   "wheel_cov": 1.0,
+   "me_cov": 1.0,
+   "frac_wheel": 0.027,
+   "frac_me_high": 0.08,
+   "n_still": 546.0,
+   "subject": "SP054"
+  },
+  {
+   "eid": "4a48e404-2a98-4065-9e12-97f50630ef2b",
+   "dur": 600.049,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 1.0,
+   "frac_wheel": NaN,
+   "frac_me_high": 0.236,
+   "n_still": 456.0,
+   "subject": "SP072"
+  },
+  {
+   "eid": "5ca7467e-2319-4bec-a924-751664a4244e",
+   "dur": 600.048,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 0.0,
+   "frac_wheel": NaN,
+   "frac_me_high": NaN,
+   "n_still": NaN,
+   "subject": "SP075"
+  },
+  {
+   "eid": "725c30c4-61a6-4c8b-9163-b5b90a45e8a7",
+   "dur": 600.065,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 1.0,
+   "frac_wheel": NaN,
+   "frac_me_high": 0.111,
+   "n_still": 531.0,
+   "subject": "SP067"
+  },
+  {
+   "eid": "76f74094-99bb-467f-a89a-f20e15656048",
+   "dur": 600.065,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 0.0,
+   "frac_wheel": NaN,
+   "frac_me_high": NaN,
+   "n_still": NaN,
+   "subject": "SP072"
+  },
+  {
+   "eid": "90029e53-b014-4bb1-98e6-15878e8a25ad",
+   "dur": 600.08,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 1.0,
+   "frac_wheel": NaN,
+   "frac_me_high": 0.379,
+   "n_still": 370.0,
+   "subject": "SP054"
+  },
+  {
+   "eid": "97334cc3-059f-4fb9-8413-3fe0288a7144",
+   "dur": 300.048,
+   "n_bins": 297,
+   "wheel_cov": 1.0,
+   "me_cov": 1.0,
+   "frac_wheel": 0.549,
+   "frac_me_high": 0.35,
+   "n_still": 133.0,
+   "subject": "SP044"
+  },
+  {
+   "eid": "98c80c68-83d2-41a0-92be-701dc1b4c622",
+   "dur": 600.063,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 0.0,
+   "frac_wheel": NaN,
+   "frac_me_high": NaN,
+   "n_still": NaN,
+   "subject": "SP054"
+  },
+  {
+   "eid": "98e9c22f-1006-4bb4-b573-6e4676c5f61d",
+   "dur": 600.065,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 0.0,
+   "frac_wheel": NaN,
+   "frac_me_high": NaN,
+   "n_still": NaN,
+   "subject": "SP067"
+  },
+  {
+   "eid": "9f4dbec6-63e7-4eca-be69-1bf1a6539b55",
+   "dur": 600.064,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 0.0,
+   "frac_wheel": NaN,
+   "frac_me_high": NaN,
+   "n_still": NaN,
+   "subject": "SP054"
+  },
+  {
+   "eid": "a4afea1e-ad72-433d-9498-95ddc54252fe",
+   "dur": 600.065,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 1.0,
+   "frac_wheel": NaN,
+   "frac_me_high": 0.216,
+   "n_still": 457.0,
+   "subject": "SP076"
+  },
+  {
+   "eid": "a5550a8e-2484-4539-b7f0-8e5f829d0ba7",
+   "dur": 300.03,
+   "n_bins": 297,
+   "wheel_cov": 1.0,
+   "me_cov": 0.0,
+   "frac_wheel": 0.488,
+   "frac_me_high": NaN,
+   "n_still": NaN,
+   "subject": "SP044"
+  },
+  {
+   "eid": "aac478d1-7dc3-4acc-b965-c350c73e3610",
+   "dur": 600.065,
+   "n_bins": 597,
+   "wheel_cov": 1.0,
+   "me_cov": 1.0,
+   "frac_wheel": 0.213,
+   "frac_me_high": 0.409,
+   "n_still": 349.0,
+   "subject": "SP054"
+  },
+  {
+   "eid": "b14c6180-9406-47db-aa12-14d9e660fc44",
+   "dur": 300.048,
+   "n_bins": 297,
+   "wheel_cov": 1.0,
+   "me_cov": 1.0,
+   "frac_wheel": 0.33,
+   "frac_me_high": 0.239,
+   "n_still": 198.0,
+   "subject": "SP044"
+  },
+  {
+   "eid": "b949c9c8-97ea-4a94-b048-93d9530c6b0b",
+   "dur": 600.082,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 0.0,
+   "frac_wheel": NaN,
+   "frac_me_high": NaN,
+   "n_still": NaN,
+   "subject": "SP044"
+  },
+  {
+   "eid": "bd92d5ef-0f42-4643-a7d2-110a8843e557",
+   "dur": 300.049,
+   "n_bins": 297,
+   "wheel_cov": 0.0,
+   "me_cov": 1.0,
+   "frac_wheel": NaN,
+   "frac_me_high": 0.202,
+   "n_still": 233.0,
+   "subject": "SP037"
+  },
+  {
+   "eid": "c29d0d5a-2a6a-42f5-bc18-54c1f33f01a2",
+   "dur": 600.082,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 0.0,
+   "frac_wheel": NaN,
+   "frac_me_high": NaN,
+   "n_still": NaN,
+   "subject": "SP081"
+  },
+  {
+   "eid": "e0c35736-7ee7-4fe5-9f4e-cae361154b6e",
+   "dur": 300.066,
+   "n_bins": 298,
+   "wheel_cov": 1.0,
+   "me_cov": 1.0,
+   "frac_wheel": 0.107,
+   "frac_me_high": 0.054,
+   "n_still": 265.0,
+   "subject": "SP044"
+  },
+  {
+   "eid": "fa10ff03-be1f-4b67-9e1e-87bf6979c967",
+   "dur": 600.048,
+   "n_bins": 597,
+   "wheel_cov": 0.0,
+   "me_cov": 1.0,
+   "frac_wheel": NaN,
+   "frac_me_high": 0.208,
+   "n_still": 473.0,
+   "subject": "SP075"
+  }
+ ],
+ "regions_imaged": {
+  "VISrl": 74,
+  "SSp-bfd": 73,
+  "VISp": 70,
+  "VISa": 59,
+  "VISal": 57,
+  "SSs": 37,
+  "VISl": 37,
+  "VISam": 33,
+  "AUDd": 32,
+  "AUDp": 32,
+  "AUDpo": 32,
+  "TEa": 32,
+  "VISli": 32,
+  "SSp-tr": 16,
+  "SSp-ll": 15,
+  "VISpm": 13,
+  "SSp-un": 11,
+  "RSPagl": 8,
+  "RSPd": 8,
+  "MOp": 8,
+  "MOs": 8,
+  "SSp-m": 7,
+  "SSp-n": 7,
+  "SSp-ul": 7
+ },
+ "classes": {
+  "ours_core": {
+   "n": {
+    "other-other": 257,
+    "dmn-other": 86,
+    "dmn-dmn": 11
+   },
+   "means": {
+    "dmn-dmn": 0.1844,
+    "dmn-other": 0.0975,
+    "other-other": -0.0405
+   },
+   "dmn-dmn minus dmn-other": [
+    0.0869,
+    -0.1089,
+    0.253
+   ],
+   "dmn-dmn minus other-other": [
+    0.2249,
+    0.0162,
+    0.3537
+   ],
+   "dmn-other minus other-other": [
+    0.138,
+    -0.0026,
+    0.1999
+   ]
+  },
+  "ours_core+lateral": {
+   "n": {
+    "other-other": 227,
+    "dmn-other": 114,
+    "dmn-dmn": 13
+   },
+   "means": {
+    "dmn-dmn": 0.1439,
+    "dmn-other": 0.0517,
+    "other-other": -0.0342
+   },
+   "dmn-dmn minus dmn-other": [
+    0.0922,
+    -0.1178,
+    0.2264
+   ],
+   "dmn-dmn minus other-other": [
+    0.1782,
+    -0.0393,
+    0.2577
+   ],
+   "dmn-other minus other-other": [
+    0.086,
+    0.0191,
+    0.1504
+   ]
+  },
+  "lu_all": {
+   "n": {
+    "dmn-other": 169,
+    "other-other": 124,
+    "dmn-dmn": 61
+   },
+   "means": {
+    "dmn-dmn": 0.0582,
+    "dmn-other": 0.005,
+    "other-other": -0.0355
+   },
+   "dmn-dmn minus dmn-other": [
+    0.0533,
+    -0.0203,
+    0.0899
+   ],
+   "dmn-dmn minus other-other": [
+    0.0937,
+    -0.0724,
+    0.1928
+   ],
+   "dmn-other minus other-other": [
+    0.0404,
+    -0.0625,
+    0.1132
+   ]
+  },
+  "lu_pfc_temporal": {
+   "n": {
+    "other-other": 267,
+    "dmn-other": 78,
+    "dmn-dmn": 9
+   },
+   "means": {
+    "dmn-dmn": -0.0638,
+    "dmn-other": -0.0618,
+    "other-other": 0.0202
+   },
+   "dmn-dmn minus dmn-other": [
+    -0.002,
+    -0.194,
+    0.0892
+   ],
+   "dmn-dmn minus other-other": [
+    -0.084,
+    -0.2433,
+    0.0298
+   ],
+   "dmn-other minus other-other": [
+    -0.082,
+    -0.1297,
+    -0.0075
+   ]
+  },
+  "lu_parietal": {
+   "n": {
+    "other-other": 196,
+    "dmn-other": 121,
+    "dmn-dmn": 37
+   },
+   "means": {
+    "dmn-dmn": 0.1117,
+    "dmn-other": 0.0467,
+    "other-other": -0.0499
+   },
+   "dmn-dmn minus dmn-other": [
+    0.0651,
+    -0.009,
+    0.2048
+   ],
+   "dmn-dmn minus other-other": [
+    0.1616,
+    -0.0168,
+    0.304
+   ],
+   "dmn-other minus other-other": [
+    0.0966,
+    -0.0211,
+    0.1517
+   ]
+  }
+ }
+}

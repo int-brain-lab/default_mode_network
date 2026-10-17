@@ -1,0 +1,14 @@
+{
+ "n_sessions": 345,
+ "sessions_with_wheelMoves": 345,
+ "sessions_with_licks": 337,
+ "rest_frac_trials_wheel_moving": 0.46312906692137784,
+ "rest_frac_trials_any_lick": 0.1515133424870157,
+ "rest_lick_rate_hz": 7.379855837168993,
+ "quies_frac_trials_wheel_moving": 0.023379201241716913,
+ "quies_frac_trials_any_lick": 0.0727568503372933,
+ "quies_lick_rate_hz": 2.4177265379563826,
+ "iti_long_frac_trials_wheel_moving": 0.6592244769780622,
+ "iti_long_frac_trials_any_lick": 0.36589104395029237,
+ "iti_long_lick_rate_hz": 6.681346539217647
+}

@@ -1,0 +1,9 @@
+{
+ "tag": "spont_motion_pupil_1s_still",
+ "n_sessions": 308,
+ "n_pairs": 4471,
+ "median_bins": 249.0,
+ "mean_r_same_probe": 0.0981,
+ "mean_r_cross_probe": 0.0654,
+ "median_rel": 0.445
+}

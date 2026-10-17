@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.log
+# large intermediates (regenerate with the extraction scripts)
+bwm/output/full/
+bwm/output/cache/
+meso/output/sessions/
+*.npz
+*.pqt
+*.parquet
+*.pkl

@@ -1,0 +1,153 @@
+{
+ "btag": "spont_motion_1s",
+ "atag": "test",
+ "ri": "RI_iti",
+ "zcol": "z",
+ "n_pairs": 303,
+ "n_sessions": 28,
+ "n_subjects": 26,
+ "dmn_pairs|core": {
+  "n": {
+   "dmn-other": 12,
+   "other-other": 10,
+   "dmn-dmn": 3
+  },
+  "n_cross_probe": {
+   "dmn-other": 6,
+   "other-other": 2
+  },
+  "resid": {
+   "dmn-dmn": -0.0587,
+   "dmn-other": -0.0031,
+   "other-other": 0.1541
+  },
+  "raw_cross_probe": {
+   "dmn-other": 0.0606,
+   "other-other": 0.1145
+  },
+  "ci_dmn-dmn_minus_dmn-other": [
+   -0.1295,
+   0.0978
+  ],
+  "ci_dmn-dmn_minus_other-other": [
+   -0.9506,
+   0.0185
+  ]
+ },
+ "dmn_pairs|core+lateral": {
+  "n": {
+   "dmn-other": 12,
+   "other-other": 10,
+   "dmn-dmn": 3
+  },
+  "n_cross_probe": {
+   "dmn-other": 6,
+   "other-other": 2
+  },
+  "resid": {
+   "dmn-dmn": -0.0587,
+   "dmn-other": -0.0031,
+   "other-other": 0.1541
+  },
+  "raw_cross_probe": {
+   "dmn-other": 0.0606,
+   "other-other": 0.1145
+  },
+  "ci_dmn-dmn_minus_dmn-other": [
+   -0.13,
+   0.0978
+  ],
+  "ci_dmn-dmn_minus_other-other": [
+   -0.9323,
+   0.0247
+  ]
+ },
+ "dmn_core_pairs_covered": 3,
+ "dmn_core_pairs_cross_probe": 0,
+ "dmn_anterior_posterior_pairs": {
+  "n_pairs": 0,
+  "n_sessions": 0,
+  "mean_resid": null
+ },
+ "align_slope|brainwide": {
+  "n": 116,
+  "spearman": -0.2576,
+  "slope": -0.4624,
+  "ci": [
+   -0.9727,
+   0.0883
+  ]
+ },
+ "align_slope|cross_probe": {
+  "n": 24,
+  "spearman": -0.3975,
+  "slope": -0.458,
+  "ci": [
+   -0.8688,
+   0.0268
+  ]
+ },
+ "align_slope|isocortex": {
+  "n": 5,
+  "spearman": -0.2236,
+  "slope": -0.3017,
+  "ci": [
+   -0.3017,
+   -0.1549
+  ]
+ },
+ "terciles_cross_probe": {
+  "mid-mid": {
+   "n": 2,
+   "r": 0.0119,
+   "zz": 0.012,
+   "frac_neg": 0.5
+  },
+  "mid-taskpos": {
+   "n": 5,
+   "r": 0.3095,
+   "zz": 0.3268,
+   "frac_neg": 0.0
+  },
+  "mid-tneg": {
+   "n": 8,
+   "r": 0.0982,
+   "zz": 0.1138,
+   "frac_neg": 0.375
+  },
+  "taskpos-taskpos": {
+   "n": 2,
+   "r": 0.2765,
+   "zz": 0.2875,
+   "frac_neg": 0.0
+  },
+  "taskpos-tneg": {
+   "n": 6,
+   "r": 0.0654,
+   "zz": 0.066,
+   "frac_neg": 0.3333
+  },
+  "tneg-tneg": {
+   "n": 1,
+   "r": 0.165,
+   "zz": 0.1666,
+   "frac_neg": 0.0
+  }
+ },
+ "arousal|r_pupil_vs_RI_iti": {
+  "n": 9,
+  "spearman": -0.6167
+ },
+ "arousal|r_pupil|ctx_ranking": {
+  "VISa": -0.044,
+  "VISp": 0.162
+ },
+ "arousal|r_me_vs_RI_iti": {
+  "n": 9,
+  "spearman": -0.8333
+ },
+ "arousal|r_me|ctx_ranking": {
+  "VISp": 0.322,
+  "VISa": 0.431
+ }
+}

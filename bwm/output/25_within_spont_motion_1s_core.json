@@ -1,0 +1,36 @@
+{
+ "btag": "spont_motion_1s",
+ "set": "core",
+ "n_sessions": 13,
+ "n_subjects": 12,
+ "resid": {
+  "n_subjects": 12,
+  "mean": 0.0116,
+  "boot_ci95": [
+   -0.0732,
+   0.1099
+  ],
+  "frac_subjects_pos": 0.417,
+  "wilcoxon_p": 0.85009765625
+ },
+ "raw": {
+  "n_subjects": 12,
+  "mean": 0.068,
+  "boot_ci95": [
+   -0.0152,
+   0.17
+  ],
+  "frac_subjects_pos": 0.5,
+  "wilcoxon_p": 0.4697265625
+ },
+ "dist_matched": {
+  "n_subjects": 10,
+  "mean": 0.0531,
+  "boot_ci95": [
+   -0.0407,
+   0.1571
+  ],
+  "frac_subjects_pos": 0.6,
+  "wilcoxon_p": 0.4921875
+ }
+}

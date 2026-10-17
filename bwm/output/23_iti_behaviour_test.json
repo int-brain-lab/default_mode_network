@@ -1,0 +1,219 @@
+{
+ "tag": "test",
+ "pupil_control": false,
+ "n_sessions": 43,
+ "n_region_sessions": 229,
+ "n_regions": 26,
+ "grand_mean": {
+  "r_rt_z": -0.0008,
+  "r_err_z": 0.0161,
+  "r_prevfb_z": -0.0004,
+  "r_pupil_z": 0.0305,
+  "slope": 0.0173
+ },
+ "grand_ci|r_rt_z": [
+  -0.0149,
+  0.0151
+ ],
+ "grand_ci|r_err_z": [
+  0.0045,
+  0.0277
+ ],
+ "grand_ci|r_prevfb_z": [
+  -0.0245,
+  0.0289
+ ],
+ "grand_ci|r_pupil_z": [
+  -0.0204,
+  0.0765
+ ],
+ "grand_ci|slope": [
+  0.0064,
+  0.0271
+ ],
+ "r_rt_z|core|vs_other_ctx": {
+  "dmn": -0.016,
+  "other": -0.0017,
+  "p_perm": 0.60292
+ },
+ "r_err_z|core|vs_other_ctx": {
+  "dmn": -0.0466,
+  "other": 0.016,
+  "p_perm": 0.39968
+ },
+ "r_prevfb_z|core|vs_other_ctx": {
+  "dmn": -0.0007,
+  "other": -0.0296,
+  "p_perm": 0.79831
+ },
+ "r_pupil_z|core|vs_other_ctx": {
+  "dmn": -0.0234,
+  "other": 0.0089,
+  "p_perm": 0.70156
+ },
+ "slope|core|vs_other_ctx": {
+  "dmn": 0.0223,
+  "other": -0.0162,
+  "p_perm": 0.10639
+ },
+ "r_rt_z|core|vs_higher_order": {
+  "dmn": -0.016,
+  "other": 0.0329,
+  "p_perm": 0.25189
+ },
+ "r_err_z|core|vs_higher_order": {
+  "dmn": -0.0466,
+  "other": -0.0305,
+  "p_perm": 0.74841
+ },
+ "r_prevfb_z|core|vs_higher_order": {
+  "dmn": -0.0007,
+  "other": -0.0499,
+  "p_perm": 0.50172
+ },
+ "r_pupil_z|core|vs_higher_order": {
+  "dmn": -0.0234,
+  "other": -0.0957,
+  "p_perm": 0.49858
+ },
+ "slope|core|vs_higher_order": {
+  "dmn": 0.0223,
+  "other": -0.0186,
+  "p_perm": 0.25189
+ },
+ "r_rt_z|core+lateral|vs_other_ctx": {
+  "dmn": -0.016,
+  "other": -0.0017,
+  "p_perm": 0.60292
+ },
+ "r_err_z|core+lateral|vs_other_ctx": {
+  "dmn": -0.0466,
+  "other": 0.016,
+  "p_perm": 0.39968
+ },
+ "r_prevfb_z|core+lateral|vs_other_ctx": {
+  "dmn": -0.0007,
+  "other": -0.0296,
+  "p_perm": 0.79831
+ },
+ "r_pupil_z|core+lateral|vs_other_ctx": {
+  "dmn": -0.0234,
+  "other": 0.0089,
+  "p_perm": 0.70156
+ },
+ "slope|core+lateral|vs_other_ctx": {
+  "dmn": 0.0223,
+  "other": -0.0162,
+  "p_perm": 0.10639
+ },
+ "r_rt_z|core+lateral|vs_higher_order": {
+  "dmn": -0.016,
+  "other": 0.0329,
+  "p_perm": 0.25189
+ },
+ "r_err_z|core+lateral|vs_higher_order": {
+  "dmn": -0.0466,
+  "other": -0.0305,
+  "p_perm": 0.74841
+ },
+ "r_prevfb_z|core+lateral|vs_higher_order": {
+  "dmn": -0.0007,
+  "other": -0.0499,
+  "p_perm": 0.50172
+ },
+ "r_pupil_z|core+lateral|vs_higher_order": {
+  "dmn": -0.0234,
+  "other": -0.0957,
+  "p_perm": 0.49858
+ },
+ "slope|core+lateral|vs_higher_order": {
+  "dmn": 0.0223,
+  "other": -0.0186,
+  "p_perm": 0.25189
+ },
+ "ctx_ranking|r_rt_z": {
+  "MOs": 0.033,
+  "RSPv": 0.024,
+  "VISa": -0.032,
+  "VISp": -0.036,
+  "ACAd": -0.04
+ },
+ "by_cosmos|r_rt_z": {
+  "CB": 0.0815,
+  "CNU": -0.0295,
+  "HB": -0.0057,
+  "HPF": -0.0184,
+  "Isocortex": -0.0102,
+  "MB": 0.0245,
+  "OLF": 0.0059,
+  "TH": -0.0151
+ },
+ "ctx_ranking|r_err_z": {
+  "VISp": 0.062,
+  "VISa": -0.01,
+  "MOs": -0.031,
+  "ACAd": -0.035,
+  "RSPv": -0.095
+ },
+ "by_cosmos|r_err_z": {
+  "CB": 0.0491,
+  "CNU": 0.0253,
+  "HB": -0.0189,
+  "HPF": 0.0206,
+  "Isocortex": -0.0215,
+  "MB": 0.0177,
+  "OLF": 0.0232,
+  "TH": 0.0053
+ },
+ "ctx_ranking|r_prevfb_z": {
+  "VISa": 0.081,
+  "VISp": -0.009,
+  "RSPv": -0.035,
+  "ACAd": -0.048,
+  "MOs": -0.05
+ },
+ "by_cosmos|r_prevfb_z": {
+  "CB": -0.0216,
+  "CNU": -0.0108,
+  "HB": -0.0461,
+  "HPF": 0.0214,
+  "Isocortex": -0.0123,
+  "MB": -0.0138,
+  "OLF": 0.0705,
+  "TH": -0.0046
+ },
+ "ctx_ranking|r_pupil_z": {
+  "VISp": 0.113,
+  "RSPv": 0.037,
+  "VISa": -0.052,
+  "ACAd": -0.056,
+  "MOs": -0.096
+ },
+ "by_cosmos|r_pupil_z": {
+  "CB": 0.034,
+  "CNU": 0.0192,
+  "HB": 0.0954,
+  "HPF": -0.1235,
+  "Isocortex": -0.0105,
+  "MB": 0.0181,
+  "OLF": -0.1306,
+  "TH": 0.0975
+ },
+ "ctx_ranking|slope": {
+  "ACAd": 0.038,
+  "RSPv": 0.017,
+  "VISa": 0.012,
+  "VISp": -0.014,
+  "MOs": -0.019
+ },
+ "by_cosmos|slope": {
+  "CB": -0.0701,
+  "CNU": -0.0074,
+  "HB": 0.1002,
+  "HPF": -0.0265,
+  "Isocortex": 0.0069,
+  "MB": 0.0072,
+  "OLF": -0.016,
+  "TH": 0.0071
+ }
+}

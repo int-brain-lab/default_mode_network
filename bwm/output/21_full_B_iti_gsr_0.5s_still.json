@@ -1,0 +1,9 @@
+{
+ "tag": "iti_gsr_0.5s_still",
+ "n_sessions": 101,
+ "n_pairs": 1466,
+ "median_bins": 207.0,
+ "mean_r_same_probe": -0.1464,
+ "mean_r_cross_probe": -0.1394,
+ "median_rel": 0.219
+}

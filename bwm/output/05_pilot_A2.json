@@ -1,0 +1,112 @@
+{
+ "brainwide_frac_suppressed": 0.214,
+ "brainwide_frac_enhanced": 0.4082,
+ "RI|core|vs_all_other_ctx": {
+  "dmn": -0.0472,
+  "other": -0.1022,
+  "n_other": 27,
+  "p_perm": 0.0687
+ },
+ "frac_suppressed|core|vs_all_other_ctx": {
+  "dmn": 0.2441,
+  "other": 0.1957,
+  "n_other": 27,
+  "p_perm": 0.0204
+ },
+ "frac_enhanced|core|vs_all_other_ctx": {
+  "dmn": 0.3507,
+  "other": 0.3914,
+  "n_other": 27,
+  "p_perm": 0.3422
+ },
+ "RI|core|vs_higher_order_ctx": {
+  "dmn": -0.0472,
+  "other": -0.0752,
+  "n_other": 16,
+  "p_perm": 0.3616
+ },
+ "frac_suppressed|core|vs_higher_order_ctx": {
+  "dmn": 0.2441,
+  "other": 0.2085,
+  "n_other": 16,
+  "p_perm": 0.1609
+ },
+ "frac_enhanced|core|vs_higher_order_ctx": {
+  "dmn": 0.3507,
+  "other": 0.3514,
+  "n_other": 16,
+  "p_perm": 0.9838
+ },
+ "RI~dmn+absRI|core": {
+  "beta_dmn": 0.0436,
+  "p_perm": 0.0362
+ },
+ "RI|core+lateral|vs_all_other_ctx": {
+  "dmn": -0.0288,
+  "other": -0.1168,
+  "n_other": 25,
+  "p_perm": 0.0017
+ },
+ "frac_suppressed|core+lateral|vs_all_other_ctx": {
+  "dmn": 0.2596,
+  "other": 0.1832,
+  "n_other": 25,
+  "p_perm": 0.0
+ },
+ "frac_enhanced|core+lateral|vs_all_other_ctx": {
+  "dmn": 0.3255,
+  "other": 0.4088,
+  "n_other": 25,
+  "p_perm": 0.0378
+ },
+ "RI|core+lateral|vs_higher_order_ctx": {
+  "dmn": -0.0288,
+  "other": -0.0975,
+  "n_other": 14,
+  "p_perm": 0.013
+ },
+ "frac_suppressed|core+lateral|vs_higher_order_ctx": {
+  "dmn": 0.2596,
+  "other": 0.1879,
+  "n_other": 14,
+  "p_perm": 0.0013
+ },
+ "frac_enhanced|core+lateral|vs_higher_order_ctx": {
+  "dmn": 0.3255,
+  "other": 0.3767,
+  "n_other": 14,
+  "p_perm": 0.2316
+ },
+ "RI~dmn+absRI|core+lateral": {
+  "beta_dmn": 0.0658,
+  "p_perm": 0.0006
+ },
+ "frac_suppressed_top_ctx": {
+  "TEa": 0.435,
+  "RSPv": 0.317,
+  "AUDv": 0.31,
+  "ACAd": 0.292,
+  "PL": 0.282,
+  "ACAv": 0.272,
+  "ECT": 0.269,
+  "ILA": 0.252,
+  "AId": 0.248,
+  "VISam": 0.248,
+  "SSp-bfd": 0.238,
+  "ORBvl": 0.231
+ },
+ "frac_suppressed_top_brain": {
+  "FN": 0.8,
+  "MS": 0.662,
+  "ICB": 0.588,
+  "DN": 0.523,
+  "IP": 0.522,
+  "DCO": 0.513,
+  "SUV": 0.468,
+  "NOD": 0.453,
+  "VCO": 0.447,
+  "TEa": 0.435,
+  "SAG": 0.432,
+  "PeF": 0.429
+ }
+}

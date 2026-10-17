@@ -1,0 +1,9 @@
+{
+ "tag": "iti_motion_1s_still",
+ "n_sessions": 17,
+ "n_pairs": 474,
+ "median_bins": 160.0,
+ "mean_r_same_probe": 0.1213,
+ "mean_r_cross_probe": 0.0603,
+ "median_rel": 0.48
+}

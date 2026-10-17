@@ -1,0 +1,135 @@
+{
+ "tag": "dt25",
+ "ri": "RI_task",
+ "pair_brainwide": {
+  "n_pairs": 4933,
+  "n_sessions": 326,
+  "spearman": -0.0886,
+  "p_naive": 4.5042543256947437e-10,
+  "slope": -0.1528,
+  "slope_boot_ci95": [
+   -0.2125,
+   -0.0902
+  ]
+ },
+ "pair_isocortex": {
+  "n_pairs": 285,
+  "n_sessions": 84,
+  "spearman": -0.0083,
+  "p_naive": 0.8886641964962553,
+  "slope": -0.083,
+  "slope_boot_ci95": [
+   -0.3499,
+   0.2207
+  ]
+ },
+ "pair_brainwide_cross_probe": {
+  "n_pairs": 2057,
+  "n_sessions": 164,
+  "spearman": -0.1234,
+  "p_naive": 1.9472759912461985e-08,
+  "slope": -0.1825,
+  "slope_boot_ci95": [
+   -0.2541,
+   -0.0954
+  ]
+ },
+ "task_negative_set": {
+  "n_regions": 49,
+  "regions": [
+   "AAA",
+   "AIv",
+   "BLA",
+   "BMA",
+   "COAp",
+   "DCO",
+   "DG",
+   "DN",
+   "ECT",
+   "ENTl",
+   "EPv",
+   "FL",
+   "FN",
+   "FOTU",
+   "HATA",
+   "ICB",
+   "ILA",
+   "IP",
+   "LA",
+   "LAV",
+   "LING",
+   "LPO",
+   "LSr",
+   "LSv",
+   "MA",
+   "MEA",
+   "MOB",
+   "MPO",
+   "MS",
+   "NOD",
+   "P5",
+   "PA",
+   "PAA",
+   "PAR",
+   "PF",
+   "PPT",
+   "PR",
+   "PS",
+   "PYR",
+   "ProS",
+   "SAG",
+   "SI",
+   "SPIV",
+   "SUV",
+   "TEa",
+   "TR",
+   "TTd",
+   "VCO",
+   "VISal"
+  ],
+  "dmn_core_in_set": [
+   "ILA"
+  ],
+  "n_pairs": {
+   "other-other": 3456,
+   "tn-other": 1312,
+   "tn-tn": 165
+  },
+  "resid_mean": {
+   "other-other": 0.0145,
+   "tn-other": -0.0335,
+   "tn-tn": -0.0369
+  },
+  "boot_ci95_tn-tn_minus_tn-other": [
+   -0.0309,
+   0.0241
+  ]
+ },
+ "region_dmn_affinity_vs_RI": {
+  "n_regions": 20,
+  "spearman": 0.0842,
+  "p": 0.7241036435108114,
+  "affinity": {
+   "ACAd": 0.019,
+   "ACAv": 0.042,
+   "AId": -0.023,
+   "AIv": -0.09,
+   "AUDp": 0.007,
+   "FRP": 0.054,
+   "ILA": -0.015,
+   "MOp": -0.026,
+   "MOs": -0.023,
+   "ORBm": 0.124,
+   "ORBvl": 0.088,
+   "PL": 0.06,
+   "RSPagl": 0.294,
+   "RSPd": 0.077,
+   "RSPv": 0.201,
+   "TEa": 0.012,
+   "VISa": 0.028,
+   "VISam": 0.09,
+   "VISp": -0.278,
+   "VISpm": -0.155
+  }
+ }
+}

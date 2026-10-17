@@ -1,0 +1,240 @@
+{
+ "atag": "A3_half",
+ "anterior|suppressed": {
+  "dmn": {
+   "ACAd": 0.323,
+   "PL": 0.374,
+   "ILA": 0.408,
+   "ORBm": 0.345,
+   "ORBl": 0.244,
+   "ORBvl": 0.303
+  },
+  "other": {
+   "MOs": 0.162,
+   "MOp": 0.276,
+   "FRP": 0.106,
+   "AId": 0.225,
+   "AIv": 0.3,
+   "AIp": 0.241
+  },
+  "dmn_mean": 0.333,
+  "other_mean": 0.2186,
+  "diff": 0.1144,
+  "p_perm": 0.0114,
+  "mouse_boot_ci95": [
+   0.0636,
+   0.1683
+  ]
+ },
+ "anterior|RI_iti": {
+  "dmn": {
+   "ACAd": -0.138,
+   "PL": -0.039,
+   "ILA": -0.025,
+   "ORBm": 0.017,
+   "ORBl": -0.118,
+   "ORBvl": -0.032
+  },
+  "other": {
+   "MOs": -0.249,
+   "MOp": -0.107,
+   "FRP": -0.245,
+   "AId": -0.163,
+   "AIv": -0.005,
+   "AIp": -0.203
+  },
+  "dmn_mean": -0.0558,
+  "other_mean": -0.1618,
+  "diff": 0.106,
+  "p_perm": 0.0553,
+  "mouse_boot_ci95": [
+   0.0439,
+   0.2139
+  ]
+ },
+ "anterior|RI_spont": {
+  "dmn": {
+   "ACAd": -0.221,
+   "PL": -0.145,
+   "ILA": 0.117,
+   "ORBm": 0.07,
+   "ORBl": -0.038,
+   "ORBvl": 0.081
+  },
+  "other": {
+   "MOs": -0.378,
+   "MOp": -0.044,
+   "FRP": -0.358,
+   "AId": -0.211,
+   "AIv": 0.021,
+   "AIp": -0.169
+  },
+  "dmn_mean": -0.0226,
+  "other_mean": -0.1897,
+  "diff": 0.1672,
+  "p_perm": 0.0852,
+  "mouse_boot_ci95": [
+   0.05,
+   0.3331
+  ]
+ },
+ "posterior|suppressed": {
+  "dmn": {
+   "RSPagl": 0.097,
+   "RSPd": 0.236,
+   "RSPv": 0.351,
+   "VISa": 0.209,
+   "VISam": 0.287
+  },
+  "other": {
+   "AUDd": 0.067,
+   "AUDp": 0.226,
+   "AUDv": 0.22,
+   "SSp-bfd": 0.26,
+   "SSp-ll": 0.237,
+   "SSp-m": 0.25,
+   "SSp-n": 0.109,
+   "SSp-tr": 0.181,
+   "SSp-ul": 0.214,
+   "SSs": 0.314,
+   "VISl": 0.28,
+   "VISli": 0.125,
+   "VISp": 0.173,
+   "VISpl": 0.047
+  },
+  "dmn_mean": 0.236,
+  "other_mean": 0.1929,
+  "diff": 0.0431,
+  "p_perm": 0.3405,
+  "mouse_boot_ci95": [
+   -0.0418,
+   0.1182
+  ]
+ },
+ "posterior|RI_iti": {
+  "dmn": {
+   "RSPagl": -0.135,
+   "RSPd": -0.076,
+   "RSPv": 0.004,
+   "VISa": -0.081,
+   "VISam": -0.048
+  },
+  "other": {
+   "AUDd": -0.414,
+   "AUDp": -0.181,
+   "AUDv": -0.096,
+   "SSp-bfd": -0.091,
+   "SSp-ll": -0.303,
+   "SSp-m": -0.007,
+   "SSp-n": -0.239,
+   "SSp-tr": -0.257,
+   "SSp-ul": -0.177,
+   "SSs": -0.072,
+   "VISl": 0.09,
+   "VISli": -0.286,
+   "VISp": -0.072,
+   "VISpl": -0.074
+  },
+  "dmn_mean": -0.0672,
+  "other_mean": -0.1558,
+  "diff": 0.0886,
+  "p_perm": 0.1793,
+  "mouse_boot_ci95": [
+   0.0313,
+   0.1616
+  ]
+ },
+ "posterior|RI_spont": {
+  "dmn": {
+   "RSPagl": -0.218,
+   "RSPd": -0.066,
+   "RSPv": -0.051,
+   "VISa": -0.051,
+   "VISam": -0.149
+  },
+  "other": {
+   "AUDd": -0.224,
+   "AUDp": -0.279,
+   "AUDv": -0.213,
+   "SSp-bfd": -0.251,
+   "SSp-ll": -0.199,
+   "SSp-m": 0.093,
+   "SSp-n": -0.214,
+   "SSp-tr": -0.139,
+   "SSp-ul": -0.151,
+   "SSs": 0.048,
+   "VISl": 0.047,
+   "VISli": -0.251,
+   "VISp": -0.117,
+   "VISpl": -0.085
+  },
+  "dmn_mean": -0.1073,
+  "other_mean": -0.1382,
+  "diff": 0.031,
+  "p_perm": 0.6081,
+  "mouse_boot_ci95": [
+   -0.0804,
+   0.1923
+  ]
+ },
+ "lateral|suppressed": {
+  "dmn": {
+   "TEa": 0.395,
+   "ECT": 0.226
+  },
+  "other": {
+   "AUDp": 0.226,
+   "AUDd": 0.067,
+   "AUDv": 0.22,
+   "VISC": 0.333
+  },
+  "dmn_mean": 0.3109,
+  "other_mean": 0.2115,
+  "diff": 0.0994,
+  "p_perm": 0.4087,
+  "mouse_boot_ci95": [
+   -0.0833,
+   0.207
+  ]
+ },
+ "lateral|RI_iti": {
+  "dmn": {
+   "TEa": 0.035,
+   "ECT": 0.056
+  },
+  "other": {
+   "AUDp": -0.181,
+   "AUDd": -0.414,
+   "AUDv": -0.096,
+   "VISC": -0.164
+  },
+  "dmn_mean": 0.0452,
+  "other_mean": -0.2136,
+  "diff": 0.2588,
+  "p_perm": 0.0668,
+  "mouse_boot_ci95": [
+   0.131,
+   0.4759
+  ]
+ },
+ "lateral|RI_spont": {
+  "dmn": {
+   "TEa": -0.053,
+   "ECT": 0.133
+  },
+  "other": {
+   "AUDp": -0.279,
+   "AUDd": -0.224,
+   "AUDv": -0.213,
+   "VISC": -0.017
+  },
+  "dmn_mean": 0.0402,
+  "other_mean": -0.1832,
+  "diff": 0.2235,
+  "p_perm": 0.1316,
+  "mouse_boot_ci95": [
+   -0.1927,
+   0.3631
+  ]
+ }
+}
