@@ -25,6 +25,12 @@
    "n_edges_any": 36,
    "n_edges_ge3_mice": 13,
    "n_edges_cross_probe_ge3_mice": 3
+  },
+  "whitesell": {
+   "n_possible_edges": 105,
+   "n_edges_any": 27,
+   "n_edges_ge3_mice": 12,
+   "n_edges_cross_probe_ge3_mice": 2
   }
  },
  "any_frontal_x_rsp_any_variant_note": "checked in review: 0 pairs in all grey/ITI variants",
@@ -49,25 +55,25 @@
    "n_mice_dd": 25,
    "dmn-dmn minus dmn-other": [
     0.0617,
-    -0.0058,
-    0.1323
+    -0.0069,
+    0.1273
    ],
    "dmn-dmn minus other-other": [
     0.0641,
-    -0.0221,
-    0.145
+    -0.0241,
+    0.1458
    ],
    "dmn-other minus other-other": [
     0.0024,
-    -0.0457,
-    0.0535
+    -0.0459,
+    0.0526
    ],
    "means": {
     "dmn-dmn": 0.0665,
     "dmn-other": 0.0048,
     "other-other": 0.0025
    },
-   "mde_80pct_power": 0.0986,
+   "mde_80pct_power": 0.0959,
    "loo_session_min_max": [
     0.0424,
     0.0728
@@ -86,25 +92,25 @@
    "n_mice_dd": 7,
    "dmn-dmn minus dmn-other": [
     0.1233,
-    0.0582,
-    0.2154
+    0.0539,
+    0.2114
    ],
    "dmn-dmn minus other-other": [
     0.1238,
-    0.0364,
-    0.2138
+    0.0335,
+    0.2101
    ],
    "dmn-other minus other-other": [
     0.0005,
-    -0.0594,
-    0.0606
+    -0.0575,
+    0.0595
    ],
    "means": {
     "dmn-dmn": 0.1117,
     "dmn-other": -0.0116,
     "other-other": -0.0121
    },
-   "mde_80pct_power": 0.1123,
+   "mde_80pct_power": 0.1125,
    "loo_session_min_max": [
     0.1073,
     0.1455
@@ -123,25 +129,25 @@
    "n_mice_dd": 26,
    "dmn-dmn minus dmn-other": [
     0.0569,
-    -0.01,
-    0.1172
+    -0.0085,
+    0.1245
    ],
    "dmn-dmn minus other-other": [
     0.0357,
-    -0.0569,
-    0.1307
+    -0.0594,
+    0.1293
    ],
    "dmn-other minus other-other": [
     -0.0212,
-    -0.0819,
-    0.0423
+    -0.0851,
+    0.0424
    ],
    "means": {
     "dmn-dmn": 0.0521,
     "dmn-other": -0.0049,
     "other-other": 0.0163
    },
-   "mde_80pct_power": 0.0909,
+   "mde_80pct_power": 0.095,
    "loo_session_min_max": [
     0.0386,
     0.0673
@@ -160,25 +166,25 @@
    "n_mice_dd": 8,
    "dmn-dmn minus dmn-other": [
     0.1242,
-    0.0663,
-    0.1975
+    0.0616,
+    0.1991
    ],
    "dmn-dmn minus other-other": [
     0.1013,
-    0.0267,
-    0.1764
+    0.0283,
+    0.1747
    ],
    "dmn-other minus other-other": [
     -0.023,
-    -0.0775,
-    0.0336
+    -0.0747,
+    0.0315
    ],
    "means": {
     "dmn-dmn": 0.1022,
     "dmn-other": -0.022,
     "other-other": 0.001
    },
-   "mde_80pct_power": 0.0937,
+   "mde_80pct_power": 0.0982,
    "loo_session_min_max": [
     0.1103,
     0.1425
@@ -197,25 +203,25 @@
    "n_mice_dd": 49,
    "dmn-dmn minus dmn-other": [
     0.0243,
-    -0.0157,
-    0.0608
+    -0.0158,
+    0.0615
    ],
    "dmn-dmn minus other-other": [
     0.0171,
-    -0.0424,
-    0.0672
+    -0.0407,
+    0.0688
    ],
    "dmn-other minus other-other": [
     -0.0072,
-    -0.0619,
-    0.0408
+    -0.0592,
+    0.0399
    ],
    "means": {
     "dmn-dmn": 0.0145,
     "dmn-other": -0.0098,
     "other-other": -0.0026
    },
-   "mde_80pct_power": 0.0546,
+   "mde_80pct_power": 0.0552,
    "loo_session_min_max": [
     0.0168,
     0.0286
@@ -234,17 +240,17 @@
    "n_mice_dd": 17,
    "dmn-dmn minus dmn-other": [
     0.0239,
-    -0.0204,
-    0.0644
+    -0.02,
+    0.065
    ],
    "dmn-dmn minus other-other": [
     0.025,
-    -0.0269,
-    0.0792
+    -0.0313,
+    0.0771
    ],
    "dmn-other minus other-other": [
     0.0011,
-    -0.0422,
+    -0.0447,
     0.0538
    ],
    "means": {
@@ -252,7 +258,7 @@
     "dmn-other": -0.0085,
     "other-other": -0.0096
    },
-   "mde_80pct_power": 0.0606,
+   "mde_80pct_power": 0.0607,
    "loo_session_min_max": [
     0.014,
     0.0292
@@ -271,17 +277,17 @@
    "n_mice_dd": 17,
    "dmn-dmn minus dmn-other": [
     0.0644,
-    -0.0089,
-    0.1226
+    -0.0153,
+    0.122
    ],
    "dmn-dmn minus other-other": [
     0.0423,
-    -0.0688,
-    0.1102
+    -0.0542,
+    0.1093
    ],
    "dmn-other minus other-other": [
     -0.0221,
-    -0.0774,
+    -0.078,
     0.0281
    ],
    "means": {
@@ -289,7 +295,7 @@
     "dmn-other": -0.0032,
     "other-other": 0.019
    },
-   "mde_80pct_power": 0.0939,
+   "mde_80pct_power": 0.0981,
    "loo_session_min_max": [
     0.0488,
     0.0715
@@ -308,25 +314,25 @@
    "n_mice_dd": 4,
    "dmn-dmn minus dmn-other": [
     0.1178,
-    0.0176,
-    0.2366
+    0.0212,
+    0.2373
    ],
    "dmn-dmn minus other-other": [
     0.1102,
-    -0.0232,
-    0.2191
+    -0.0193,
+    0.2394
    ],
    "dmn-other minus other-other": [
     -0.0076,
-    -0.0659,
-    0.0426
+    -0.0644,
+    0.0417
    ],
    "means": {
     "dmn-dmn": 0.1135,
     "dmn-other": -0.0043,
     "other-other": 0.0033
    },
-   "mde_80pct_power": 0.1564,
+   "mde_80pct_power": 0.1544,
    "loo_session_min_max": [
     0.0608,
     0.1588
@@ -345,18 +351,18 @@
    "n_mice_dd": 37,
    "dmn-dmn minus dmn-other": [
     0.0325,
-    -0.021,
-    0.0822
+    -0.0209,
+    0.0823
    ],
    "dmn-dmn minus other-other": [
     -0.0111,
-    -0.0644,
-    0.0395
+    -0.0649,
+    0.0421
    ],
    "dmn-other minus other-other": [
     -0.0436,
-    -0.0904,
-    0.0076
+    -0.0895,
+    0.0061
    ],
    "means": {
     "dmn-dmn": -0.0022,
@@ -382,25 +388,25 @@
    "n_mice_dd": 12,
    "dmn-dmn minus dmn-other": [
     0.0443,
-    -0.0282,
-    0.098
+    -0.0268,
+    0.099
    ],
    "dmn-dmn minus other-other": [
     -0.0085,
-    -0.0906,
-    0.0558
+    -0.088,
+    0.0619
    ],
    "dmn-other minus other-other": [
     -0.0528,
-    -0.1096,
-    0.0093
+    -0.1065,
+    0.0091
    ],
    "means": {
     "dmn-dmn": 0.0063,
     "dmn-other": -0.038,
     "other-other": 0.0148
    },
-   "mde_80pct_power": 0.0901,
+   "mde_80pct_power": 0.0899,
    "loo_session_min_max": [
     0.0272,
     0.0524
@@ -409,40 +415,114 @@
    "dd_sessions_top2_share": 0.267,
    "dd_median_dist": 3.96,
    "do_median_dist": 3.29
+  },
+  "whitesell|cortex": {
+   "n": {
+    "other-other": 126,
+    "dmn-dmn": 107,
+    "dmn-other": 70
+   },
+   "n_mice_dd": 32,
+   "dmn-dmn minus dmn-other": [
+    0.0588,
+    -0.0234,
+    0.1189
+   ],
+   "dmn-dmn minus other-other": [
+    0.0413,
+    -0.0289,
+    0.1112
+   ],
+   "dmn-other minus other-other": [
+    -0.0175,
+    -0.0684,
+    0.0466
+   ],
+   "means": {
+    "dmn-dmn": 0.0468,
+    "dmn-other": -0.012,
+    "other-other": 0.0055
+   },
+   "mde_80pct_power": 0.1016,
+   "loo_session_min_max": [
+    0.033,
+    0.072
+   ],
+   "drop_top_pair": 0.0522,
+   "dd_sessions_top2_share": 0.308,
+   "dd_median_dist": 0.82,
+   "do_median_dist": 1.8
+  },
+  "whitesell|cortex_cross_probe": {
+   "n": {
+    "dmn-other": 38,
+    "dmn-dmn": 28,
+    "other-other": 18
+   },
+   "n_mice_dd": 8,
+   "dmn-dmn minus dmn-other": [
+    0.136,
+    0.0534,
+    0.2052
+   ],
+   "dmn-dmn minus other-other": [
+    0.0903,
+    0.0056,
+    0.1587
+   ],
+   "dmn-other minus other-other": [
+    -0.0458,
+    -0.085,
+    -0.0181
+   ],
+   "means": {
+    "dmn-dmn": 0.0926,
+    "dmn-other": -0.0434,
+    "other-other": 0.0024
+   },
+   "mde_80pct_power": 0.1084,
+   "loo_session_min_max": [
+    0.0916,
+    0.1498
+   ],
+   "drop_top_pair": 0.1149,
+   "dd_sessions_top2_share": 0.643,
+   "dd_median_dist": 2.07,
+   "do_median_dist": 3.03
   }
  },
  "cv_restpref": {
   "resid_means": {
-   "rest-rest": 0.0411,
-   "rest-task": 0.0136,
-   "task-task": 0.0129
+   "rest-rest": 0.0401,
+   "rest-task": 0.0094,
+   "task-task": 0.0133
   },
   "resid_q025_q975": {
    "rest-rest": [
-    -0.077,
-    0.1963
+    -0.0793,
+    0.201
    ],
    "rest-task": [
-    -0.061,
-    0.0872
+    -0.0583,
+    0.0897
    ],
    "task-task": [
-    -0.0882,
-    0.2262
+    -0.0692,
+    0.2104
    ]
   },
   "rest-rest minus rest-task": [
-   0.0276,
-   0.64
+   0.0307,
+   0.6375
   ],
   "task-task minus rest-task": [
-   -0.0007,
-   0.39
+   0.0039,
+   0.45
   ],
   "cross_probe_z_means": {
-   "rest-rest": 0.1422,
-   "rest-task": 0.1217,
-   "task-task": 0.0873
+   "rest-rest": 0.1424,
+   "rest-task": 0.1233,
+   "task-task": 0.0917
   },
   "note": "second entry = fraction of 400 half-splits with difference > 0"
  },
@@ -481,6 +561,13 @@
    "mean": 0.0281,
    "frac_pos": 0.6,
    "wilcoxon_p": null
+  },
+  "whitesell": {
+   "n_sessions": 12,
+   "n_mice": 11,
+   "mean": 0.0163,
+   "frac_pos": 0.636,
+   "wilcoxon_p": 0.5771
   }
  },
  "grey_vs_iti_pair_z": {

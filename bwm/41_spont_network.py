@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import wilcoxon
 
-from common import DMN_ALL, DMN_CORE, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, OUT
+from common import DMN_ALL, DMN_CORE, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, OUT, WHITESELL_DMN
 
 BTAG = sys.argv[1] if len(sys.argv) > 1 else "spont_motion_1s_still"
 ATAG = sys.argv[2] if len(sys.argv) > 2 else "G_full"
@@ -85,7 +85,7 @@ def edge_table(mem, name):
 
 
 res["coverage"] = {"ours_core": edge_table(DMN_CORE, "ours_core"), "ours_all": edge_table(DMN_ALL, "ours_all"),
-                   "lu": edge_table(LU_DMN, "lu")}
+                   "lu": edge_table(LU_DMN, "lu"), "whitesell": edge_table(WHITESELL_DMN, "whitesell")}
 # Lu hub edges: prefrontal (ACA, PL, ORB) x RSP
 pfc = ["ACAd", "ACAv", "PL", "ORBm", "ORBl", "ORBvl", "ILA"]
 rsp = ["RSPagl", "RSPd", "RSPv"]
@@ -105,7 +105,7 @@ def classes(Q, mem):
 
 
 SETS = {"ours_core": DMN_CORE, "ours_core+lateral": DMN_ALL, "lu_all": LU_DMN,
-        "lu_pfc_temporal": LU_PFC_TEMPORAL, "lu_parietal": LU_PARIETAL}
+        "lu_pfc_temporal": LU_PFC_TEMPORAL, "lu_parietal": LU_PARIETAL, "whitesell": WHITESELL_DMN}
 res["classes"] = {}
 for sname, mem in SETS.items():
     base = CTX_CA1 if sname in ("lu_all", "lu_parietal") else CTX

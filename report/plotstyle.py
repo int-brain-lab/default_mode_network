@@ -127,7 +127,8 @@ def panel_label(ax, letter, x=-0.12, y=1.05, fontsize=8):
 
 
 def save_with_caption(fig, out_stem: Path, panel_captions: list[str],
-                       label: str, intro: str = '', number: int | None = None):
+                       label: str, intro: str = '', number: int | None = None,
+                       prefix: str = ''):
     """
     Produce the final deliverable for one figure:
       - `<out_stem>_panels.pdf`: the raw matplotlib panels (no caption)
@@ -165,7 +166,8 @@ def save_with_caption(fig, out_stem: Path, panel_captions: list[str],
         "\\captionsetup{font={sf,footnotesize},labelfont={sf,bf,footnotesize},"
         "justification=justified,singlelinecheck=false}\n"
         "\\begin{document}\n"
-        + (f"\\setcounter{{figure}}{{{number - 1}}}\n" if number else "") +
+        + (f"\\setcounter{{figure}}{{{number - 1}}}\n" if number else "")
+        + (f"\\renewcommand{{\\thefigure}}{{{prefix}\\arabic{{figure}}}}\n" if prefix else "") +
         f"\\begin{{minipage}}{{{fig_width_in:.2f}in}}\n"
         "\\centering\n"
         "\\begin{figure}[htbp]\n"

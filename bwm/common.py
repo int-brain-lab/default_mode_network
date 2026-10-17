@@ -38,8 +38,11 @@ WINDOWS = {
 # Mouse fMRI default-mode network at Beryl level. The core is the midline
 # prefrontal + retrosplenial + posterior parietal set that the rsfMRI studies
 # agree on (Stafford 2014, Sforazzini 2014, Gozzi & Schwarz 2016, Grandjean
-# 2020) and that Whitesell 2021 call the medial DMN module. Lateral = the
-# temporal-association part of Whitesell's DMN-like module.
+# 2020); it is the prefrontal + medial part of the Whitesell 2021 DMN.
+# Lateral (TEa, ECT, PERI): temporal association areas sometimes grouped with the
+# rodent DMN (Lu et al. 2012 include TeA). NOTE: Whitesell 2021 (Fig. 1E) put them in the
+# separate lateral cortical network (~0% of their voxels in the DMN mask), so this
+# extension is not supported by the mouse rsfMRI map.
 DMN_CORE = ["ACAd", "ACAv", "PL", "ILA", "ORBm", "ORBl", "ORBvl",
             "RSPagl", "RSPd", "RSPv", "VISa", "VISam"]
 DMN_LATERAL = ["TEa", "ECT", "PERI"]
@@ -95,3 +98,8 @@ def done_eids():
 LU_PFC_TEMPORAL = ["ORBm", "ORBl", "ORBvl", "PL", "ACAd", "ACAv", "AUDp", "AUDd", "AUDv", "TEa"]
 LU_PARIETAL = ["RSPagl", "RSPd", "RSPv", "VISa", "VISrl", "VISam", "VISpm", "CA1"]
 LU_DMN = LU_PFC_TEMPORAL + LU_PARIETAL
+
+# Whitesell et al. 2021 (Neuron 109:545, mouse rsfMRI, group ICA, CCFv3-registered):
+# cortical regions with >50% of voxels in the core DMN mask (z > 1.7), Fig. 1E.
+WHITESELL_DMN = ["ACAd", "ACAv", "PL", "ILA", "ORBl", "ORBm", "ORBvl", "VISa", "VISam", "RSPagl", "RSPd",
+                 "RSPv", "SSp-tr", "SSp-ll", "MOs"]

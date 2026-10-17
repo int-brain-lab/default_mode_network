@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import ttest_ind
 
-from common import (DMN_ALL, DMN_CORE, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, OUT, beryl, cosmos,
+from common import (DMN_ALL, DMN_CORE, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, OUT, WHITESELL_DMN, beryl, cosmos,
                     done_eids)
 from dmnstats import PRIMARY, perm_diff, region_table, split_half, subject_boot
 
@@ -92,7 +92,7 @@ def session(eid):
 
 SETS = {"ours_core": DMN_CORE, "ours_core+lateral": DMN_ALL, "lu_all": LU_DMN,
         "lu_pfc_temporal": LU_PFC_TEMPORAL, "lu_parietal": LU_PARIETAL,
-        "lu_without_auditory": [r for r in LU_DMN if not r.startswith("AUD")]}
+        "lu_without_auditory": [r for r in LU_DMN if not r.startswith("AUD")], "whitesell": WHITESELL_DMN}
 
 if __name__ == "__main__":
     with ProcessPoolExecutor(8) as ex:

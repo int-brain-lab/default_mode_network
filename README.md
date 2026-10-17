@@ -15,7 +15,7 @@ Map, BWM) and mesoscope data show signatures of the mouse default mode network
 DMN regions (Allen Beryl level, `bwm/common.py`):
 - **Core:** ACAd, ACAv, PL, ILA, ORBm, ORBl, ORBvl, RSPagl, RSPd, RSPv, VISa, VISam.
 - **Lateral:** TEa, ECT, PERI.
-- **Lu et al. 2012:** the rat DMN mapped to mouse areas is also in `common.py`.
+- **Published maps:** `common.py` also holds the Lu et al. 2012 rat DMN mapped to mouse areas, and the Whitesell et al. 2021 mouse DMN (Allen-registered rsfMRI). Whitesell et al. do not include our lateral regions.
 
 ## Setup
 - **Environment:** the IBL `iblenv` conda environment (ONE, ibllib, iblatlas, brainwidemap). Activate it before running anything.
@@ -45,6 +45,7 @@ The grey-screen analyses are run separately (see below).
 | 40_spont_characterize.py | grey-screen period per session: timing, duration, wheel / licks / motion energy / pupil, stillness |
 | 41_spont_network.py | grey screen: region-pair coverage, DMN coupling (ours and Lu et al.), robustness, power, CV network, grey-vs-ITI consistency |
 | 42_spont_A.py | rest preference vs the grey screen, with drift controls (`G_full`; `G_me me_only`) |
+| 43_spont_single_region.py | single-region resting metrics on the grey screen: fALFF, fluctuation amplitude, local synchrony (ReHo analogue) |
 | common.py, dmnstats.py | region sets, loaders, region-level statistics |
 
 ### meso/
@@ -67,6 +68,7 @@ python 42_spont_A.py G_full && python 42_spont_A.py G_me me_only
 python 21_full_B.py spont motion 1 still && python 21_full_B.py spont motion 0.5 still
 python 21_full_B.py iti motion 0.5 still            # for the grey-vs-ITI comparison
 python 41_spont_network.py spont_motion_0.5s_still && python 41_spont_network.py spont_motion_1s_still
+python 43_spont_single_region.py
 cd ../meso && python 33_meso_spont.py 200 && python 33_meso_spont.py 200 require_me
 cd ../report && python fig_grey.py
 ```

@@ -18,7 +18,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "bwm"))
 from plotstyle import NATURE_DOUBLE_COL_IN, panel_label, save_with_caption, style_axes  # noqa: E402
-from common import DMN_ALL, DMN_CORE, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL  # noqa: E402
+from common import DMN_ALL, DMN_CORE, DMN_LATERAL, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, WHITESELL_DMN  # noqa: E402
 
 BWM = HERE.parent / "bwm" / "output"
 MESO = HERE.parent / "meso" / "output"
@@ -571,4 +571,215 @@ caps = [
 ]
 save_with_caption(fig, OUTD / "fig6_meso", caps, label="grey_meso", number=6)
 png(OUTD / "fig6_meso")
+
+# ======================================================================= Fig 7: single-region metrics
+SR = json.load(open(BWM / "43_single_region.json"))
+RN = pd.read_csv(BWM / "43_regions_neuron_metrics.csv", index_col=0)
+RS = pd.read_csv(BWM / "43_regions_sync.csv", index_col=0)
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 5.2))
+gs = fig.add_gridspec(3, 3, height_ratios=[1, 1, 1.25], hspace=0.95, wspace=0.6)
+for row, (R_, col, lab, let) in enumerate(((RN, "fALFF_adj", "fALFF\n(rate-adjusted)", "a"),
+                                           (RS, "sync_adj", "local synchrony\n(rate-adjusted)", "b"))):
+    C7 = R_[R_.cosmos == "Isocortex"].sort_values(col, ascending=False)
+    ax = fig.add_subplot(gs[row, :])
+    ax.bar(np.arange(len(C7)), C7[col], color=[rcol(r) for r in C7.index], width=0.75)
+    ax.axhline(0, color="k", lw=0.5)
+    ax.set_xticks(np.arange(len(C7)))
+    ax.set_xticklabels(C7.index, rotation=60, ha="right", fontsize=5)
+    ax.set_xlim(-0.7, len(C7) - 0.3)
+    ax.set_ylabel(lab)
+    style_axes(ax, categorical_x=True)
+    if row == 0:
+        legend_sets(ax, x=0.3, y=0.42)
+    panel_label(ax, let, x=-0.05)
+ax = fig.add_subplot(gs[2, :2])
+sets7 = [("ours_core", "our DMN core"), ("ours_core+lateral", "our core + lateral"), ("whitesell", "Whitesell et al."),
+         ("lu_all", "Lu et al.")]
+mets = [("fALFF_adj", "fALFF", "k", 1), ("CV_adj", "CV", C_OTH, 0.1), ("sync_adj", "synchrony", C_GREY, 1)]
+for i, (k, lab) in enumerate(sets7):
+    for j, (m, ml, col, sc) in enumerate(mets):
+        v = SR["tests"][f"{m}|{k}|vs_other_ctx"]
+        lo, hi = v["subject_boot_ci95"]
+        y = i + (j - 1) * 0.22
+        ax.plot([lo * sc, hi * sc], [y, y], color=col, lw=1)
+        ax.plot(v["diff"] * sc, y, "o", color=col, ms=2.6, mfc=col if v["p_perm"] < 0.05 else "white")
+ax.axvline(0, color="k", lw=0.5, ls=":")
+ax.set_yticks(range(len(sets7)))
+ax.set_yticklabels([x[1] for x in sets7])
+ax.invert_yaxis()
+ax.set_xlabel("set $-$ other cortex (rate-adjusted metric; CV $\\times$ 0.1)")
+for j, (m, ml, col, sc) in enumerate(mets):
+    ax.text(1.0, 1.16 - j * 0.09, ml, color=col, fontsize=6, transform=ax.transAxes, ha="right")
+style_axes(ax, categorical_y=True)
+panel_label(ax, "c", x=-0.3)
+ax = fig.add_subplot(gs[2, 2])
+G7 = pd.read_csv(BWM / "42_regions_G_full.csv", index_col=0)
+cm = RN[RN.cosmos == "Isocortex"].index.intersection(G7.index)
+ax.scatter(G7.loc[cm, "RI_grey"], RN.loc[cm, "fALFF_adj"], s=8, c=[rcol(r) for r in cm], lw=0)
+ax.set_xlabel("rest index RI (grey)")
+ax.set_ylabel("fALFF (rate-adj.)")
+style_axes(ax)
+panel_label(ax, "d", x=-0.45)
+caps = [
+    f"Single-region resting metrics need no co-recording, so they pool across animals ({SR['n_neurons']:,} neurons, "
+    f"{SR['n_sessions']} sessions, {SR['n_mice']} mice). fALFF per neuron: fraction of 0.01--0.1 Hz power in the 1 s "
+    "binned rate over the whole grey-screen period after regressing wheel, licks and motion energy (the analogue of "
+    "fMRI fALFF), residualised on log firing rate, averaged per cortical region. Colours as in Fig. 3. The map is "
+    f"reproducible across halves of the mice (Spearman--Brown {SR['reliability']['fALFF_adj']['spearman_brown']:.2f}) but DMN regions "
+    "are spread throughout it.",
+    f"Local synchrony (ReHo analogue): mean pairwise correlation between neurons of a region on one probe in still 1 s "
+    f"bins, residualised on rate ({SR['n_region_sessions_sync']:,} region-sessions, {SR['n_mice_sync']} mice).",
+    "Difference between each DMN definition and other cortex for fALFF, fluctuation amplitude (coefficient of "
+    "variation, CV, scaled by 0.1) and local synchrony, all rate-adjusted: 95\\% mouse-bootstrap CI; filled markers "
+    "region-permutation p $<$ 0.05 (uncorrected).",
+    f"Per region, grey-screen rest preference (RI, Fig. 3) against fALFF: Spearman $\\rho$ = "
+    f"{SR['vs_RI_grey_neuron']['fALFF_adj']:.2f}; the two single-region measures are unrelated.",
+]
+save_with_caption(fig, OUTD / "fig7_single_region", caps, label="grey_single", number=7)
+png(OUTD / "fig7_single_region")
+
+# ======================================================================= Fig S1: three DMN definitions, rest preference
+GS = json.load(open(BWM / "42_spont_A_G_full.json"))
+CS = RG[RG.cosmos == "Isocortex"].sort_values("suppressed_grey", ascending=False)
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 3.9))
+gs = fig.add_gridspec(2, 2, height_ratios=[1.35, 1], width_ratios=[1, 1], hspace=0.9, wspace=0.6)
+sub = gs[0, :].subgridspec(2, 1, height_ratios=[1, 0.55], hspace=0.05)
+ax = fig.add_subplot(sub[0])
+ax.bar(np.arange(len(CS)), CS.suppressed_grey * 100, color=C_OTH, width=0.75)
+ax.set_xlim(-0.7, len(CS) - 0.3)
+ax.set_xticks([])
+ax.set_ylabel("task-suppressed\nneurons (%)")
+style_axes(ax, categorical_x=True)
+ax.spines["bottom"].set_visible(False)
+panel_label(ax, "a", x=-0.05)
+ax = fig.add_subplot(sub[1])
+defs = [("our core", DMN_CORE, C_BOTH), ("our lateral", DMN_LATERAL, C_OURS), ("Whitesell", WHITESELL_DMN, "#6250d6"),
+        ("Lu et al.", LU_DMN, C_LU)]
+for i, (lab, mem, col) in enumerate(defs):
+    for j, r in enumerate(CS.index):
+        if r in mem:
+            ax.add_patch(Rectangle((j - .4, i - .4), .8, .8, color=col, lw=0))
+ax.set_xlim(-0.7, len(CS) - 0.3)
+ax.set_ylim(len(defs) - .5, -.5)
+ax.set_yticks(range(len(defs)))
+ax.set_yticklabels([d[0] for d in defs], fontsize=5.5)
+ax.set_xticks(np.arange(len(CS)))
+ax.set_xticklabels(CS.index, rotation=60, ha="right", fontsize=5)
+for sp_ in ("top", "right", "left", "bottom"):
+    ax.spines[sp_].set_visible(False)
+ax.tick_params(length=0)
+rowsS = [("ours_core", "our DMN core"), ("ours_core+lateral", "our core + lateral"), ("whitesell", "Whitesell et al."),
+         ("lu_all", "Lu et al.")]
+for jj, (met, scale, xl) in enumerate((("suppressed_grey", 100, "suppressed (% points)"), ("RI_grey", 1, "rest index RI"))):
+    ax = fig.add_subplot(gs[1, jj])
+    for i, (k, lab) in enumerate(rowsS):
+        for (suf, oth, col, off) in (("", "other_ctx", "k", -.22), ("_late", "other_ctx", C_GREY, 0),
+                                     ("", "higher_order_ctx", C_OTH, .22)):
+            v = GS["tests"][f"{met}{suf}|{k}|vs_{oth}"]
+            lo, hi = v["subject_boot_ci95"]
+            ax.plot([lo * scale, hi * scale], [i + off] * 2, color=col, lw=1)
+            ax.plot(v["diff"] * scale, i + off, "o", color=col, ms=2.4, mfc=col if v["p_perm"] < 0.05 else "white")
+    ax.axvline(0, color="k", lw=0.5, ls=":")
+    ax.set_yticks(range(len(rowsS)))
+    ax.set_yticklabels([r[1] for r in rowsS] if jj == 0 else [])
+    ax.invert_yaxis()
+    ax.set_xlabel(f"set $-$ comparison, {xl}")
+    style_axes(ax, categorical_y=True)
+    if jj == 0:
+        panel_label(ax, "b", x=-0.75)
+    else:
+        for t_, (lab, col) in enumerate((("vs other cortex", "k"), ("vs other cortex, last third", C_GREY),
+                                         ("vs higher-order cortex", C_OTH))):
+            ax.text(1.0, 1.25 - t_ * 0.1, lab, color=col, fontsize=5.5, transform=ax.transAxes, ha="right")
+caps = [
+    "Task-suppressed neurons per cortical region relative to the grey screen (as Fig. 3a, grey bars), with region "
+    "membership in four DMN definitions underneath. Whitesell et al. (2021): cortical regions with $>$50\\% of voxels "
+    "in the core DMN mask of mouse rsfMRI group ICA, registered to the Allen CCFv3 (ACA, PL, ILA, ORB, RSP, VISa, "
+    "VISam, SSp-tr, SSp-ll, MOs). They do not include TEa, ECT or PERI (our lateral extension), which lie in their "
+    "separate lateral cortical network.",
+    "Each definition minus other cortex (black), the same against only the last third of trials (blue), and minus "
+    "higher-order cortex only (grey): 95\\% mouse-bootstrap CI; filled markers, region-permutation p $<$ 0.05. The "
+    "Whitesell set is weaker than ours because it adds the task-driven SSp-tr, SSp-ll and MOs and leaves out TEa, "
+    "ECT and PERI.",
+]
+save_with_caption(fig, OUTD / "figS1_whitesell_restpref", caps, label="grey_s1", number=1, prefix="S")
+png(OUTD / "figS1_whitesell_restpref")
+
+# ======================================================================= Fig S2: Whitesell coupling
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 3.4))
+gs = fig.add_gridspec(1, 3, width_ratios=[1.15, 1.1, 1.0], wspace=1.05)
+ax = fig.add_subplot(gs[0])
+wreg = [r for r in WHITESELL_DMN]
+iw = {r: i for i, r in enumerate(wreg)}
+MW = np.full((len(wreg), len(wreg)), np.nan)
+XW = np.zeros((len(wreg), len(wreg)))
+for (r1, r2), g in P[P.r1.isin(wreg) & P.r2.isin(wreg)].groupby(["r1", "r2"]):
+    i, j = iw[r1], iw[r2]
+    MW[i, j] = MW[j, i] = g.subject.nunique()
+    XW[i, j] = XW[j, i] = g[~g.same_probe].subject.nunique()
+cmW = plt.get_cmap("Blues").copy()
+cmW.set_bad("#f0efea")
+im = ax.imshow(np.ma.masked_invalid(MW), cmap=cmW, vmin=0, vmax=np.nanmax(MW), interpolation="nearest")
+for i in range(len(wreg)):
+    for j in range(len(wreg)):
+        if XW[i, j] > 0:
+            ax.plot(j, i, marker="x", ms=3, color=C_OURS, mew=0.8)
+ax.set_xticks(range(len(wreg)))
+ax.set_yticks(range(len(wreg)))
+ax.set_xticklabels(wreg, rotation=90, fontsize=5)
+ax.set_yticklabels(wreg, fontsize=5)
+cb = fig.colorbar(im, ax=ax, fraction=0.045, pad=0.02, location="top")
+cb.set_label("mice with the pair", fontsize=6)
+cb.ax.tick_params(labelsize=5)
+panel_label(ax, "a", x=-0.3, y=1.25)
+ax = fig.add_subplot(gs[1])
+M5 = json.load(open(MESO / "33_spont_meso_me.json"))
+rowsC = [("ours_core", "our core"), ("whitesell", "Whitesell"), ("lu_all", "Lu et al.")]
+yt, yy = [], 0
+for k, lab in rowsC:
+    for nm, v, mk in (("BWM all pairs", J["classes"][f"{k}|cortex"].get("dmn-dmn minus dmn-other"), "o"),
+                      ("BWM 2 probes", J["classes"][f"{k}|cortex_cross_probe"].get("dmn-dmn minus dmn-other"), "s"),
+                      ("mesoscope", M5["classes"][k].get("dmn-dmn minus dmn-other"), "^")):
+        if v:
+            ax.plot([v[1], v[2]], [yy, yy], color="k", lw=0.9)
+            ax.plot(v[0], yy, mk, color="k", ms=2.8)
+        yt.append(f"{lab}, {nm}")
+        yy += 1
+    yy += 0.4
+ax.axvline(0, color="k", lw=0.5, ls=":")
+ax.set_yticks([i + (i // 3) * 0.4 for i in range(len(yt))])
+ax.set_yticklabels(yt, fontsize=5)
+ax.invert_yaxis()
+ax.set_xlabel("DMN-DMN $-$ DMN-other (z)")
+style_axes(ax, categorical_y=True)
+panel_label(ax, "b", x=-0.8, y=1.1)
+EW = pd.read_csv(BWM / f"41_edges_whitesell_{BTAG}.csv")
+EW = EW[EW.n_mice >= 3].sort_values("mouse_mean")
+ax = fig.add_subplot(gs[2])
+for i, (_, e) in enumerate(EW.iterrows()):
+    ax.plot([e.ci_lo, e.ci_hi], [i, i], color="#6250d6", lw=0.9)
+    ax.plot(e.mouse_mean, i, "o", color="#6250d6", ms=2.8)
+ax.axvline(0, color="k", lw=0.5, ls=":")
+ax.set_yticks(range(len(EW)))
+ax.set_yticklabels([f"{a}–{b} ({m})" for a, b, m in zip(EW.r1, EW.r2, EW.n_mice)], fontsize=5)
+ax.set_xlabel("residual coupling (z)")
+style_axes(ax, categorical_y=True)
+panel_label(ax, "c", x=-0.7, y=1.02)
+JW = J["classes"]["whitesell|cortex_cross_probe"]
+caps = [
+    f"Grey-screen region pairs within the Whitesell et al. DMN: mice with the pair (grey: never recorded); orange "
+    f"crosses, recorded on two probes in at least one session. {J['coverage']['whitesell']['n_edges_any']} of "
+    f"{J['coverage']['whitesell']['n_possible_edges']} edges are recorded, {J['coverage']['whitesell']['n_edges_ge3_mice']} in "
+    "$\\geq$3 mice; those are all frontal-frontal (ACA, PL, ILA, ORB, MOs) or RSPd-RSPv, and no frontal-posterior "
+    "edge is recorded at all.",
+    "DMN-DMN minus DMN-other coupling for three definitions: BWM cortical pairs (circles), BWM pairs on two probes "
+    f"(squares) and mesoscope (triangles; 13 sessions, 7 mice): 95\\% mouse-bootstrap CI. For Whitesell, the two-probe "
+    f"excess (+{JW['dmn-dmn minus dmn-other'][0]:.2f}) comes {JW['dd_sessions_top2_share'] * 100:.0f}\\% from two "
+    "frontal multi-probe sessions (KS046, SWC\\_038; 6 mice in all), and the mesoscope excess mainly from one mouse "
+    "(SP054, SSp-tr/VISa/VISam pairs).",
+    "Every Whitesell DMN edge recorded in $\\geq$3 mice (number of mice in brackets): mean residual coupling over mice "
+    "and 95\\% bootstrap CI.",
+]
+save_with_caption(fig, OUTD / "figS2_whitesell_coupling", caps, label="grey_s2", number=2, prefix="S")
+png(OUTD / "figS2_whitesell_coupling")
 print("done", ex)

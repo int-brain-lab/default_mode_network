@@ -422,6 +422,33 @@
     0.0424,
     0.1628
    ]
+  },
+  "whitesell": {
+   "n": {
+    "other-other": 334,
+    "dmn-other": 193,
+    "dmn-dmn": 40
+   },
+   "means": {
+    "dmn-dmn": 0.2951,
+    "dmn-other": 0.0795,
+    "other-other": -0.0813
+   },
+   "dmn-dmn minus dmn-other": [
+    0.2155,
+    0.077,
+    0.4091
+   ],
+   "dmn-dmn minus other-other": [
+    0.3764,
+    0.1874,
+    0.6047
+   ],
+   "dmn-other minus other-other": [
+    0.1608,
+    0.0124,
+    0.2271
+   ]
   }
  }
 }
