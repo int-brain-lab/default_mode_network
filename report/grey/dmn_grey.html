@@ -77,7 +77,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
     <div class="eyebrow">IBL Brain Wide Map · default mode network pilot · v4, 17 Oct 2026</div>
     <h1>Evidence for default mode network activation in IBL data</h1>
     <p class="authors">International Brain Laboratory, Michael Schartner, Claude Opus 5.5</p>
-    <p class="lead">After the task, every BWM session has a 10-minute period in which the screen is uniformly grey and nothing happens. It is the closest thing the dataset has to a resting-state scan. This report describes that period, redoes the default-mode-network (DMN) analyses on it, maps which region pairs can be tested at all, and compares the result with two published rodent DMN maps: the rat DMN of Lu et al. (2012) and the mouse DMN of Whitesell et al. (2021). An earlier report used the task inter-trial intervals (ITIs) as rest; where results come from there, it says so.</p>
+    <p class="lead">After the task, 396 of 426 BWM sessions have a passive block in which the screen is uniformly grey and nothing is presented (600&nbsp;s in most sessions, 300&nbsp;s in 55). It is the closest the dataset comes to a resting-state recording, although the mouse still moves for about a third of it. This report characterises that block and uses it as the rest condition for testing default-mode-network (DMN) signatures. It also maps which region pairs can be tested at all, and compares the result with two published rodent DMN maps: the rat DMN of Lu et al. (2012) and the mouse DMN of Whitesell et al. (2021). An earlier analysis used task inter-trial intervals (ITIs) as rest; where results come from there, the report says so.</p>
     <nav aria-label="Sections">
       <a href="#abstract">Abstract</a><a href="#terms">Terms</a><a href="#period">The period</a><a href="#movement">Movement</a><a href="#restpref">Rest preference</a><a href="#coverage">Which pairs</a><a href="#coupling">Coupling</a><a href="#meso">Mesoscope</a><a href="#single">Single regions</a><a href="#lu">Literature</a><a href="#verdict">How convincing</a><a href="#si">SI figures</a><a href="#methods">Methods</a><a href="#notes">Notes</a><a href="#history">Revisions</a>
     </nav>
@@ -90,12 +90,19 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
     <ul>
       <li><strong>Single-region indicators</strong> need only one region per recording, so they pool across all mice:
         <ul>
-          <li>rest preference: how much more a region's neurons fire on the grey screen than during the task (the fMRI "task-negative" deactivation);</li>
+          <li>rest preference: how much more a region's neurons fire at rest than during movement and feedback (the fMRI "task-negative" deactivation; measures below);</li>
           <li>the amplitude and slowness of resting fluctuations (analogues of fMRI ALFF/fALFF);</li>
           <li>local synchrony between neighbouring neurons (an analogue of fMRI ReHo).</li>
         </ul>
       </li>
       <li><strong>Between-region indicators</strong> are co-activation of region pairs at rest, the defining measure of fMRI resting-state networks. They need two regions recorded at the same time.</li>
+    </ul>
+    <p><strong>How higher activity at rest is measured:</strong></p>
+    <ul>
+      <li><strong>Per neuron:</strong> the firing rate in still grey-screen bins (0.3&nbsp;s chunks with no wheel movement, licks or high motion energy) is compared with the per-trial rate in the task windows around movement onset, movement and feedback.</li>
+      <li><strong>Rest index:</strong> RI&nbsp;=&nbsp;(rest&nbsp;−&nbsp;task)/(rest&nbsp;+&nbsp;task).</li>
+      <li><strong>Suppressed neuron:</strong> rest is significantly higher than task (Welch t-test, one rest chunk per 3&nbsp;s, p&nbsp;&lt;&nbsp;0.01).</li>
+      <li><strong>Region level:</strong> mean RI and fraction of suppressed neurons per region. Each DMN set is compared with the rest of cortex using a region permutation test and a bootstrap over mice.</li>
     </ul>
     <p>Only rest preference singles out DMN regions. On average 44% of neurons per region in our DMN set are suppressed during the task, against 31% in the rest of cortex (p&nbsp;&lt;&nbsp;0.001). This holds against higher-order cortex alone, against only the last third of trials (a drift control), and for the continuous rest index. The resting fluctuation and synchrony metrics give reproducible maps, but DMN regions are not special in them.</p>
     <p>The rest-preference effect depends on which published DMN is used:</p>
