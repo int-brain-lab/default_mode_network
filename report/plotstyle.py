@@ -153,6 +153,8 @@ def save_with_caption(fig, out_stem: Path, panel_captions: list[str],
 
     letters = [chr(ord('a') + i) for i in range(len(panel_captions))]
     body = ' '.join(f'\\textbf{{{L}}} {c}' for L, c in zip(letters, panel_captions))
+    if len(panel_captions) == 1:  # single panel: no panel letter
+        body = panel_captions[0]
     caption = (intro + ' ' + body).strip() if intro else body
 
     tex = (

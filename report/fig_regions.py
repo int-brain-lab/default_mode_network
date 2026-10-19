@@ -13,7 +13,7 @@ from matplotlib.patches import Ellipse
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "bwm"))
-from plotstyle import NATURE_ONEHALF_COL_IN, save_with_caption  # noqa: E402
+from plotstyle import NATURE_ONEHALF_COL_IN, save_with_caption  # noqa: F401  # noqa: E402
 from common import CONS_DMN, GRANDJEAN_DMN, GRANDJEAN_PFC_UNSPECIFIED, LU_DMN, MANDINO_DMN, WHITESELL_DMN  # noqa: E402
 
 OUTD = HERE / "grey"
@@ -49,40 +49,33 @@ for r in sorted(regions, key=order.index):
     key = "".join("1" if r in s[1] else "0" for s in SETS)
     zones.setdefault(key, []).append(r)
 
-fig, ax = plt.subplots(figsize=(NATURE_ONEHALF_COL_IN, NATURE_ONEHALF_COL_IN * 0.78))
+fig, ax = plt.subplots(figsize=(NATURE_ONEHALF_COL_IN / 2, NATURE_ONEHALF_COL_IN / 2 * 0.86))
+fig.subplots_adjust(0, 0, 1, 1)
 for (c, a), (lab, mem, col) in zip(ELL, SETS):
-    ax.add_patch(Ellipse(c, W, Hh, angle=a, fc=col, alpha=0.18, ec=col, lw=1.2))
+    ax.add_patch(Ellipse(c, W, Hh, angle=a, fc=col, alpha=0.18, ec=col, lw=0.8))
 for key, regs in zones.items():
     x, y = POS[key]
-    dy = 0.034
+    dy = 0.037
     for i, r in enumerate(regs):
         lab = f"{r}{'†' if (r in GRANDJEAN_PFC_UNSPECIFIED and key[2] == '1') else ''}"
-        ax.text(x, y + ((len(regs) - 1) / 2 - i) * dy, lab, ha="center", va="center", fontsize=6.2,
+        ax.text(x, y + ((len(regs) - 1) / 2 - i) * dy, lab, ha="center", va="center", fontsize=4.3,
                 fontweight="bold" if r in CONS_DMN else "normal", color="k" if r in CONS_DMN else "#333")
-for (lab, mem, col), (tx, ty, ha) in zip(SETS, [(0.0, 0.70, "left"), (0.08, 0.97, "left"), (0.92, 0.97, "right"),
-                                                 (1.0, 0.70, "right")]):
+# labels just outside each ellipse's upper edge (B, C tops at y = 0.79; A, D upper-outer edges)
+for (lab, mem, col), (tx, ty, ha) in zip(SETS, [(0.02, 0.62, "left"), (0.29, 0.80, "center"), (0.71, 0.80, "center"),
+                                                 (0.98, 0.62, "right")]):
     name, sub = lab.split("\n")
-    ax.text(tx, ty + 0.035, name, color=col, fontsize=6.8, ha=ha, va="bottom", fontweight="bold")
-    ax.text(tx, ty, sub, color=col, fontsize=5.6, ha=ha, va="bottom")
-ax.text(0.5, 0.03, "in no paper: ECT, PERI (our earlier 'lateral' extension)", ha="center", fontsize=5.8, color="#555")
+    ax.text(tx, ty + 0.035, name, color=col, fontsize=4.8, ha=ha, va="bottom", fontweight="bold")
+    ax.text(tx, ty, sub.replace("rsfMRI ", "").replace(" + tracing", "+tracing"), color=col, fontsize=3.8, ha=ha, va="bottom")
+ax.text(0.5, 0.075, "in no paper: ECT, PERI", ha="center", fontsize=4, color="#555")
 ax.set_xlim(0, 1)
-ax.set_ylim(0, 1.06)
+ax.set_ylim(0.06, 0.9)
 ax.set_aspect("equal")
 ax.axis("off")
 
 caps = [
-    "Cortical regions (Allen CCF, Beryl level) assigned to the default mode network by four rodent resting-state "
-    "studies. Lu et al. (2012): rat, BOLD rsfMRI under dexmedetomidine/isoflurane, group ICA (30 components); rat areas "
-    "mapped to mouse (PtP $\\rightarrow$ VISa/VISrl, V2M $\\rightarrow$ VISam/VISpm; dorsal CA1 tentative). Whitesell et al. "
-    "(2021): mouse, BOLD rsfMRI under halothane, group ICA (5 components) registered to CCFv3; regions with $>$50\\% of "
-    "voxels in the core DMN mask. Grandjean et al. (2020): 17 mouse rsfMRI datasets, ACA seed and group ICA; DMN "
-    "components named prefrontal (PFC), cingulate/RSP and temporal association areas; \\textdagger{} prefrontal subregions not "
-    "specified, mapped here to PL, ILA and ORB. Mandino et al. (2022): mouse rsfMRI co-activation patterns and viral-"
-    "tracer projection similarity to an ACA seed; cortical DMN labelled ACA and RSP (a medial visual extension is not "
-    "labelled). Subcortical DMN elements (dorsal striatum, dorsal and lateral thalamus, zona incerta, periaqueductal "
-    "grey, peri-hippocampal areas) are not shown. Bold: the conservative core used in this report (ACA, RSP, PL, "
-    "ORBm). ACA and RSP are in all four maps; PL and ORB in three (Mandino et al. name only cingulate regions). ORBl "
-    "and ORBvl have the same support as ORBm and could be added.",
+    "Cortical (Beryl) regions assigned to the DMN by four rodent rsfMRI studies (methods in section 1); "
+    "\\textdagger{} prefrontal subregions not specified by Grandjean et al., mapped here to PL, ILA and ORB. Bold: the "
+    "conservative core used in this report. Subcortical DMN elements are not shown.",
 ]
 save_with_caption(fig, OUTD / "fig1_regions", caps, label="grey_regions", number=1)
 import subprocess  # noqa: E402
