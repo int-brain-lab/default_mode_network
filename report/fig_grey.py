@@ -59,8 +59,8 @@ def mboot_mean(v, n=2000):
 # ======================================================================= Fig 1: protocol and timing
 D = pd.read_csv(BWM / "40_spont_sessions.csv")
 H = D[D.has_spont].copy()
-fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 5.8))
-gs = fig.add_gridspec(3, 3, height_ratios=[0.4, 1, 2.9], hspace=0.55, wspace=0.45)
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 7.2))
+gs = fig.add_gridspec(4, 3, height_ratios=[0.4, 1, 1.25, 2.9], hspace=0.55, wspace=0.45)
 ax = fig.add_subplot(gs[0, :])
 blocks = [("task", 0, 38, "#d9d7cf", "k"), ("grey screen, 10 min", 42, 66, C_GREY, "white"),
           ("RF map, ~5 min", 67, 80, "#d9d7cf", "k"), ("task replay", 81, 96, "#d9d7cf", "k")]
@@ -126,7 +126,16 @@ Rr = Xs[top, : nr * RB].reshape(len(top), nr, RB).sum(2) / (RB * BIN)
 lo_, hi_ = np.percentile(Rr, 1, axis=1, keepdims=True), np.percentile(Rr, 99, axis=1, keepdims=True)
 Rr = (Rr - lo_) / (hi_ - lo_).clip(1e-9)
 n_neurons_ex = len(rates)
-sub = gs[2, :].subgridspec(4, 1, hspace=0.15, height_ratios=[1, 1, 0.45, 4.2])
+# 10 s zoom window: still fraction closest to 0.5 with some wheel movement, after the first 30 s
+ZW = 200  # 10 s of 50 ms bins
+best, zs = 9, None
+for st_ in range(600, len(t) - ZW, 20):
+    sf = (~mov[st_:st_ + ZW]).mean()
+    if (w[st_:st_ + ZW] > 0.05).sum() >= 4 and abs(sf - 0.5) < best:
+        best, zs = abs(sf - 0.5), st_
+z0, z1 = t[zs], t[zs + ZW - 1]
+axes_e = []
+sub = gs[2, :].subgridspec(3, 1, hspace=0.15, height_ratios=[1, 1, 0.45])
 for i, (y, lab, c) in enumerate(((w, "wheel", "k"), (me / np.nanmedian(s["motion_energy"]), "motion\nenergy", "k"),
                                   (None, "still", None))):
     ax = fig.add_subplot(sub[i])
@@ -143,20 +152,51 @@ for i, (y, lab, c) in enumerate(((w, "wheel", "k"), (me / np.nanmedian(s["motion
         style_axes(ax)
         ax.set_yticks([])
         ax.set_ylabel(lab, fontsize=6, rotation=0, ha="right", va="center")
+        ax.spines["left"].set_visible(False)
+        ax.set_xlabel("time in grey-screen period (min)")
+    ax.set_xlim(0, t[-1])
+    axes_e.append(ax)
+    if i == 0:
+        panel_label(ax, "e", x=-0.085, y=1.0)
+for ax_ in axes_e:
+    ax_.axvspan(z0, z1, color=C_OURS, alpha=0.25, lw=0)
+# f: 10 s zoom at the native 50 ms resolution
+tz = (np.arange(zs, zs + ZW) * BIN)  # seconds from grey-screen start (t is in minutes from a)
+tz = tz - tz[0] + t[zs] * 60
+subf = gs[3, :].subgridspec(4, 1, hspace=0.15, height_ratios=[1, 1, 0.45, 4.2])
+for i, (y, lab) in enumerate(((w[zs:zs + ZW], "wheel"), (me[zs:zs + ZW] / np.nanmedian(s["motion_energy"]), "motion\nenergy"),
+                              (None, "still"))):
+    ax = fig.add_subplot(subf[i])
+    if y is not None:
+        ax.plot(tz, y, lw=0.8, color="k", drawstyle="steps-mid")
+        if i == 0:
+            ax.axhline(0.05, color=C_OURS, lw=0.6, ls="--")
+        if i == 1:
+            ax.axhline(thr / np.nanmedian(s["motion_energy"]), color=C_OURS, lw=0.6, ls="--")
+        style_axes(ax, max_yticks=2)
+        ax.set_ylabel(lab, fontsize=6, rotation=0, ha="right", va="center")
+        ax.set_xticks([])
+        ax.spines["bottom"].set_visible(False)
+    else:
+        ax.fill_between(tz, 0, (~mov[zs:zs + ZW]).astype(float), step="mid", color=C_GREY, lw=0)
+        style_axes(ax)
+        ax.set_yticks([])
+        ax.set_ylabel(lab, fontsize=6, rotation=0, ha="right", va="center")
         ax.set_xticks([])
         ax.spines["left"].set_visible(False)
         ax.spines["bottom"].set_visible(False)
-    ax.set_xlim(0, t[-1])
+    ax.set_xlim(tz[0] - BIN / 2, tz[-1] + BIN / 2)
     if i == 0:
-        panel_label(ax, "e", x=-0.085, y=1.0)
-ax = fig.add_subplot(sub[3])
-ax.imshow(np.clip(Rr, 0, 1), aspect="auto", cmap="Greys", interpolation="nearest",
-          extent=[0, nr * RB * BIN / 60, len(top) - 0.5, -0.5])
+        panel_label(ax, "f", x=-0.085, y=1.0)
+ax = fig.add_subplot(subf[3])
+Z = Xs[top, zs:zs + ZW] / BIN
+zhi = np.percentile(Xs[top] / BIN, 99, axis=1, keepdims=True).clip(1e-9)
+ax.imshow(np.clip(Z / zhi, 0, 1), aspect="auto", cmap="Greys", interpolation="nearest",
+          extent=[tz[0] - BIN / 2, tz[-1] + BIN / 2, len(top) - 0.5, -0.5])
 ax.set_yticks(range(len(top)))
 ax.set_yticklabels([f"{regs_[i]} {rates[i]:.0f} Hz" for i in top], fontsize=4.2)
-ax.set_xlim(0, t[-1])
 style_axes(ax, categorical_y=True)
-ax.set_xlabel("time in grey-screen period (min)")
+ax.set_xlabel("time in grey-screen period (s)")
 caps = [
     "IBL passive protocol after the task (iblrig \\texttt{passiveChoiceWorld}): frame2ttl spacers separate the spontaneous "
     "period, during which Bonsai clears the screen to grey with the sync square off and shows no stimulus "
@@ -171,9 +211,12 @@ caps = [
     "motion energy, stillness rests on wheel and licks only (median fraction 0.81 vs 0.67).",
     f"Example session with neurons in the conservative DMN core (CSH\\_ZAD\\_019, {n_core_ex} of {n_neurons_ex} good units "
     "in RSPagl, RSPd and RSPv; still fraction 0.70, close to the median): wheel speed, left-camera motion energy "
-    "(normalised to the session median; dashed, the stillness threshold; wheel in rad/s), the resulting still bins, and a "
-    "raster of the 20 most active core-DMN neurons in this window (0.5 s bins, each row scaled between its 1st and 99th "
-    "percentile, black = high; labels give region, probe and mean rate).",
+    "(normalised to the session median; dashed, the stillness threshold; wheel in rad/s) and the resulting still bins. "
+    "Orange band: the 10 s shown in f.",
+    "Zoom into 10 s of e at the native 50 ms resolution: wheel speed (dashed, the 0.05 rad/s movement threshold), motion "
+    "energy (dashed, stillness threshold), still bins and spike counts per 50 ms bin of the 20 most active core-DMN neurons of the session (each row "
+    "scaled to its 99th percentile over the whole period, black = high; labels give region, probe and mean rate). The window was chosen automatically as the one after the "
+    "first 30 s whose still fraction is closest to 0.5 and that contains wheel movement.",
 ]
 save_with_caption(fig, OUTD / "fig2_protocol", caps, label="grey_protocol", number=2)
 png(OUTD / "fig2_protocol")
