@@ -26,6 +26,174 @@
   }
  },
  "tests": {
+  "RI_grey|cons|vs_other_ctx": {
+   "dmn": 0.0128,
+   "other": -0.0494,
+   "diff": 0.0622,
+   "p_perm": 0.21414,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    -0.0204,
+    0.1392
+   ]
+  },
+  "suppressed_grey|cons|vs_other_ctx": {
+   "dmn": 0.4204,
+   "other": 0.3457,
+   "diff": 0.0747,
+   "p_perm": 0.0693,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    0.016,
+    0.1315
+   ]
+  },
+  "enhanced_grey|cons|vs_other_ctx": {
+   "dmn": 0.3588,
+   "other": 0.4151,
+   "diff": -0.0563,
+   "p_perm": 0.25214,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    -0.1214,
+    0.0069
+   ]
+  },
+  "RI_grey_late|cons|vs_other_ctx": {
+   "dmn": -0.0389,
+   "other": -0.0987,
+   "diff": 0.0598,
+   "p_perm": 0.19774,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    -0.0091,
+    0.1299
+   ]
+  },
+  "suppressed_grey_late|cons|vs_other_ctx": {
+   "dmn": 0.3276,
+   "other": 0.2577,
+   "diff": 0.0699,
+   "p_perm": 0.0317,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    0.0212,
+    0.1251
+   ]
+  },
+  "DI|cons|vs_other_ctx": {
+   "dmn": 0.2405,
+   "other": 0.2198,
+   "diff": 0.0207,
+   "p_perm": 0.52612,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    -0.0462,
+    0.0775
+   ]
+  },
+  "RI_grey|cons|vs_higher_order_ctx": {
+   "dmn": 0.0128,
+   "other": -0.0147,
+   "diff": 0.0275,
+   "p_perm": 0.54437,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    -0.0518,
+    0.1165
+   ]
+  },
+  "suppressed_grey|cons|vs_higher_order_ctx": {
+   "dmn": 0.4204,
+   "other": 0.3724,
+   "diff": 0.048,
+   "p_perm": 0.20664,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    -0.0112,
+    0.1095
+   ]
+  },
+  "enhanced_grey|cons|vs_higher_order_ctx": {
+   "dmn": 0.3588,
+   "other": 0.3776,
+   "diff": -0.0189,
+   "p_perm": 0.64242,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    -0.0961,
+    0.0369
+   ]
+  },
+  "RI_grey_late|cons|vs_higher_order_ctx": {
+   "dmn": -0.0389,
+   "other": -0.0677,
+   "diff": 0.0288,
+   "p_perm": 0.49783,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    -0.0311,
+    0.1125
+   ]
+  },
+  "suppressed_grey_late|cons|vs_higher_order_ctx": {
+   "dmn": 0.3276,
+   "other": 0.2724,
+   "diff": 0.0552,
+   "p_perm": 0.0786,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    0.0087,
+    0.1145
+   ]
+  },
+  "DI|cons|vs_higher_order_ctx": {
+   "dmn": 0.2405,
+   "other": 0.2333,
+   "diff": 0.0072,
+   "p_perm": 0.81006,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    -0.0735,
+    0.0624
+   ]
+  },
   "RI_grey|ours_core|vs_other_ctx": {
    "dmn": 0.027,
    "other": -0.0649,

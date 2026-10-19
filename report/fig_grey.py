@@ -18,7 +18,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "bwm"))
 from plotstyle import NATURE_DOUBLE_COL_IN, panel_label, save_with_caption, style_axes  # noqa: E402
-from common import beryl, DMN_ALL, DMN_CORE, DMN_LATERAL, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, WHITESELL_DMN  # noqa: E402
+from common import beryl, CONS_DMN, GRANDJEAN_DMN, MANDINO_DMN, DMN_ALL, DMN_CORE, DMN_LATERAL, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, WHITESELL_DMN  # noqa: E402
 
 BWM = HERE.parent / "bwm" / "output"
 MESO = HERE.parent / "meso" / "output"
@@ -32,14 +32,16 @@ rng = np.random.default_rng(0)
 SUBJ = pd.read_csv(BWM / "bwm_insertions.csv").groupby("eid").subject.first()
 
 
+LIT_DMN = sorted(set(WHITESELL_DMN) | set(LU_DMN) | set(GRANDJEAN_DMN) | set(MANDINO_DMN))
+
+
 def rcol(r):
-    a, b = r in DMN_ALL, r in LU_DMN
-    return C_BOTH if a and b else C_OURS if a else C_LU if b else C_OTH
+    return C_BOTH if r in CONS_DMN else C_OURS if r in LIT_DMN else C_OTH
 
 
 def legend_sets(ax, x=0.99, y=0.97, dy=0.12):
-    for i, (lab, c) in enumerate((("our DMN and Lu et al.", C_BOTH), ("our DMN only", C_OURS),
-                                  ("Lu et al. only", C_LU), ("neither", C_OTH))):
+    for i, (lab, c) in enumerate((("conservative DMN core", C_BOTH), ("other literature DMN", C_OURS),
+                                  ("not DMN in any paper", C_OTH))):
         ax.text(x, y - dy * i, lab, color=c, transform=ax.transAxes, ha="right", va="top", fontsize=6)
 
 
@@ -95,10 +97,9 @@ ax.set_ylabel("sessions")
 style_axes(ax)
 panel_label(ax, "d", x=-0.3)
 
-# example session: median still fraction, full coverage
-E = H[(H.cov_wheel > .99) & (H.cov_me > .99) & (H.dur_s > 590)].copy()
-E["d"] = (E.frac_still - H.frac_still.median()).abs()
-ex = E.sort_values("d").eid.iloc[0]
+# example session: most conservative-core DMN neurons (3 RSP subregions) among sessions with full wheel and camera
+# coverage, 600 s, and median stillness (0.70 vs median 0.69); no session records frontal and RSP core together
+ex = "49e0ab27-827a-4c91-bcaa-97eea27a1b8d"
 s = dict(np.load(BWM / "full" / f"{ex}.npz", allow_pickle=True))
 BIN = float(s["BIN"])
 sp = s["spont"]
@@ -117,7 +118,9 @@ for f in sorted((BWM / "full").glob(f"{ex}_probe*.npz")):
     regs_.append(np.char.add(beryl(p_["atlas_id"]).astype(str), np.full(len(p_["atlas_id"]), f" ({str(p_['probe'])[-2:]})")))
 Xs, regs_ = np.concatenate(Xs), np.concatenate(regs_)
 rates = Xs.sum(1) / ((b - a) * BIN)
-top = np.argsort(rates)[::-1][:20]
+in_core = np.array([r.split(" ")[0] in CONS_DMN for r in regs_])
+top = np.flatnonzero(in_core)[np.argsort(rates[in_core])[::-1][:20]]
+n_core_ex = int(in_core.sum())
 nr = (b - a) // RB
 Rr = Xs[top, : nr * RB].reshape(len(top), nr, RB).sum(2) / (RB * BIN)
 lo_, hi_ = np.percentile(Rr, 1, axis=1, keepdims=True), np.percentile(Rr, 99, axis=1, keepdims=True)
@@ -166,14 +169,14 @@ caps = [
     "Fraction of the period that is still: 50 ms bins without wheel movement ($>$0.05 rad/s), licks or motion energy above the "
     "session's 60th percentile, with a one-bin margin (the first second is skipped); median 6.5 min of 10. In the 35 sessions without "
     "motion energy, stillness rests on wheel and licks only (median fraction 0.81 vs 0.67).",
-    f"Example session with median stillness: wheel speed, left-camera motion energy (normalised to "
-    "the session median; dashed, the stillness threshold; wheel in rad/s), the resulting still bins, and a raster of the "
-    "20 neurons with the highest firing rate in this window (of " + f"{n_neurons_ex}" + " good units on both probes; 0.5 s bins, "
-    "each row scaled between its 1st and 99th percentile, black = high; labels give Beryl region, probe and mean rate). "
-    "This session's probes are in cerebellum and brainstem, so these are not DMN neurons.",
+    f"Example session with neurons in the conservative DMN core (CSH\\_ZAD\\_019, {n_core_ex} of {n_neurons_ex} good units "
+    "in RSPagl, RSPd and RSPv; still fraction 0.70, close to the median): wheel speed, left-camera motion energy "
+    "(normalised to the session median; dashed, the stillness threshold; wheel in rad/s), the resulting still bins, and a "
+    "raster of the 20 most active core-DMN neurons in this window (0.5 s bins, each row scaled between its 1st and 99th "
+    "percentile, black = high; labels give region, probe and mean rate).",
 ]
-save_with_caption(fig, OUTD / "fig1_protocol", caps, label="grey_protocol", number=1)
-png(OUTD / "fig1_protocol")
+save_with_caption(fig, OUTD / "fig2_protocol", caps, label="grey_protocol", number=2)
+png(OUTD / "fig2_protocol")
 
 # ======================================================================= Fig 2: movement vs ITI
 T = pd.read_csv(BWM / "40_spont_timecourse.csv")
@@ -234,8 +237,8 @@ caps = [
     "9 full minutes; 300 s sessions contribute to the first 4): fraction of still bins and of bins with wheel "
     "movement, mean over sessions with 95\\% CI.",
 ]
-save_with_caption(fig, OUTD / "fig2_movement", caps, label="grey_movement", number=2)
-png(OUTD / "fig2_movement")
+save_with_caption(fig, OUTD / "fig3_movement", caps, label="grey_movement", number=3)
+png(OUTD / "fig3_movement")
 
 # ======================================================================= Fig 3: rest preference vs grey screen
 G = json.load(open(BWM / "42_spont_A_G_full.json"))
@@ -258,8 +261,8 @@ ax = fig.add_subplot(sub3[0])
 cm = C.index.intersection(RA.index)
 ax.scatter(RA.loc[cm, "suppressed"] * 100, C.loc[cm, "suppressed_grey"] * 100, s=8, c=[rcol(r) for r in cm], lw=0)
 xmax = RA.loc[cm, "suppressed"].idxmax()
-for r, dx, ha in (("ILA", 1.2, "left"), ("RSPv", 1.2, "left"), ("VISl", 1.2, "left"), ("AUDd", 1.2, "left"),
-                  ("ECT", -1.2, "right"), (xmax, -1.2, "right")):
+for r, dx, ha in (("ORBm", 1.2, "left"), ("RSPv", 1.2, "left"), ("VISl", 1.2, "left"), ("AUDd", 1.2, "left"),
+                  ("ACAd", -1.2, "right"), (xmax, -1.2, "right")):
     if r in cm:
         ax.text(RA.loc[r, "suppressed"] * 100 + dx, C.loc[r, "suppressed_grey"] * 100 + 1.5, r, fontsize=5,
                 va="bottom", ha=ha)
@@ -268,9 +271,8 @@ ax.set_ylabel("suppressed vs grey (%)")
 style_axes(ax)
 panel_label(ax, "b", x=-0.35)
 sub3b = sub3[1].subgridspec(1, 2, wspace=0.12)
-rows = [("ours_core", "our DMN core"), ("ours_core+lateral", "our DMN core + lateral"),
-        ("lu_all", "Lu et al. all"), ("lu_without_auditory", "Lu et al. without AUD"),
-        ("lu_pfc_temporal", "Lu prefrontal-temporal"), ("lu_parietal", "Lu parietal")]
+rows = [("cons", "conservative core"), ("whitesell", "Whitesell et al."), ("lu_all", "Lu et al."),
+        ("lu_without_auditory", "Lu et al. without AUD")]
 for jj, (met, scale, xl) in enumerate((("suppressed_grey", 100, "suppressed (% points)"), ("RI_grey", 1, "rest index RI"))):
     ax = fig.add_subplot(sub3b[jj])
     for i, (k, lab) in enumerate(rows):
@@ -292,19 +294,19 @@ for jj, (met, scale, xl) in enumerate((("suppressed_grey", 100, "suppressed (% p
 caps = [
     f"Percentage of neurons per cortical region (Beryl) significantly suppressed during the task (movement onset, "
     f"movement and feedback windows) relative to still 0.3 s chunks of the grey-screen period (Welch test with one "
-    f"chunk per 3 s, p $<$ 0.01; {G['n_neurons']:,} neurons, {G['n_sessions']} sessions, {G['n_subjects']} mice). Colour: membership in "
-    "our mouse DMN definition (ACA, PL, ILA, ORB, RSP, VISa, VISam + TEa, ECT, PERI) and in the rat DMN of Lu et al. "
-    "(2012) mapped to mouse regions (ORB, PL, ACA, AUDp/d/v, TEa, VISa, VISrl, RSP, VISam, VISpm; CA1 not shown).",
+    f"chunk per 3 s, p $<$ 0.01; {G['n_neurons']:,} neurons, {G['n_sessions']} sessions, {G['n_subjects']} mice). Colour: the conservative "
+    "DMN core (ACA, RSP, PL, ORBm; Fig. 1), regions assigned to the DMN by at least one of the four papers but not in the "
+    "core, and regions in none.",
     f"Per region, the same measure referenced to task ITIs (earlier report) against the grey-screen reference; "
     f"Spearman $\\rho$ = {G['vs_iti_A']['suppressed']:.2f} over {G['vs_iti_A']['n']} regions.",
-    "Difference between each region set and all other cortex in the suppressed fraction (left) and in the "
+    "Difference between the conservative core (and, for comparison, the full Whitesell et al. and Lu et al. sets) and all other cortex in the suppressed fraction (left) and in the "
     "continuous rest index RI = (rest $-$ task)/(rest + task) (right), against all trials (black) or only the last "
     "third of trials, closest in time to the grey screen (blue): 95\\% mouse-bootstrap CI; filled markers, "
     "region-permutation p $<$ 0.05. Note that 81\\% of neurons differ significantly between grey screen and task, so "
     "the suppressed fraction is close to the sign of RI.",
 ]
-save_with_caption(fig, OUTD / "fig3_restpref", caps, label="grey_restpref", number=3)
-png(OUTD / "fig3_restpref")
+save_with_caption(fig, OUTD / "fig4_restpref", caps, label="grey_restpref", number=4)
+png(OUTD / "fig4_restpref")
 
 # ======================================================================= Fig 4: coverage
 P = pd.read_parquet(BWM / f"21_pairs_{BTAG}.pqt")
@@ -312,8 +314,7 @@ P["subject"] = P.eid.map(SUBJ)
 M = pd.read_parquet(BWM / f"21_regions_{BTAG}.pqt")
 keep = (P.c1.eq("Isocortex") | P.r1.eq("CA1")) & (P.c2.eq("Isocortex") | P.r2.eq("CA1"))
 Q = P[keep]
-order_groups = [("Lu prefrontal-temporal", LU_PFC_TEMPORAL), ("Lu parietal", LU_PARIETAL),
-                ("our DMN only", [r for r in DMN_ALL if r not in LU_DMN])]
+order_groups = [("conservative core", CONS_DMN), ("other literature DMN", [r for r in LIT_DMN if r not in CONS_DMN])]
 present = set(Q.r1) | set(Q.r2) | set(M[M.cosmos.eq("Isocortex") | M.region.eq("CA1")].region)
 order, bounds = [], []
 for lab, mem in order_groups:
@@ -342,7 +343,6 @@ for i in range(n):
             ax.plot(j, i, marker="x", ms=3, color=C_OURS, mew=0.8)
 for lab, a, b in bounds[:-1]:
     ax.add_patch(Rectangle((a - .5, a - .5), b - a, b - a, fill=False, ec="k", lw=0.8))
-ax.add_patch(Rectangle((-.5, -.5), bounds[1][2], bounds[1][2], fill=False, ec=C_LU, lw=1.2, ls="--"))
 ax.set_xticks(range(n))
 ax.set_yticks(range(n))
 ax.set_xticklabels(order, rotation=90, fontsize=5)
@@ -356,14 +356,14 @@ cb.set_label("mice with the pair", fontsize=6)
 cb.ax.tick_params(labelsize=5)
 panel_label(ax, "a", x=-0.03, y=1.0)
 ax = fig.add_subplot(gs[1, 0])
-k_ours = M[M.region.isin(DMN_ALL)].groupby("eid").region.nunique().reindex(M.eid.unique(), fill_value=0)
+k_ours = M[M.region.isin(CONS_DMN)].groupby("eid").region.nunique().reindex(M.eid.unique(), fill_value=0)
 k_lu = M[M.region.isin(LU_DMN)].groupby("eid").region.nunique().reindex(M.eid.unique(), fill_value=0)
 xs = np.arange(0, 6)
-ax.bar(xs - .2, [(k_ours == x).sum() for x in xs], width=.4, color=C_OURS, label="ours")
+ax.bar(xs - .2, [(k_ours == x).sum() for x in xs], width=.4, color=C_BOTH, label="core")
 ax.bar(xs + .2, [(k_lu == x).sum() for x in xs], width=.4, color=C_LU, label="Lu et al.")
 ax.set_xlabel("DMN regions per session")
 ax.set_ylabel("sessions")
-ax.text(0.98, 0.95, "our DMN (core + lateral)", color=C_OURS, transform=ax.transAxes, ha="right", fontsize=6, va="top")
+ax.text(0.98, 0.95, "conservative core", color=C_BOTH, transform=ax.transAxes, ha="right", fontsize=6, va="top")
 ax.text(0.98, 0.83, "Lu et al.", color=C_LU, transform=ax.transAxes, ha="right", fontsize=6, va="top")
 style_axes(ax)
 ax.set_xticks(range(0, 6))
@@ -377,8 +377,8 @@ style_axes(ax)
 panel_label(ax, "c", x=-0.4)
 ax = fig.add_subplot(gs[1, 2])
 J = json.load(open(BWM / f"41_spont_network_{BTAG}.json"))
-labels = ["our DMN core", "our core + lateral", "Lu et al."]
-keys = ["ours_core", "ours_all", "lu"]
+labels = ["conservative core", "Whitesell et al.", "Lu et al."]
+keys = ["cons", "whitesell", "lu"]
 poss = [J["coverage"][k]["n_possible_edges"] for k in keys]
 anyp = [J["coverage"][k]["n_edges_any"] for k in keys]
 ge3 = [J["coverage"][k]["n_edges_ge3_mice"] for k in keys]
@@ -403,24 +403,23 @@ caps = [
     f"recorded ($\\geq$5 neurons each) in the same session with $\\geq$120 still 1 s bins. Of 319 sessions (116 mice) "
     f"with enough still bins, 308 (114 mice) yield region signals and {J['n_sessions']} ({J['n_mice']} mice) record at "
     f"least one such pair. Orange crosses: at least one session records the pair on two different probes. Boxes: "
-    "the two modules of Lu et al. (prefrontal-temporal, parietal) and the regions only in our DMN (ILA, ECT, PERI; "
-    "no pair among them is recorded, so that box is empty); dashed green: the full Lu et al. network. Tick colours as in Fig. 3.",
+    "the conservative DMN core and the other regions assigned to the DMN by at least one paper (Fig. 1). Tick colours "
+    "as in Fig. 4.",
     "Number of DMN regions recorded per session, by definition.",
     "Number of cortical regions recorded per session; most sessions record none or one.",
     "Edges (region pairs) within each DMN definition: possible (light grey), recorded at least once (light blue), "
-    f"recorded in $\\geq$3 mice (blue) and recorded on two different probes in $\\geq$3 mice (orange), top to bottom. The hub edge of Lu et al., prefrontal (ACA/PL/ORB) to RSP, is recorded "
+    f"recorded in $\\geq$3 mice (blue) and recorded on two different probes in $\\geq$3 mice (orange), top to bottom. The frontal-to-RSP edge at the centre of every DMN map (ACA/PL/ILA/ORB to RSP) is recorded "
     f"in {J['lu_hub_pfc_rsp']['n_sessions']} sessions.",
 ]
-save_with_caption(fig, OUTD / "fig4_coverage", caps, label="grey_coverage", number=4)
-png(OUTD / "fig4_coverage")
+save_with_caption(fig, OUTD / "fig5_coverage", caps, label="grey_coverage", number=5)
+png(OUTD / "fig5_coverage")
 
 # ======================================================================= Fig 5: BWM coupling
 J5 = json.load(open(BWM / f"41_spont_network_spont_motion_0.5s_still.json"))
 fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 3.6))
 gs = fig.add_gridspec(2, 3, width_ratios=[1.3, 1.1, 0.9], hspace=0.7, wspace=0.85)
 ax = fig.add_subplot(gs[:, 0])
-sets = [("ours_core", "our core"), ("ours_core+lateral", "our core+lat."), ("lu_all", "Lu all"),
-        ("lu_pfc_temporal", "Lu pf-temporal"), ("lu_parietal", "Lu parietal")]
+sets = [("cons", "cons. core"), ("whitesell", "Whitesell"), ("lu_all", "Lu et al.")]
 yl, yt = [], []
 yy = 0
 for k, lab in sets:
@@ -447,14 +446,11 @@ ax.set_xlabel("DMN-DMN minus DMN-other\n(distance residual, z)")
 style_axes(ax, categorical_y=True)
 panel_label(ax, "a", x=-1.05, y=1.02)
 # edges with >= 3 mice
-EO = pd.read_csv(BWM / f"41_edges_ours_all_{BTAG}.csv")
-EL = pd.read_csv(BWM / f"41_edges_lu_{BTAG}.csv")
-EE = pd.concat([EO, EL]).drop_duplicates(["r1", "r2"])
+EE = pd.concat([pd.read_csv(BWM / f"41_edges_{k}_{BTAG}.csv") for k in ("cons", "whitesell", "lu")]).drop_duplicates(["r1", "r2"])
 EE = EE[EE.n_mice >= 3].sort_values("mouse_mean")
 ax = fig.add_subplot(gs[:, 1])
 for i, (_, e) in enumerate(EE.iterrows()):
-    a1, b1 = e.r1 in DMN_ALL and e.r2 in DMN_ALL, e.r1 in LU_DMN and e.r2 in LU_DMN
-    col = C_BOTH if a1 and b1 else C_OURS if a1 else C_LU
+    col = C_BOTH if (e.r1 in CONS_DMN and e.r2 in CONS_DMN) else C_OURS
     ax.plot([e.ci_lo, e.ci_hi], [i, i], color=col, lw=0.9)
     ax.plot(e.mouse_mean, i, "o", color=col, ms=2.8)
 ax.axvline(0, color="k", lw=0.5, ls=":")
@@ -481,7 +477,7 @@ panel_label(ax, "c", x=-0.6)
 ax = fig.add_subplot(gs[1, 2])
 W = J["within"]
 ks = [k for k, _ in sets if k in W and W[k]["n_mice"] >= 5]
-ax.bar(range(len(ks)), [W[k]["mean"] for k in ks], color=[C_BOTH if k.startswith("ours") else C_LU for k in ks])
+ax.bar(range(len(ks)), [W[k]["mean"] for k in ks], color=[C_BOTH if k == "cons" else C_OURS for k in ks])
 for i, k in enumerate(ks):
     ax.text(i, max(W[k]["mean"], 0) + .01, f"{W[k]['n_mice']}", ha="center", fontsize=5)
 ax.set_xticks(range(len(ks)))
@@ -496,17 +492,17 @@ caps = [
     "for each region set, all pairs (circles) and pairs on different probes only (squares), 1 s (black) and 0.5 s "
     "(grey) bins; 95\\% mouse-bootstrap CI; number of mice with a DMN-DMN pair in brackets. Orange tick: the 1 s "
     "estimate after dropping the single most coupled DMN-DMN pair. The distance baseline uses cortical and CA1 pairs only. "
-    "With about 20 such contrasts, CIs that just exclude 0 would not survive correction.",
-    "Every DMN edge (either definition) recorded in $\\geq$3 mice: mean over mice of the residual coupling, 95\\% "
-    "bootstrap CI; brackets give the number of mice and the median distance between the two regions. Blue: edge in both definitions; orange: our definition only; green: Lu et "
-    "al. only.",
+    "With about 20 such contrasts, CIs that just exclude 0 would not survive correction. The conservative core has only 4 "
+    "cross-probe DMN-DMN pairs (4 mice), too few to estimate.",
+    "Every DMN edge (conservative core, Whitesell et al. or Lu et al.) recorded in $\\geq$3 mice: mean over mice of the "
+    "residual coupling, 95\\% bootstrap CI; brackets give the number of mice and the median distance between the two "
+    "regions. Blue: both regions in the conservative core; orange: other literature DMN edges.",
     "Cross-validated rest-preference network: cortical regions ranked by grey-screen rest preference (RI) in one half of the "
     "mice (terciles), coupling measured in the other half; mean and 2.5--97.5\\% range over 400 half-splits; rest--rest exceeds rest--task in 52\\% of splits.",
-    "Within-session contrast DMN-DMN minus DMN-other, mean over mice (number of mice above bars; Lu parietal has only "
-    "2 mice and is not shown).",
+    "Within-session contrast DMN-DMN minus DMN-other, mean over mice (number of mice above bars).",
 ]
-save_with_caption(fig, OUTD / "fig5_coupling", caps, label="grey_coupling", number=5)
-png(OUTD / "fig5_coupling")
+save_with_caption(fig, OUTD / "fig6_coupling", caps, label="grey_coupling", number=6)
+png(OUTD / "fig6_coupling")
 
 # ======================================================================= Fig 6: mesoscope grey screen
 MJ = json.load(open(MESO / "33_spont_meso_me.json"))
@@ -515,7 +511,7 @@ MP = pd.read_parquet(MESO / "33_spont_pairs_me.pqt")
 fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 3.0))
 gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1.25, 1.0], wspace=0.7)
 ax = fig.add_subplot(gs[0, 0])
-for i, (k, lab, mem) in enumerate((("ours_core", "our DMN core", DMN_CORE), ("lu_all", "Lu et al. all", LU_DMN))):
+for i, (k, lab, mem) in enumerate((("cons", "conservative core", CONS_DMN), ("lu_all", "Lu et al.", LU_DMN))):
     d1, d2 = MP.r1.isin(mem), MP.r2.isin(mem)
     cl = np.where(d1 & d2, "dmn-dmn", np.where(d1 | d2, "dmn-other", "other-other"))
     mm = MP.assign(cl=cl).groupby(["subject", "cl"]).resid.mean().unstack()
@@ -587,17 +583,17 @@ caps = [
     f"energy to verify stillness, {MJ['n_sessions_with_pairs']} sessions, {MJ['n_mice_with_pairs']} mice "
     f"(all {MJA['n_sessions_long_spont']} long sessions, without the motion-energy requirement, give the same ordering). Region-averaged calcium activity in "
     "still 1 s bins with nuisance regression; coupling as residual from the distance-matched mean; dots are mice, black "
-    "mean and 95\\% mouse-bootstrap CI; numbers at the bottom give the mice per class (DMN-DMN pairs come from 2 mice, "
-    "mostly adjacent VISa-VISam). No frontal DMN region is imaged in these sessions; the wheel is logged in only 8 of "
+    "mean and 95\\% mouse-bootstrap CI; numbers at the bottom give the mice per class (the mesoscope images "
+    "only the RSP part of the conservative core, giving a single core-core pair, RSPagl-RSPd, from one mouse). No frontal DMN region is imaged in these sessions; the wheel is logged in only 8 of "
     "the 23 long sessions.",
     "Residual coupling of every imaged region pair present in $\\geq$2 mice (grey: pair not imaged in $\\geq$2 mice; regions without any such pair omitted), ordered posterior DMN, Lu temporal "
-    "(TEa, AUD), visual, somatosensory, motor; tick colours as in Fig. 3.",
+    "(TEa, AUD), visual, somatosensory, motor; tick colours as in Fig. 4.",
     "Mean residual coupling of each region with all other imaged regions (pairs in $\\geq$2 mice). VISa and VISam are "
     "the most coupled regions together with trunk somatosensory cortex (SSp-tr); RSP has too few pairs in this subset; "
     "the auditory areas and TEa (Lu et al. temporal module) are among the least coupled.",
 ]
-save_with_caption(fig, OUTD / "fig6_meso", caps, label="grey_meso", number=6)
-png(OUTD / "fig6_meso")
+save_with_caption(fig, OUTD / "fig7_meso", caps, label="grey_meso", number=7)
+png(OUTD / "fig7_meso")
 
 # ======================================================================= Fig 7: single-region metrics
 SR = json.load(open(BWM / "43_single_region.json"))
@@ -620,8 +616,7 @@ for row, (R_, col, lab, let) in enumerate(((RN, "fALFF_adj", "fALFF\n(rate-adjus
         legend_sets(ax, x=0.3, y=0.42)
     panel_label(ax, let, x=-0.05)
 ax = fig.add_subplot(gs[2, :2])
-sets7 = [("ours_core", "our DMN core"), ("ours_core+lateral", "our core + lateral"), ("whitesell", "Whitesell et al."),
-         ("lu_all", "Lu et al.")]
+sets7 = [("cons", "conservative core"), ("whitesell", "Whitesell et al."), ("lu_all", "Lu et al.")]
 mets = [("fALFF_adj", "fALFF", "k", 1), ("CV_adj", "CV", C_OTH, 0.1), ("sync_adj", "synchrony", C_GREY, 1)]
 for i, (k, lab) in enumerate(sets7):
     for j, (m, ml, col, sc) in enumerate(mets):
@@ -651,7 +646,7 @@ caps = [
     f"Single-region resting metrics need no co-recording, so they pool across animals ({SR['n_neurons']:,} neurons, "
     f"{SR['n_sessions']} sessions, {SR['n_mice']} mice). fALFF per neuron: fraction of 0.01--0.1 Hz power in the 1 s "
     "binned rate over the whole grey-screen period after regressing wheel, licks and motion energy (the analogue of "
-    "fMRI fALFF), residualised on log firing rate, averaged per cortical region. Colours as in Fig. 3. The map is "
+    "fMRI fALFF), residualised on log firing rate, averaged per cortical region. Colours as in Fig. 4. The map is "
     f"reproducible across halves of the mice (Spearman--Brown {SR['reliability']['fALFF_adj']['spearman_brown']:.2f}) but DMN regions "
     "are spread throughout it.",
     f"Local synchrony (ReHo analogue): mean pairwise correlation between neurons of a region on one probe in still 1 s "
@@ -659,11 +654,11 @@ caps = [
     "Difference between each DMN definition and other cortex for fALFF, fluctuation amplitude (coefficient of "
     "variation, CV, scaled by 0.1) and local synchrony, all rate-adjusted: 95\\% mouse-bootstrap CI; filled markers "
     "region-permutation p $<$ 0.05 (uncorrected).",
-    f"Per region, grey-screen rest preference (RI, Fig. 3) against fALFF: Spearman $\\rho$ = "
+    f"Per region, grey-screen rest preference (RI, Fig. 4) against fALFF: Spearman $\\rho$ = "
     f"{SR['vs_RI_grey_neuron']['fALFF_adj']:.2f}; the two single-region measures are unrelated.",
 ]
-save_with_caption(fig, OUTD / "fig7_single_region", caps, label="grey_single", number=7)
-png(OUTD / "fig7_single_region")
+save_with_caption(fig, OUTD / "fig8_single_region", caps, label="grey_single", number=8)
+png(OUTD / "fig8_single_region")
 
 # ======================================================================= Fig S1: three DMN definitions, rest preference
 GS = json.load(open(BWM / "42_spont_A_G_full.json"))
@@ -680,8 +675,8 @@ style_axes(ax, categorical_x=True)
 ax.spines["bottom"].set_visible(False)
 panel_label(ax, "a", x=-0.05)
 ax = fig.add_subplot(sub[1])
-defs = [("our core", DMN_CORE, C_BOTH), ("our lateral", DMN_LATERAL, C_OURS), ("Whitesell", WHITESELL_DMN, "#6250d6"),
-        ("Lu et al.", LU_DMN, C_LU)]
+defs = [("cons. core", CONS_DMN, C_BOTH), ("Whitesell", WHITESELL_DMN, "#6250d6"), ("Grandjean", GRANDJEAN_DMN, "#eda100"),
+        ("Mandino", MANDINO_DMN, "#e34948"), ("Lu et al.", LU_DMN, C_LU)]
 for i, (lab, mem, col) in enumerate(defs):
     for j, r in enumerate(CS.index):
         if r in mem:
@@ -695,8 +690,7 @@ ax.set_xticklabels(CS.index, rotation=60, ha="right", fontsize=5)
 for sp_ in ("top", "right", "left", "bottom"):
     ax.spines[sp_].set_visible(False)
 ax.tick_params(length=0)
-rowsS = [("ours_core", "our DMN core"), ("ours_core+lateral", "our core + lateral"), ("whitesell", "Whitesell et al."),
-         ("lu_all", "Lu et al.")]
+rowsS = [("cons", "conservative core"), ("whitesell", "Whitesell et al."), ("lu_all", "Lu et al.")]
 for jj, (met, scale, xl) in enumerate((("suppressed_grey", 100, "suppressed (% points)"), ("RI_grey", 1, "rest index RI"))):
     ax = fig.add_subplot(gs[1, jj])
     for i, (k, lab) in enumerate(rowsS):
@@ -719,15 +713,13 @@ for jj, (met, scale, xl) in enumerate((("suppressed_grey", 100, "suppressed (% p
                                          ("vs higher-order cortex", C_OTH))):
             ax.text(1.0, 1.25 - t_ * 0.1, lab, color=col, fontsize=5.5, transform=ax.transAxes, ha="right")
 caps = [
-    "Task-suppressed neurons per cortical region relative to the grey screen (as Fig. 3a, grey bars), with region "
-    "membership in four DMN definitions underneath. Whitesell et al. (2021): cortical regions with $>$50\\% of voxels "
-    "in the core DMN mask of mouse rsfMRI group ICA, registered to the Allen CCFv3 (ACA, PL, ILA, ORB, RSP, VISa, "
-    "VISam, SSp-tr, SSp-ll, MOs). They do not include TEa, ECT or PERI (our lateral extension), which lie in their "
-    "separate lateral cortical network.",
-    "Each definition minus other cortex (black), the same against only the last third of trials (blue), and minus "
+    "Task-suppressed neurons per cortical region relative to the grey screen (as Fig. 4a, grey bars), with region "
+    "membership in the conservative core and the four published DMN maps underneath (Fig. 1). Whitesell et al. (2021): "
+    "cortical regions with $>$50\\% of voxels in the core DMN mask of mouse rsfMRI group ICA registered to the Allen "
+    "CCFv3; they place TEa, ECT and PERI in a separate lateral cortical network.",
+    "The conservative core and the full Whitesell et al. and Lu et al. sets minus other cortex (black), the same against only the last third of trials (blue), and minus "
     "higher-order cortex only (grey): 95\\% mouse-bootstrap CI; filled markers, region-permutation p $<$ 0.05. The "
-    "Whitesell set is weaker than ours because it adds the task-driven SSp-tr, SSp-ll and MOs and leaves out TEa, "
-    "ECT and PERI.",
+    "Whitesell set is weaker than the core because it adds the task-driven SSp-tr, SSp-ll and MOs.",
 ]
 save_with_caption(fig, OUTD / "figS1_whitesell_restpref", caps, label="grey_s1", number=1, prefix="S")
 png(OUTD / "figS1_whitesell_restpref")
@@ -761,7 +753,7 @@ cb.ax.tick_params(labelsize=5)
 panel_label(ax, "a", x=-0.3, y=1.25)
 ax = fig.add_subplot(gs[1])
 M5 = json.load(open(MESO / "33_spont_meso_me.json"))
-rowsC = [("ours_core", "our core"), ("whitesell", "Whitesell"), ("lu_all", "Lu et al.")]
+rowsC = [("cons", "cons. core"), ("whitesell", "Whitesell"), ("lu_all", "Lu et al.")]
 yt, yy = [], 0
 for k, lab in rowsC:
     for nm, v, mk in (("BWM all pairs", J["classes"][f"{k}|cortex"].get("dmn-dmn minus dmn-other"), "o"),

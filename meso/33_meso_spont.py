@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "bwm"))
-from common import DMN_ALL, DMN_CORE, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, WHITESELL_DMN  # noqa: E402
+from common import DMN_ALL, DMN_CORE, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, WHITESELL_DMN, CONS_DMN  # noqa: E402
 
 OUT = Path(__file__).resolve().parent / "output"
 MIN_DUR = float(sys.argv[1]) if len(sys.argv) > 1 else 200
@@ -117,7 +117,7 @@ if __name__ == "__main__":
         return [round(float(f(np.ones(len(Q)))), 4)] + np.nanquantile(bs, [.025, .975]).round(4).tolist()
 
     out["classes"] = {}
-    for sname, mem in (("ours_core", DMN_CORE), ("ours_core+lateral", DMN_ALL), ("lu_all", LU_DMN),
+    for sname, mem in (("cons", CONS_DMN), ("ours_core", DMN_CORE), ("ours_core+lateral", DMN_ALL), ("lu_all", LU_DMN),
                        ("lu_pfc_temporal", LU_PFC_TEMPORAL), ("lu_parietal", LU_PARIETAL), ("whitesell", WHITESELL_DMN)):
         d1, d2 = P.r1.isin(mem), P.r2.isin(mem)
         cl = np.where(d1 & d2, "dmn-dmn", np.where(d1 | d2, "dmn-other", "other-other"))
@@ -131,6 +131,7 @@ if __name__ == "__main__":
                                     z=("z", "mean"), dist=("dist_mm", "mean")).reset_index()
     E["lu_edge"] = E.r1.isin(LU_DMN) & E.r2.isin(LU_DMN)
     E["ours_edge"] = E.r1.isin(DMN_ALL) & E.r2.isin(DMN_ALL)
+    E["cons_edge"] = E.r1.isin(CONS_DMN) & E.r2.isin(CONS_DMN)
     E["whitesell_edge"] = E.r1.isin(WHITESELL_DMN) & E.r2.isin(WHITESELL_DMN)
     E.to_csv(OUT / f"33_spont_edges{SUF}.csv", index=False)
     print(json.dumps({k: v for k, v in out.items() if k not in ("sessions",)}, indent=1, default=str))

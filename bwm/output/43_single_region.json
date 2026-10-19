@@ -36,6 +36,118 @@
   }
  },
  "tests": {
+  "fALFF|cons|vs_other_ctx": {
+   "dmn": 0.2935,
+   "other": 0.2872,
+   "diff": 0.0063,
+   "p_perm": 0.61867,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    -0.0131,
+    0.0228
+   ]
+  },
+  "CV|cons|vs_other_ctx": {
+   "dmn": 0.9249,
+   "other": 1.0715,
+   "diff": -0.1466,
+   "p_perm": 0.00265,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    -0.2004,
+    -0.0848
+   ]
+  },
+  "fALFF_adj|cons|vs_other_ctx": {
+   "dmn": 0.0015,
+   "other": 0.0011,
+   "diff": 0.0005,
+   "p_perm": 0.9669,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    -0.0173,
+    0.0172
+   ]
+  },
+  "CV_adj|cons|vs_other_ctx": {
+   "dmn": -0.1392,
+   "other": -0.0782,
+   "diff": -0.0609,
+   "p_perm": 0.14269,
+   "n": [
+    7,
+    36
+   ],
+   "subject_boot_ci95": [
+    -0.1194,
+    -0.023
+   ]
+  },
+  "fALFF|cons|vs_higher_order_ctx": {
+   "dmn": 0.2935,
+   "other": 0.2809,
+   "diff": 0.0126,
+   "p_perm": 0.36503,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    -0.0042,
+    0.0294
+   ]
+  },
+  "CV|cons|vs_higher_order_ctx": {
+   "dmn": 0.9249,
+   "other": 1.0814,
+   "diff": -0.1565,
+   "p_perm": 0.00395,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    -0.2113,
+    -0.0871
+   ]
+  },
+  "fALFF_adj|cons|vs_higher_order_ctx": {
+   "dmn": 0.0015,
+   "other": -0.0031,
+   "diff": 0.0046,
+   "p_perm": 0.74181,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    -0.011,
+    0.0215
+   ]
+  },
+  "CV_adj|cons|vs_higher_order_ctx": {
+   "dmn": -0.1392,
+   "other": -0.0999,
+   "diff": -0.0392,
+   "p_perm": 0.35223,
+   "n": [
+    7,
+    24
+   ],
+   "subject_boot_ci95": [
+    -0.0951,
+    0.0055
+   ]
+  },
   "fALFF|ours_core|vs_other_ctx": {
    "dmn": 0.2958,
    "other": 0.2852,
@@ -706,6 +818,62 @@
    "subject_boot_ci95": [
     -0.0259,
     0.1529
+   ]
+  },
+  "sync|cons|vs_other_ctx": {
+   "dmn": 0.0521,
+   "other": 0.0625,
+   "diff": -0.0104,
+   "p_perm": 0.54342,
+   "n": [
+    7,
+    28
+   ],
+   "subject_boot_ci95": [
+    -0.0348,
+    0.0138
+   ]
+  },
+  "sync_adj|cons|vs_other_ctx": {
+   "dmn": -0.0123,
+   "other": -0.0024,
+   "diff": -0.01,
+   "p_perm": 0.56932,
+   "n": [
+    7,
+    28
+   ],
+   "subject_boot_ci95": [
+    -0.0343,
+    0.0141
+   ]
+  },
+  "sync|cons|vs_higher_order_ctx": {
+   "dmn": 0.0521,
+   "other": 0.0493,
+   "diff": 0.0028,
+   "p_perm": 0.82296,
+   "n": [
+    7,
+    18
+   ],
+   "subject_boot_ci95": [
+    -0.0159,
+    0.0253
+   ]
+  },
+  "sync_adj|cons|vs_higher_order_ctx": {
+   "dmn": -0.0123,
+   "other": -0.0162,
+   "diff": 0.0039,
+   "p_perm": 0.76156,
+   "n": [
+    7,
+    18
+   ],
+   "subject_boot_ci95": [
+    -0.0151,
+    0.0265
    ]
   },
   "sync|ours_core|vs_other_ctx": {

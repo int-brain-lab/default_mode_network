@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import wilcoxon
 
-from common import DMN_ALL, DMN_CORE, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, OUT, WHITESELL_DMN
+from common import DMN_ALL, DMN_CORE, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, OUT, WHITESELL_DMN, CONS_DMN
 
 BTAG = sys.argv[1] if len(sys.argv) > 1 else "spont_motion_1s_still"
 ATAG = sys.argv[2] if len(sys.argv) > 2 else "G_full"
@@ -84,7 +84,7 @@ def edge_table(mem, name):
             "n_edges_cross_probe_ge3_mice": int((E.n_cross_mice >= 3).sum()) if len(E) else 0}
 
 
-res["coverage"] = {"ours_core": edge_table(DMN_CORE, "ours_core"), "ours_all": edge_table(DMN_ALL, "ours_all"),
+res["coverage"] = {"cons": edge_table(CONS_DMN, "cons"), "ours_core": edge_table(DMN_CORE, "ours_core"), "ours_all": edge_table(DMN_ALL, "ours_all"),
                    "lu": edge_table(LU_DMN, "lu"), "whitesell": edge_table(WHITESELL_DMN, "whitesell")}
 # Lu hub edges: prefrontal (ACA, PL, ORB) x RSP
 pfc = ["ACAd", "ACAv", "PL", "ORBm", "ORBl", "ORBvl", "ILA"]
@@ -104,7 +104,7 @@ def classes(Q, mem):
     return np.where(d1 & d2, "dmn-dmn", np.where(d1 | d2, "dmn-other", "other-other"))
 
 
-SETS = {"ours_core": DMN_CORE, "ours_core+lateral": DMN_ALL, "lu_all": LU_DMN,
+SETS = {"cons": CONS_DMN, "ours_core": DMN_CORE, "ours_core+lateral": DMN_ALL, "lu_all": LU_DMN,
         "lu_pfc_temporal": LU_PFC_TEMPORAL, "lu_parietal": LU_PARIETAL, "whitesell": WHITESELL_DMN}
 res["classes"] = {}
 for sname, mem in SETS.items():

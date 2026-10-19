@@ -74,78 +74,118 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 
 <div class="wrap">
   <header>
-    <div class="eyebrow">IBL Brain Wide Map · default mode network pilot · v4, 17 Oct 2026</div>
+    <div class="eyebrow">IBL Brain Wide Map · default mode network pilot · v5, 19 Oct 2026</div>
     <h1>Evidence for default mode network activation in IBL data</h1>
     <p class="authors">International Brain Laboratory, Michael Schartner, Claude Opus 5.5</p>
-    <p class="lead">After the task, 396 of 426 BWM sessions have a passive block in which the screen is uniformly grey and nothing is presented (600&nbsp;s in most sessions, 300&nbsp;s in 55). It is the closest the dataset comes to a resting-state recording, although the mouse still moves for about a third of it. This report characterises that block and uses it as the rest condition for testing default-mode-network (DMN) signatures. It also maps which region pairs can be tested at all, and compares the result with two published rodent DMN maps: the rat DMN of Lu et al. (2012) and the mouse DMN of Whitesell et al. (2021). An earlier analysis used task inter-trial intervals (ITIs) as rest; where results come from there, the report says so.</p>
+    <p class="lead">After the task, 396 of 426 BWM sessions have a passive block in which the screen is uniformly grey and nothing is presented (600&nbsp;s in most sessions, 300&nbsp;s in 55). It is the closest the dataset comes to a resting-state recording, although the mouse still moves for about a third of it. This report first fixes which brain regions count as default mode network (DMN), using four published rodent DMN maps. It then characterises the grey-screen block and uses it as the rest condition. Last, it tests whether those regions are more active at rest than during the task, and maps which region pairs can be tested for co-activation.</p>
     <nav aria-label="Sections">
-      <a href="#abstract">Abstract</a><a href="#terms">Terms</a><a href="#period">The period</a><a href="#movement">Movement</a><a href="#restpref">Rest preference</a><a href="#coverage">Which pairs</a><a href="#coupling">Coupling</a><a href="#meso">Mesoscope</a><a href="#single">Single regions</a><a href="#lu">Literature</a><a href="#verdict">How convincing</a><a href="#si">SI figures</a><a href="#methods">Methods</a><a href="#notes">Notes</a><a href="#history">Revisions</a>
+      <a href="#abstract">Abstract</a><a href="#terms">Terms</a><a href="#regions">DMN regions</a><a href="#period">The period</a><a href="#movement">Movement</a><a href="#restpref">Rest preference</a><a href="#coverage">Which pairs</a><a href="#coupling">Coupling</a><a href="#meso">Mesoscope</a><a href="#single">Single regions</a><a href="#verdict">How convincing</a><a href="#si">SI figures</a><a href="#methods">Methods</a><a href="#notes">Notes</a><a href="#history">Revisions</a>
     </nav>
   </header>
 
   <section class="abstract" id="abstract" aria-labelledby="h-abstract">
     <h2 id="h-abstract">Abstract</h2>
-    <p>The grey-screen period is the first block of the IBL passive protocol. It starts a median 1.1&nbsp;min after the last trial and lasts 600&nbsp;s in 86% of 396 sessions (300&nbsp;s in the rest). The mice are calmer than in task ITIs: the wheel moves in 14% of 50&nbsp;ms bins instead of 48%, and motion energy is half as high, while pupil size is unchanged. Stillness comes in short bouts (median 0.85&nbsp;s), and a median of 6.5 of the 10&nbsp;minutes passes a strict stillness criterion.</p>
-    <p>We tested two kinds of indicators of DMN activity during this rest.</p>
+    <p><strong>Which regions.</strong> Four rodent resting-state fMRI studies define the DMN differently (Figure 1). We restrict the analysis to the regions they agree on most: ACA and RSP, which all four include, plus PL and ORBm, which three include. This conservative core has seven Allen (Beryl) regions: ACAd, ACAv, PL, ORBm, RSPagl, RSPd and RSPv.</p>
+    <p><strong>The rest condition.</strong> The grey-screen block starts a median 1.1&nbsp;min after the last trial. The mice are calmer than between trials: the wheel moves in 14% of 50&nbsp;ms bins instead of 48%, motion energy is half as high, and pupil size is unchanged. Stillness comes in short bouts (median 0.85&nbsp;s); a median of 6.5 of the 10 minutes passes a strict stillness criterion.</p>
+    <p><strong>Indicators tested.</strong></p>
     <ul>
       <li><strong>Single-region indicators</strong> need only one region per recording, so they pool across all mice:
         <ul>
-          <li>rest preference: how much more a region's neurons fire at rest than during movement and feedback (the fMRI "task-negative" deactivation; measures below);</li>
-          <li>the amplitude and slowness of resting fluctuations (analogues of fMRI ALFF/fALFF);</li>
-          <li>local synchrony between neighbouring neurons (an analogue of fMRI ReHo).</li>
+          <li>rest preference: higher firing at rest than during movement and feedback, the fMRI "task-negative" deactivation;</li>
+          <li>the amplitude and slowness of resting fluctuations, analogues of fMRI ALFF/fALFF;</li>
+          <li>local synchrony between a region's neurons, an analogue of fMRI ReHo.</li>
         </ul>
       </li>
-      <li><strong>Between-region indicators</strong> are co-activation of region pairs at rest, the defining measure of fMRI resting-state networks. They need two regions recorded at the same time.</li>
+      <li><strong>Between-region indicators:</strong> co-activation of region pairs at rest, the defining measure of resting-state networks. These need two regions recorded at the same time.</li>
     </ul>
     <p><strong>How higher activity at rest is measured:</strong></p>
     <ul>
       <li><strong>Per neuron:</strong> the firing rate in still grey-screen bins (0.3&nbsp;s chunks with no wheel movement, licks or high motion energy) is compared with the per-trial rate in the task windows around movement onset, movement and feedback.</li>
       <li><strong>Rest index:</strong> RI&nbsp;=&nbsp;(rest&nbsp;−&nbsp;task)/(rest&nbsp;+&nbsp;task).</li>
       <li><strong>Suppressed neuron:</strong> rest is significantly higher than task (Welch t-test, one rest chunk per 3&nbsp;s, p&nbsp;&lt;&nbsp;0.01).</li>
-      <li><strong>Region level:</strong> mean RI and fraction of suppressed neurons per region. Each DMN set is compared with the rest of cortex using a region permutation test and a bootstrap over mice.</li>
+      <li><strong>Region level:</strong> mean RI and fraction of suppressed neurons per region. The core is compared with the rest of cortex by region permutation and a bootstrap over mice.</li>
     </ul>
-    <p>Only rest preference singles out DMN regions. On average 44% of neurons per region in our DMN set are suppressed during the task, against 31% in the rest of cortex (p&nbsp;&lt;&nbsp;0.001). This holds against higher-order cortex alone, against only the last third of trials (a drift control), and for the continuous rest index. The resting fluctuation and synchrony metrics give reproducible maps, but DMN regions are not special in them.</p>
-    <p>The rest-preference effect depends on which published DMN is used:</p>
+    <p><strong>Results.</strong></p>
     <ul>
-      <li><strong>Whitesell et al.</strong> (mouse rsfMRI): weaker, because their set adds task-driven SSp-tr, SSp-ll and MOs and leaves out TEa, ECT and PERI.</li>
-      <li><strong>Lu et al.</strong> (rat rsfMRI): not significant, because their set adds auditory cortex, VISrl and VISpm.</li>
+      <li><strong>Rest preference is only modestly higher in the core.</strong> On average 42% of neurons per core region are suppressed during the task, against 35% in the rest of cortex. The mouse-bootstrap CI excludes zero, but the region permutation test does not (p&nbsp;=&nbsp;0.07). Against only the last third of trials the difference is p&nbsp;=&nbsp;0.03.
+        <ul>
+          <li>ORBm, RSPv and RSPagl are among the most suppressed cortical regions; ACAd and ACAv are below the median.</li>
+          <li>The difference is not significant against higher-order cortex alone, or for the continuous rest index.</li>
+          <li>The stronger effect in earlier versions of this report came largely from ILA, ECT, PERI and TEa, which are not in the core.</li>
+        </ul>
+      </li>
+      <li><strong>Resting fluctuation and synchrony</strong> do not distinguish the core from other cortex.</li>
+      <li><strong>Pair co-activation is essentially untestable.</strong>
+        <ul>
+          <li>Only 7 of the 21 possible core pairs are ever recorded, all between neighbouring areas.</li>
+          <li>No session records frontal core and RSP together, so the frontal–retrosplenial link at the centre of every DMN map is never measured.</li>
+          <li>On the pairs that exist, core–core coupling equals core–other coupling.</li>
+          <li>The mesoscope images only the RSP part of the core.</li>
+        </ul>
+      </li>
     </ul>
-    <p>Pair co-activation is essentially untestable. Recorded DMN pairs are all neighbours (frontal–frontal, RSP–RSP or CA1–posterior). The prefrontal–retrosplenial edge, which both papers place at the centre of the network, is never recorded in one session. On the pairs that exist, any DMN–DMN excess rests on two frontal multi-probe sessions. In the mesoscope, which images posterior DMN with sensory cortex, VISa and VISam are among the most coupled regions but do not form a separate block. In short, the BWM supports a task-negative DMN profile but cannot test a resting-state DMN network.</p>
+    <p>In short, the BWM gives at most weak evidence that the most defensible DMN regions are task-negative, and it cannot test a resting-state DMN network.</p>
   </section>
-
 
   <aside class="update" id="terms" aria-label="Terms used">
     <p><strong>Terms used in this report</strong></p>
     <ul>
       <li><strong>Grey screen:</strong> the 10-minute spontaneous-activity block of the passive protocol, with no stimulus.</li>
       <li><strong>Still bin:</strong> no wheel movement, no lick, and face motion energy at or below the session's 60th percentile.</li>
-      <li><strong>Our DMN:</strong> the core is ACA, PL, ILA, ORB, RSP, VISa and VISam, the regions on which mouse rsfMRI studies agree. Lateral adds the temporal association areas TEa, ECT and PERI, which Whitesell et al. place in a separate lateral cortical network.</li>
-      <li><strong>Whitesell et al. DMN:</strong> mouse rsfMRI map registered to the Allen atlas: our core plus SSp-tr, SSp-ll and MOs.</li>
-      <li><strong>Lu et al. DMN:</strong> the rat network of Lu et al. (2012), mapped to mouse areas.</li>
-      <li><strong>Higher-order cortex:</strong> cortex outside both DMN and primary sensory/motor areas.</li>
+      <li><strong>Conservative DMN core:</strong> ACAd, ACAv, PL, ORBm, RSPagl, RSPd and RSPv (Figure 1).</li>
+      <li><strong>Other literature DMN:</strong> regions that at least one of the four papers assigns to the DMN, but that are not in the core.</li>
+      <li><strong>Higher-order cortex:</strong> cortex outside the tested set and outside the primary sensory and motor areas.</li>
       <li><strong>Regions:</strong> Allen atlas areas at the IBL standard level ("Beryl").</li>
       <li><strong>Suppressed neuron:</strong> fires significantly less during the task than at rest.</li>
       <li><strong>Rest index (RI):</strong> (rest&nbsp;−&nbsp;task)/(rest&nbsp;+&nbsp;task) firing rate.</li>
       <li><strong>Coupling:</strong> the Fisher-z correlation of two regions' mean activity in still bins, minus the average for region pairs at the same distance.</li>
-      <li><strong>fALFF:</strong> fraction of a neuron's resting fluctuation power at slow frequencies (0.01–0.1&nbsp;Hz). <strong>Local synchrony:</strong> mean correlation between neurons of one region.</li>
       <li><strong>Cross-probe pair:</strong> two regions recorded on two different probes. Such pairs are cleaner than pairs along one probe, which share local signal.</li>
+      <li><strong>fALFF:</strong> fraction of a neuron's resting fluctuation power at slow frequencies (0.01–0.1&nbsp;Hz).</li>
+      <li><strong>Local synchrony:</strong> mean correlation between neurons of one region.</li>
     </ul>
   </aside>
 
+  <section id="regions" aria-labelledby="h-regions">
+    <h2 id="h-regions">1. Which regions count as DMN</h2>
+    <p>The rodent DMN has no single agreed region list. Four studies give explicit maps; all define the network from resting-state fMRI in anaesthetised or sedated animals, not from neural recordings.</p>
+    <ul>
+      <li><strong>Lu et al. 2012</strong> (<a href="https://www.pnas.org/doi/full/10.1073/pnas.1200506109">PNAS 109:3979</a>), rat. BOLD rsfMRI at 9.4&nbsp;T in 16 rats under dexmedetomidine plus low-dose isoflurane. The network comes from group ICA (30 components) with dual regression; modularity analysis of 13 regions of interest splits it into a prefrontal-temporal and a parietal module, with prefrontal cortex and RSP as hubs. Rat areas are mapped here to mouse areas.</li>
+      <li><strong>Grandjean et al. 2020</strong> (<a href="https://doi.org/10.1016/j.neuroimage.2019.116278">NeuroImage 205:116278</a>), mouse. 17 rsfMRI datasets from different centres (255 scans; 4.7–11.7&nbsp;T; various anaesthesia or awake) through one pipeline, labelled in the Allen CCFv3.
+        <ul>
+          <li>An anterior cingulate seed shows prefrontal cortex, RSP, dorsal striatum, dorsal thalamus and peri-hippocampal areas.</li>
+          <li>Group ICA gives DMN components named prefrontal, cingulate/RSP and temporal association areas. The prefrontal subregions are not specified.</li>
+        </ul>
+      </li>
+      <li><strong>Whitesell et al. 2021</strong> (<a href="https://doi.org/10.1016/j.neuron.2020.11.011">Neuron 109:545</a>), mouse. BOLD rsfMRI at 7&nbsp;T in 40 mice under light halothane sedation. Group ICA (5 components) gives the DMN component, which is registered to the Allen CCFv3. A cortical region counts when more than 50% of its voxels lie in the core mask. Anterograde viral tracing shows that these regions are preferentially interconnected.</li>
+      <li><strong>Mandino et al. 2022</strong> (<a href="https://doi.org/10.1038/s41380-021-01298-5">Mol. Psychiatry 27:2110</a>), mouse. rsfMRI co-activation patterns, and viral-tracer projection similarity to an anterior cingulate seed, define the DMN within a triple-network model. Its cortical part is labelled ACA and RSP ("anterior and posterior cingulate"), with an unlabelled medial visual extension.</li>
+    </ul>
+    <p>Figure 1 shows how the four maps overlap at the Allen (Beryl) level.</p>
+    <ul>
+      <li><strong>All four:</strong> ACAd, ACAv, RSPagl, RSPd and RSPv.</li>
+      <li><strong>Three (Lu, Whitesell and Grandjean's prefrontal component):</strong> PL and ORB. Mandino et al. name only cingulate regions.</li>
+      <li><strong>Two at most:</strong> ILA, VISa, VISam and TEa.</li>
+      <li><strong>One paper only:</strong> SSp-tr, SSp-ll and MOs (Whitesell), and auditory cortex, VISrl, VISpm and CA1 (Lu).</li>
+      <li><strong>None:</strong> ECT and PERI, which earlier versions of this report included as a "lateral" DMN.</li>
+    </ul>
+    <p>The analyses below therefore use a conservative core: ACA and RSP, which all four maps include, plus PL and ORBm. ORBl and ORBvl have the same literature support as ORBm, and their effect on the results is noted where relevant.</p>
+    <figure><img src="fig1_regions.png" width="1100" height="1522" alt="Four-set Venn diagram of the Allen cortical regions assigned to the DMN by Lu et al. 2012, Whitesell et al. 2021, Grandjean et al. 2020 and Mandino et al. 2022."></figure>
+  </section>
+
   <section id="period" aria-labelledby="h-period">
-    <h2 id="h-period">1. What the grey-screen period is</h2>
-    <p>The passive protocol (iblrig <code>passiveChoiceWorld</code>) runs after the task, with the mouse still head-fixed at the rig. Its Bonsai workflow clears the screen to <code>Gray</code>, keeps the sync square off and runs only a timer for <code>SPONTANEOUS_ACTIVITY_SECONDS</code> (600&nbsp;s by default). Frame2ttl spacer patterns before and after the block let ibllib extract it into <code>_ibl_passivePeriods.intervalsTable</code> (column <code>spontaneousActivity</code>). Receptive-field mapping (sparse noise, about 5&nbsp;min) and the replay of task stimuli, valve clicks and tones follow. During the grey screen no reward is given and nothing is shown, so it is the IBL equivalent of an awake resting state.</p>
+    <h2 id="h-period">2. What the grey-screen period is</h2>
+    <p>The passive protocol (iblrig <code>passiveChoiceWorld</code>, version 7 for the BWM) runs after the task, with the mouse still head-fixed at the rig. The experimenter turns the water valve off first. Its Bonsai workflow clears the screen to <code>Gray</code>, keeps the sync square off and runs only a timer (10&nbsp;min by default; 5&nbsp;min in the <code>passiveChoiceWorldIndependent</code> variant). Frame2ttl spacer patterns before and after the block let ibllib extract it into <code>_ibl_passivePeriods.intervalsTable</code>. Receptive-field mapping (about 5&nbsp;min) and the replay of task stimuli, valve clicks and tones follow.</p>
     <ul>
       <li><strong>Coverage:</strong> 396 of 426 extracted BWM sessions (130 mice) have the interval; the other 30 have no passive data.</li>
       <li><strong>When:</strong> always after the task, a median 1.1&nbsp;min after the last trial (5–95%: 0.6–3.9&nbsp;min).</li>
-      <li><strong>How long:</strong> 600&nbsp;s in 341 sessions and 300&nbsp;s in 55 (Figure 1). The first second is skipped in all analyses.</li>
+      <li><strong>How long:</strong> 600&nbsp;s in 341 sessions and 300&nbsp;s in 55 (Figure 2). The first second is skipped in all analyses.</li>
+      <li><strong>Example session (Figure 2e):</strong> CSH_ZAD_019 has 55 neurons in RSPagl, RSPd and RSPv and median stillness. No session records frontal core and RSP together.</li>
     </ul>
-    <figure><img src="fig1_protocol.png" width="1470" height="1466" alt="Passive protocol timeline, histograms of grey-screen duration, delay after the task and still fraction, and an example session's wheel, motion energy, still bins and a raster of its 20 most active neurons."></figure>
+    <figure><img src="fig2_protocol.png" width="1470" height="1480" alt="Passive protocol timeline, histograms of grey-screen duration, delay after the task and still fraction, and an example session's wheel, motion energy, still bins and a raster of its 20 most active retrosplenial neurons."></figure>
   </section>
 
   <section id="movement" aria-labelledby="h-movement">
-    <h2 id="h-movement">2. Is the mouse inactive?</h2>
-    <p>Mostly, but not continuously. Compared with the task ITIs of the same session, the wheel and the face move far less. Pupil size is about the same, so the mice are not drowsier than during the task (Figure 2).</p>
+    <h2 id="h-movement">3. Is the mouse inactive?</h2>
+    <p>Mostly, but not continuously. Compared with the task ITIs of the same session, the wheel and the face move far less. Pupil size is about the same, so the mice are not drowsier than during the task (Figure 3).</p>
     <div class="tablebox">
       <table>
         <thead><tr><th>Per session, median (5–95%)</th><th>Grey screen</th><th>Task ITI</th></tr></thead>
@@ -162,217 +202,126 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
       </table>
     </div>
     <ul>
-      <li><strong>Missing behaviour data:</strong> motion energy is missing for 35 sessions and the wheel for 58. Without motion energy, stillness rests on wheel and licks only and is more lenient (still fraction 0.81 vs 0.67). Section 3 repeats the main test without these sessions.</li>
+      <li><strong>Missing behaviour data:</strong> motion energy is missing for 35 sessions and the wheel for 58. Without motion energy, stillness rests on wheel and licks only and is more lenient (still fraction 0.81 vs 0.67). Section 4 repeats the main test without these sessions.</li>
       <li><strong>Licks:</strong> 107 sessions show more than 10 detected licks per minute on the grey screen, with no reward available. Part of this is probably lick-detection noise; lick bins are excluded either way.</li>
-      <li><strong>Most face and paw movements happen without wheel turns.</strong> In the example session (Figure 1e), only 40% of the bins with high motion energy have any wheel movement. The rest are brief snout, head and paw movements (median 0.15&nbsp;s, about one per second), confirmed by the nose and paw keypoints and by the right camera (motion energy correlated with the left camera at 0.93). The stillness criterion removes these too, not just wheel turns.</li>
-      <li><strong>Stillness is stable over time:</strong> the still fraction stays near 0.68 from the first to the last minute (Figure 2d).</li>
+      <li><strong>Most face and paw movements happen without wheel turns.</strong> In a session examined in detail (ZFM-01577), only 40% of the bins with high motion energy have any wheel movement. The rest are brief snout, head and paw movements (median 0.15&nbsp;s, about one per second), confirmed by the nose and paw keypoints and by the right camera (motion energy correlated with the left camera at 0.93). The stillness criterion removes these too, not just wheel turns.</li>
+      <li><strong>Stillness is stable over time:</strong> the still fraction stays near 0.68 from the first to the last minute (Figure 3d).</li>
     </ul>
-    <figure><img src="fig2_movement.png" width="1470" height="632" alt="Scatter plots of wheel movement and high motion energy fractions in grey screen vs task ITI, ratios of motion energy and pupil, and stillness time course."></figure>
+    <figure><img src="fig3_movement.png" width="1470" height="658" alt="Scatter plots of wheel movement and high motion energy fractions in grey screen vs task ITI, ratios of motion energy and pupil, and stillness time course."></figure>
   </section>
 
   <section id="restpref" aria-labelledby="h-restpref">
-    <h2 id="h-restpref">3. Rest preference measured against the grey screen</h2>
-    <p>Each neuron's activity during the task is compared with still 0.3&nbsp;s chunks of the grey-screen period. Task activity is the per-trial mean of the movement-onset, movement and feedback windows. Our DMN regions are more suppressed than the rest of cortex, and the region ordering agrees with the earlier ITI-based analysis (Spearman ρ&nbsp;=&nbsp;0.44 across 43 regions; Figure 3).</p>
+    <h2 id="h-restpref">4. Rest preference measured against the grey screen</h2>
+    <p>Each neuron's activity during the task is compared with still 0.3&nbsp;s chunks of the grey-screen period. Task activity is the per-trial mean of the movement-onset, movement and feedback windows. The conservative core is somewhat more suppressed than the rest of cortex, but the difference is modest and not robust to every comparison (Figure 4).</p>
     <div class="tablebox">
       <table>
         <thead><tr><th>Region set vs other cortex</th><th>Suppressed, set / other</th><th>p (regions)</th><th>Mouse CI (% points)</th><th>Rest index p</th><th>Last third of trials, p</th></tr></thead>
         <tbody>
-          <tr><td>Our DMN core (12 regions)</td><td>43.0 / 33.0%</td><td>0.002</td><td>[3.7, 14.9]</td><td>0.021</td><td>0.001</td></tr>
-          <tr><td>Our DMN core + lateral (15)</td><td>44.0 / 31.4%</td><td>&lt;0.001</td><td>[7.0, 17.9]</td><td>&lt;0.001</td><td>&lt;0.001</td></tr>
-          <tr><td>… vs higher-order cortex only</td><td>44.0 / 33.0%</td><td>&lt;0.001</td><td>[5.4, 17.8]</td><td>&lt;0.001</td><td>0.001</td></tr>
-          <tr><td>Our DMN core vs higher-order only</td><td>43.0 / 35.4%</td><td>0.016</td><td>[0.7, 13.7]</td><td>0.13</td><td>0.006</td></tr>
-          <tr><td>Lu et al., all cortical (17)</td><td>38.3 / 34.2%</td><td>0.18</td><td>[−0.5, 9.2]</td><td>0.38</td><td>0.060</td></tr>
-          <tr><td>Lu et al. without auditory (14)</td><td>39.7 / 33.9%</td><td>0.068</td><td>[−0.2, 11.4]</td><td>0.23</td><td>0.058</td></tr>
-          <tr><td>Lu prefrontal-temporal module (10)</td><td>38.2 / 35.1%</td><td>0.39</td><td>[−2.4, 8.3]</td><td>0.37</td><td>0.024</td></tr>
-          <tr><td>Lu parietal module (7)</td><td>38.5 / 35.3%</td><td>0.43</td><td>[−2.6, 13.3]</td><td>0.91</td><td>0.89</td></tr>
+          <tr><td>Conservative core (7 regions)</td><td>42.0 / 34.6%</td><td>0.069</td><td>[1.6, 13.2]</td><td>0.21</td><td>0.032</td></tr>
+          <tr><td>… vs higher-order cortex only</td><td>42.0 / 37.2%</td><td>0.21</td><td>[−1.1, 11.0]</td><td>0.54</td><td>0.079</td></tr>
+          <tr><td>… sessions with motion energy only (361)</td><td>42.5 / 34.6%</td><td>0.055</td><td>[0.5, 14.0]</td><td>0.20</td><td>0.037</td></tr>
+          <tr><td>Whitesell et al. (15)</td><td>40.4 / 33.3%</td><td>0.025</td><td>[0.7, 11.7]</td><td>0.23</td><td>0.016</td></tr>
+          <tr><td>Lu et al. (17)</td><td>38.3 / 34.2%</td><td>0.18</td><td>[−0.5, 9.2]</td><td>0.38</td><td>0.060</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">Suppressed: p&nbsp;&lt;&nbsp;0.01 in a Welch test of rest chunks (one per 3&nbsp;s) against task trials, with rest above task; the fraction is averaged over regions. Rest index RI&nbsp;=&nbsp;(rest&nbsp;−&nbsp;task)/(rest&nbsp;+&nbsp;task). There are 53,213 neurons from 395 sessions and 130 mice. p values come from 20,000 region permutations; CIs come from a bootstrap over mice.</p>
+    <p class="note">Suppressed: p&nbsp;&lt;&nbsp;0.01 in a Welch test of rest chunks (one per 3&nbsp;s) against task trials, with rest above task; the fraction is averaged over regions. There are 53,213 neurons from 395 sessions and 130 mice. p values come from 20,000 region permutations; CIs come from a bootstrap over mice.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Core region</th><th>Suppressed vs grey</th><th>Rank (of 43 cortical regions)</th><th>RI</th><th>Neurons (mice)</th></tr></thead>
+        <tbody>
+          <tr><td>ORBm</td><td>49%</td><td>4</td><td>0.12</td><td>138 (5)</td></tr>
+          <tr><td>RSPv</td><td>49%</td><td>5</td><td>0.06</td><td>413 (20)</td></tr>
+          <tr><td>RSPagl</td><td>44%</td><td>7</td><td>−0.02</td><td>171 (15)</td></tr>
+          <tr><td>RSPd</td><td>42%</td><td>13</td><td>0.00</td><td>294 (21)</td></tr>
+          <tr><td>PL</td><td>40%</td><td>15</td><td>0.02</td><td>166 (12)</td></tr>
+          <tr><td>ACAv</td><td>36%</td><td>25</td><td>0.02</td><td>90 (8)</td></tr>
+          <tr><td>ACAd</td><td>34%</td><td>28</td><td>−0.11</td><td>249 (15)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Cortex median: 37% suppressed, RI −0.03. The most suppressed regions overall are ILA (56%), ECT (52%) and PERI (50%), which are not in the core.</p>
     <ul>
-      <li><strong>Most neurons differ:</strong> 81% of all neurons differ significantly between grey screen and task (suppressed or enhanced), so the suppressed fraction is close to the sign of RI. The continuous RI gives the same answer for core + lateral. For the core alone against higher-order cortex, RI is not significant (p&nbsp;=&nbsp;0.13).</li>
-      <li><strong>Drift:</strong> the grey screen comes about an hour after the task starts. Task-window rates themselves rise from the first to the last third of trials (median drift index +0.24 across cortical regions), so drift is real. But it is not DMN-specific (DMN vs other p&nbsp;=&nbsp;0.11), and against only the last third of trials, closest in time to the grey screen, the DMN result is unchanged (core + lateral p&nbsp;&lt;&nbsp;0.001).</li>
-      <li><strong>Verified stillness only:</strong> in the 361 sessions with motion energy (120 mice), core + lateral is still 43.6% vs 31.8% (p&nbsp;&lt;&nbsp;0.001).</li>
-      <li><strong>Lu et al. set:</strong> it is not significant on any metric against all trials. The bootstrap CI and the permutation test disagree slightly at the margin, because they resample different things (mice vs regions).</li>
-      <li><strong>ACAd is the exception:</strong> this core DMN region sits below the cortex median (34% suppressed, RI −0.11).</li>
+      <li><strong>Most neurons differ:</strong> 81% of all neurons differ significantly between grey screen and task (suppressed or enhanced), so the suppressed fraction is close to the sign of RI.</li>
+      <li><strong>Drift:</strong> task-window rates rise from the first to the last third of trials (median drift index +0.24 across cortical regions), but the drift is not specific to the core (p&nbsp;=&nbsp;0.53). Against only the last third of trials, closest in time to the grey screen, the core is p&nbsp;=&nbsp;0.03.</li>
+      <li><strong>Agreement with the ITI reference:</strong> the region ordering agrees with the earlier ITI-based analysis (Spearman ρ&nbsp;=&nbsp;0.44 across 43 regions).</li>
+      <li><strong>Comparison sets:</strong> the full Whitesell set is about as strong as the core; the Lu set, which adds auditory cortex, VISrl and VISpm, is weaker (Figure S1).</li>
     </ul>
-    <figure><img src="fig3_restpref.png" width="1470" height="1017" alt="Ranked bar chart of task-suppressed neurons per cortical region, scatter against the ITI reference, and set differences with confidence intervals for all trials and the last third of trials."></figure>
+    <figure><img src="fig4_restpref.png" width="1470" height="1139" alt="Ranked bar chart of task-suppressed neurons per cortical region coloured by conservative core membership, scatter against the ITI reference, and set differences with confidence intervals."></figure>
   </section>
 
   <section id="coverage" aria-labelledby="h-coverage">
-    <h2 id="h-coverage">4. Which region pairs can be computed</h2>
-    <p>Resting-state networks are defined by co-fluctuation, which needs two regions recorded at the same time. A region pair counts here if a session has at least 5 neurons in each region and at least 120 fully still 1&nbsp;s bins. 319 sessions (116 mice) have enough still bins and 308 of them (114 mice) yield region signals, but only 104 (70 mice) record a cortical or CA1 pair at all. Most sessions record one or no cortical region (Figure 4c). In total there are 262 cortex–cortex pairs, 72 of them across probes.</p>
+    <h2 id="h-coverage">5. Which region pairs can be computed</h2>
+    <p>Resting-state networks are defined by co-fluctuation, which needs two regions recorded at the same time. A region pair counts if a session has at least 5 neurons in each region and at least 120 fully still 1&nbsp;s bins. 319 sessions (116 mice) have enough still bins and 308 of them yield region signals, but only 104 (70 mice) record any cortical or CA1 pair (Figure 5).</p>
     <ul>
-      <li><strong>Our DMN:</strong> 20 of 105 possible edges are ever recorded, 6 in at least 3 mice, and none on two probes in at least 3 mice.</li>
-      <li><strong>Lu et al. network:</strong> 34 of 153 edges are recorded, 7 in at least 3 mice and 3 on two probes in at least 3 mice. All three involve CA1.</li>
-      <li><strong>The hub edge is missing:</strong> Lu et al. find prefrontal cortex and RSP to be the hubs, linked along the midline. No session records prefrontal (ACA, PL, ILA, ORB) and RSP neurons together, on the grey screen or in the task ITIs. Between the two Lu modules there are 6 pairs, from 2 sessions.</li>
-      <li><strong>Where the data are:</strong> recorded pairs cluster within frontal cortex (ACA, PL, ORB, ILA, MOs) and around VISa/VISam–CA1, which a single probe often passes through.</li>
+      <li><strong>Core regions per session:</strong> of the 308 sessions, 267 record no core region, 21 record one, 19 two and 1 three.</li>
+      <li><strong>Frontal core and RSP are never recorded together:</strong> frontal core (ACA, PL, ORBm) appears in 17 sessions and RSP in 24, never in the same one.</li>
+      <li><strong>Core pairs:</strong> 7 of the 21 possible core pairs are recorded, all between neighbouring areas: ACAd–ACAv, ACAd–PL, ACAv–PL, ORBm–PL and the three RSP subdivisions.</li>
+      <li><strong>Pairs in at least 3 mice:</strong> three (ACAd–ACAv, ACAd–PL, RSPd–RSPv). None is recorded on two probes in 3 mice.</li>
+      <li><strong>The wider literature sets do not help:</strong> 24 of 105 Whitesell pairs and 34 of 153 Lu pairs are recorded. None links frontal and posterior DMN.</li>
     </ul>
-    <p>Every DMN edge (either definition) recorded in at least 2 mice, which is the complete list of testable DMN pairs:</p>
-    <div class="tablebox">
-      <table>
-        <thead><tr><th>Region pair</th><th>Definition</th><th>Sessions</th><th>Mice</th><th>Mice, 2 probes</th><th>Distance (mm)</th><th>Coupling (z), 95% CI</th></tr></thead>
-        <tbody>
-          <tr><td>CA1 – VISa</td><td class="txt">Lu</td><td>13</td><td>13</td><td>5</td><td>0.8</td><td>−0.11 [−0.18, −0.05]</td></tr>
-          <tr><td>RSPd – RSPv</td><td class="txt">both</td><td>8</td><td>7</td><td>1</td><td>0.5</td><td>−0.03 [−0.20, 0.13]</td></tr>
-          <tr><td>CA1 – VISam</td><td class="txt">Lu</td><td>8</td><td>7</td><td>3</td><td>0.8</td><td>−0.09 [−0.17, −0.01]</td></tr>
-          <tr><td>ACAd – PL</td><td class="txt">both</td><td>5</td><td>5</td><td>1</td><td>0.6</td><td>0.00 [−0.12, 0.15]</td></tr>
-          <tr><td>ILA – PL</td><td class="txt">ours</td><td>5</td><td>5</td><td>1</td><td>0.9</td><td>−0.06 [−0.17, 0.05]</td></tr>
-          <tr><td>CA1 – RSPv</td><td class="txt">Lu</td><td>5</td><td>5</td><td>3</td><td>1.1</td><td>−0.08 [−0.23, 0.12]</td></tr>
-          <tr><td>ACAd – ACAv</td><td class="txt">both</td><td>4</td><td>4</td><td>0</td><td>0.5</td><td>0.03 [−0.16, 0.22]</td></tr>
-          <tr><td>ECT – TEa</td><td class="txt">ours</td><td>4</td><td>3</td><td>0</td><td>0.4</td><td>−0.14 [−0.36, 0.19]</td></tr>
-          <tr><td>ACAd – ILA</td><td class="txt">ours</td><td>3</td><td>3</td><td>0</td><td>1.4</td><td>−0.05 [−0.15, 0.14]</td></tr>
-          <tr><td>CA1 – RSPd</td><td class="txt">Lu</td><td>3</td><td>3</td><td>2</td><td>1.6</td><td>−0.03 [−0.06, 0.03]</td></tr>
-          <tr><td class="txt" colspan="7">2 mice each: AUDp–AUDv, AUDv–TEa, AUDd–AUDp, AUDd–AUDv, AUDd–TEa, ACAv–ILA, ACAv–PL, ILA–ORBvl, ORBm–ORBvl, ORBvl–PL, VISa–VISam, CA1–VISpm, CA1–VISrl</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">Coupling: mean over mice; CI from a bootstrap over mice. Every recorded DMN edge links neighbouring areas (≤1.8&nbsp;mm apart). None links frontal and posterior DMN.</p>
-    <figure><img src="fig4_coverage.png" width="1470" height="1766" alt="Matrix of mice per region pair for cortical regions and CA1, ordered by DMN module, with histograms of DMN and cortical regions per session and bars of possible versus recorded edges."></figure>
+    <figure><img src="fig5_coverage.png" width="1470" height="1766" alt="Matrix of mice per region pair for cortical regions and CA1, ordered by conservative core and other literature DMN, with histograms of core and cortical regions per session and bars of possible versus recorded edges."></figure>
   </section>
 
   <section id="coupling" aria-labelledby="h-coupling">
-    <h2 id="h-coupling">5. Do DMN regions co-fluctuate on the grey screen?</h2>
-    <p>There is no evidence that they do. Each region signal is the mean of z-scored neurons in still 1&nbsp;s bins, after regressing out wheel, licks and motion energy. Each pair correlation is compared with cortical pairs at the same distance and probe relation (Figure 5).</p>
+    <h2 id="h-coupling">6. Do DMN regions co-fluctuate on the grey screen?</h2>
+    <p>There is no evidence that they do. Each region signal is the mean of z-scored neurons in still 1&nbsp;s bins, after regressing out wheel, licks and motion energy. Each pair correlation is compared with cortical pairs at the same distance and probe relation (Figure 6).</p>
     <ul>
-      <li><strong>All cortical pairs:</strong> DMN–DMN pairs are not more coupled than DMN–other pairs for our DMN (core +0.08&nbsp;z, CI −0.01 to 0.16; 20 mice) or for the Lu network (+0.01, CI −0.04 to 0.06; 40 mice).
-        <ul>
-          <li>The Lu prefrontal-temporal module just excludes zero (+0.09, CI 0.01 to 0.17; 14 mice). With about 20 such contrasts tested, this would not survive correction.</li>
-        </ul>
-      </li>
-      <li><strong>Cross-probe pairs</strong> avoid shared signal between neighbouring sites. For our core they give +0.11 (CI 0.02–0.23), but the result is fragile:
-        <ul>
-          <li>71% of the DMN–DMN pairs come from two frontal sessions, of mice SWC_038 and KS046.</li>
-          <li>Dropping the single most coupled pair (ORBm–ORBvl) lowers the estimate to +0.06.</li>
-          <li>Only 5 of the 20 mice with DMN–DMN pairs contribute.</li>
-          <li>DMN–DMN pairs are also closer together than DMN–other pairs (median 1.8 vs 2.7&nbsp;mm), and the distance correction is coarse at these distances.</li>
-        </ul>
-      </li>
-      <li><strong>Power:</strong> with these numbers, the smallest DMN–DMN excess detectable with 80% power is about 0.12–0.15&nbsp;z for our DMN and 0.07–0.08&nbsp;z for the whole Lu network (up to 0.18 for its modules). The mean pair coupling itself is only 0.07 (cross-probe) to 0.10 (same probe), so only an effect larger than typical coupling could be detected.</li>
-      <li><strong>Single edges</strong> recorded in ≥3 mice are compatible with zero, except CA1–VISa (−0.11, CI −0.18 to −0.05) and CA1–VISam (−0.09, CI −0.17 to −0.01), which couple less than distance predicts.</li>
-      <li><strong>Cross-validated rest-preference network:</strong> cortical regions that prefer rest in one half of the mice do not co-fluctuate more in the other half (rest–rest above rest–task in 52% of 400 splits).</li>
-      <li><strong>Within session:</strong> DMN–DMN minus DMN–other in the same session is not different from zero (9–15 mice, all p&nbsp;&gt;&nbsp;0.27; Lu parietal has only 2 mice and is not tested).</li>
-      <li><strong>State invariance:</strong> the same region pair in the same session couples similarly on the grey screen and in task ITIs (Spearman ρ&nbsp;=&nbsp;0.39 over 3,516 pairs, 0.26 for cortex). Coupling structure is partly a fixed property of the recorded circuits, not specific to rest.</li>
-      <li><strong>Bin size:</strong> 0.5&nbsp;s bins (370 sessions) give the same picture (grey markers in Figure 5a).</li>
+      <li><strong>Core:</strong> core–core pairs couple exactly as much as core–other pairs: +0.0005&nbsp;z, CI −0.10 to 0.11. That is 25 pairs from 20 sessions and 18 mice; the smallest detectable effect at 80% power is 0.15&nbsp;z. Only 4 core–core pairs come from two probes, too few to test.</li>
+      <li><strong>Single core edges</strong> recorded in ≥3 mice are all compatible with zero (ACAd–ACAv +0.03, ACAd–PL 0.00, RSPd–RSPv −0.03).</li>
+      <li><strong>Within session:</strong> core–core minus core–other is +0.04 (8 mice, p&nbsp;=&nbsp;0.64).</li>
+      <li><strong>Literature sets:</strong> the full Whitesell set gives a two-probe excess of +0.15&nbsp;z, but 72% of those pairs come from two frontal multi-probe sessions (Figure S2). The Lu set shows nothing.</li>
+      <li><strong>Cross-validated rest-preference network:</strong> cortical regions that prefer rest in one half of the mice do not co-fluctuate more in the other half (52% of 400 splits).</li>
+      <li><strong>State invariance:</strong> the same region pair in the same session couples similarly on the grey screen and in task ITIs (Spearman ρ&nbsp;=&nbsp;0.39 over 3,516 pairs). Coupling structure is partly a fixed property of the recorded circuits.</li>
     </ul>
-    <figure><img src="fig5_coupling.png" width="1470" height="940" alt="Forest plots of DMN minus other coupling per region set and per DMN edge, cross-validated rest preference network bars, and within-session contrasts."></figure>
+    <figure><img src="fig6_coupling.png" width="1470" height="1019" alt="Forest plots of DMN minus other coupling for the conservative core, Whitesell and Lu sets and per DMN edge, cross-validated rest preference network bars, and within-session contrasts."></figure>
   </section>
 
   <section id="meso" aria-labelledby="h-meso">
-    <h2 id="h-meso">6. Mesoscope comparison</h2>
-    <p>The mesoscope images many dorsal areas at once, so it can test pairs the probes never record. Its passive protocol is shorter, though: 79 of 102 canonical sessions with passive data have only 60&nbsp;s of grey screen. Of the 23 longer ones, 14 have motion energy to verify stillness and 13 of these (7 mice) yield region pairs; the wheel is logged in only 8. No frontal DMN region is imaged (Figure 6).</p>
+    <h2 id="h-meso">7. Mesoscope comparison</h2>
+    <p>The mesoscope images many dorsal areas at once, but none of the frontal core.</p>
     <ul>
-      <li><strong>Posterior DMN regions are more coupled than other–other pairs:</strong> DMN–DMN +0.22&nbsp;z (CI 0.02–0.35). DMN–other is +0.14, with a CI of −0.003 to 0.20 that just includes 0.</li>
-      <li><strong>The DMN–DMN pairs come from 2 mice:</strong> most are VISa–VISam pairs, which are adjacent and labelled from pre-histology estimates.</li>
-      <li><strong>No segregated block:</strong> DMN–DMN is not above DMN–other (+0.09, CI −0.11 to 0.25).</li>
-      <li><strong>Not specific to DMN regions:</strong> VISa and VISam rank with trunk somatosensory cortex as the most coupled regions. The Lu et al. temporal regions (AUDp, AUDd, TEa) are among the least coupled.</li>
-      <li><strong>Grey screen and ITIs agree:</strong> this hub-like pattern matches the one in the task ITIs (earlier report, 45 sessions).</li>
+      <li><strong>Sessions:</strong> 79 of 102 canonical sessions with passive data have only 60&nbsp;s of grey screen. Of the 23 longer ones, 14 have motion energy to verify stillness, and 13 of these (7 mice) yield region pairs (Figure 7).</li>
+      <li><strong>The core is RSP only:</strong> RSPagl and RSPd give a single core–core pair, from one mouse. Core–other pairs are not more coupled than other–other pairs (+0.02&nbsp;z, CI −0.05 to 0.07).</li>
+      <li><strong>Other literature DMN regions:</strong> VISa and VISam (Lu and Whitesell) are among the most coupled imaged regions, together with trunk somatosensory cortex; auditory cortex and TEa are among the least. This pattern is not specific to DMN regions.</li>
     </ul>
-    <figure><img src="fig6_meso.png" width="1470" height="947" alt="Mesoscope grey-screen coupling by pair class per mouse, region pair matrix and per-region mean coupling."></figure>
+    <figure><img src="fig7_meso.png" width="1470" height="1026" alt="Mesoscope grey-screen coupling by pair class per mouse, region pair matrix and per-region mean coupling."></figure>
   </section>
 
   <section id="single" aria-labelledby="h-single">
-    <h2 id="h-single">7. Single-region resting metrics</h2>
-    <p>Co-activation needs two regions recorded together, which the BWM rarely provides. Resting-state fMRI also has single-region measures. ALFF and fALFF measure how strongly and how slowly a region fluctuates at rest; ReHo measures how synchronised neighbouring voxels are. Their electrophysiological analogues need only one region per recording, so they pool across all 130 mice. Figure 7 shows them for the grey screen.</p>
+    <h2 id="h-single">8. Single-region resting metrics</h2>
+    <p>Resting-state fMRI also has measures for one region at a time. ALFF and fALFF measure how strongly and how slowly a region fluctuates at rest; ReHo measures how synchronised neighbouring voxels are. Their electrophysiological analogues need only one region per recording, so they pool across all 130 mice (Figure 8).</p>
     <ul>
-      <li><strong>fALFF</strong> is the fraction of slow (0.01–0.1&nbsp;Hz) power in each neuron's 1&nbsp;s rate, after regressing out wheel, licks and motion energy and adjusting for firing rate.
-        <ul>
-          <li>It gives a reproducible cortical map (split-half Spearman–Brown 0.75).</li>
-          <li>DMN regions are spread throughout it. Our core is +0.006 above other cortex (p&nbsp;=&nbsp;0.59), core + lateral −0.005 (p&nbsp;=&nbsp;0.59), Whitesell +0.011 (p&nbsp;=&nbsp;0.26).</li>
-          <li>Lu et al. is +0.019 (p&nbsp;=&nbsp;0.04 uncorrected, mouse CI includes 0). The highest values are in PL, AId and VISC.</li>
-        </ul>
-      </li>
-      <li><strong>Fluctuation amplitude</strong> (coefficient of variation of the 1&nbsp;s rate) is lower in DMN regions, but almost entirely because of their firing rates (ρ&nbsp;=&nbsp;−0.79 with rate). After rate adjustment, only our core + lateral set remains lower (p&nbsp;=&nbsp;0.03).</li>
-      <li><strong>Local synchrony</strong>, the mean correlation between neurons of one region in still 1&nbsp;s bins (1,695 region-sessions, 116 mice), does not differ between DMN and other cortex for any definition (all p&nbsp;&gt;&nbsp;0.3). It is highest in barrel and unassigned somatosensory cortex.</li>
-      <li><strong>Independence:</strong> these resting metrics are unrelated to rest preference across regions (fALFF ρ&nbsp;=&nbsp;−0.05). The DMN signature in the BWM is a contrast between task and rest, not a distinctive way of fluctuating at rest.</li>
+      <li><strong>fALFF</strong> is the fraction of slow (0.01–0.1&nbsp;Hz) power in each neuron's 1&nbsp;s rate, after regressing out wheel, licks and motion energy and adjusting for firing rate. It gives a reproducible cortical map (split-half Spearman–Brown 0.75), but the core does not stand out (+0.0005, p&nbsp;=&nbsp;0.97).</li>
+      <li><strong>Fluctuation amplitude</strong> (coefficient of variation of the 1&nbsp;s rate) is largely set by firing rate (ρ&nbsp;=&nbsp;−0.79). After rate adjustment the core is slightly lower: −0.06, with a mouse CI excluding zero but region-permutation p&nbsp;=&nbsp;0.14.</li>
+      <li><strong>Local synchrony</strong> (mean correlation between neurons of one region in still 1&nbsp;s bins; 1,695 region-sessions, 116 mice) does not differ (−0.01, p&nbsp;=&nbsp;0.57).</li>
+      <li><strong>Independence:</strong> these resting metrics are unrelated to rest preference across regions (fALFF ρ&nbsp;=&nbsp;−0.05).</li>
     </ul>
-    <figure><img src="fig7_single_region.png" width="1470" height="1241" alt="Ranked rate-adjusted fALFF and local synchrony per cortical region, set differences for three single-region metrics and four DMN definitions, and fALFF against rest preference."></figure>
-  </section>
-
-  <section id="lu" aria-labelledby="h-lu">
-    <h2 id="h-lu">8. Comparison with published rodent DMN maps</h2>
-    <p>Two papers give the reference region lists. Both define the DMN from resting-state fMRI under light anaesthesia, not from neural recordings.</p>
-    <ul>
-      <li><strong>Lu et al. 2012</strong> (<a href="https://www.pnas.org/doi/full/10.1073/pnas.1200506109">PNAS 109:3979</a>), rat.
-        <ul>
-          <li><strong>Data:</strong> BOLD resting-state fMRI at 9.4&nbsp;T in 16 rats (119 sessions) under dexmedetomidine plus 0.25–0.5% isoflurane.</li>
-          <li><strong>Network definition:</strong> group independent component analysis (ICA, 30 components) with dual regression. Correlations between 13 regions of interest went into a modularity analysis.</li>
-          <li><strong>Result:</strong> two modules, prefrontal-temporal and parietal, with prefrontal cortex and RSP as hubs.</li>
-        </ul>
-      </li>
-      <li><strong>Whitesell et al. 2021</strong> (<a href="https://doi.org/10.1016/j.neuron.2020.11.011">Neuron 109:545</a>), mouse.
-        <ul>
-          <li><strong>Data:</strong> BOLD resting-state fMRI at 7&nbsp;T in 40 mice under light halothane sedation (0.75%, ventilated).</li>
-          <li><strong>Network definition:</strong> low-dimensional group ICA (5 components). The DMN component, cross-checked against an anterior cingulate seed map, was registered to the Allen CCFv3. A cortical region counts as DMN when more than 50% of its voxels lie in the core mask (z&nbsp;&gt;&nbsp;1.7): ACA, PL, ILA, ORB, RSP, VISa, VISam, SSp-tr, SSp-ll and MOs.</li>
-          <li><strong>Anatomy:</strong> anterograde viral tracing showed that these regions are preferentially interconnected.</li>
-          <li><strong>Lateral areas:</strong> TEa, ECT and PERI have almost no voxels in their DMN mask; they belong to a separate lateral cortical network. Our "lateral" extension is therefore not supported by this map.</li>
-        </ul>
-      </li>
-    </ul>
-    <p>Each published region, mapped to mouse Allen areas, and how it fares in the BWM grey-screen data:</p>
-    <div class="tablebox">
-      <table>
-        <thead><tr><th>Rat region (Lu et al.)</th><th>Mouse areas</th><th>Our DMN</th><th>Whitesell</th><th>Suppressed vs grey</th><th>RI</th><th>Mice</th><th>Pairs, max mice</th></tr></thead>
-        <tbody>
-          <tr><td>Orbital (VO, LO, rMO)</td><td class="txt">ORBvl, ORBl, ORBm</td><td class="txt">yes</td><td class="txt">yes</td><td>43, 41, 49%</td><td>0.00, 0.03, 0.12</td><td>6, 6, 5</td><td>3–4</td></tr>
-          <tr><td>Prelimbic (PrL)</td><td class="txt">PL</td><td class="txt">yes</td><td class="txt">yes</td><td>40%</td><td>0.02</td><td>12</td><td>5</td></tr>
-          <tr><td>Cingulate (Cg1/Cg2)</td><td class="txt">ACAd, ACAv</td><td class="txt">yes</td><td class="txt">yes</td><td>34, 36%</td><td>−0.11, 0.02</td><td>15, 8</td><td>10, 4</td></tr>
-          <tr><td>Auditory (Au1, AuD, AuV)</td><td class="txt">AUDp, AUDd, AUDv</td><td class="txt">no</td><td class="txt">no</td><td>29, 25, 42%</td><td>−0.12, −0.12, 0.02</td><td>4, 5, 5</td><td>2–3</td></tr>
-          <tr><td>Temporal association (TeA)</td><td class="txt">TEa</td><td class="txt">yes (lateral)</td><td class="txt">no</td><td>43%</td><td>0.06</td><td>6</td><td>3</td></tr>
-          <tr><td>Posterior parietal (PtPR, PtPD)</td><td class="txt">VISa, VISrl</td><td class="txt">VISa only</td><td class="txt">VISa only</td><td>39, 25%</td><td>−0.01, −0.22</td><td>35, 5</td><td>15, 3</td></tr>
-          <tr><td>Retrosplenial (RSG, RSD)</td><td class="txt">RSPv, RSPd, RSPagl</td><td class="txt">yes</td><td class="txt">yes</td><td>49, 42, 44%</td><td>0.06, 0.00, −0.02</td><td>20, 21, 15</td><td>3–7</td></tr>
-          <tr><td>Medial secondary visual (V2M)</td><td class="txt">VISam, VISpm</td><td class="txt">VISam only</td><td class="txt">VISam only</td><td>43, 28%</td><td>0.02, −0.08</td><td>15, 10</td><td>8, 5</td></tr>
-          <tr><td>Dorsal hippocampus (CA1, tentative)</td><td class="txt">CA1</td><td class="txt">no</td><td class="txt">no</td><td>45%</td><td>0.03</td><td>80</td><td>20</td></tr>
-          <tr><td>Not in Lu et al.</td><td class="txt">ILA; ECT, PERI</td><td class="txt">yes</td><td class="txt">ILA only</td><td>56, 52, 50%</td><td>0.18, 0.20, 0.18</td><td>7, 6, 4</td><td>1–5</td></tr>
-          <tr><td>Only in Whitesell et al.</td><td class="txt">SSp-tr, SSp-ll, MOs</td><td class="txt">no</td><td class="txt">yes</td><td>39, 21, 31%</td><td>−0.03, −0.25, −0.18</td><td>13, 9, 28</td><td>4, 0, 10</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">Cortex median: 37% suppressed, RI −0.03. The mapping of rat PPC and V2M to mouse VISa/VISrl and VISam/VISpm is approximate. "Pairs, max mice" is the largest number of mice for any grey-screen pair involving the region.</p>
-    <ul>
-      <li><strong>Agreement:</strong> RSPv, ORBm, ORBl/ORBvl, TEa and VISam, which both definitions share, are above the cortex median. So are the regions only we include (ILA, ECT, PERI), which are the most suppressed of all.</li>
-      <li><strong>Disagreement:</strong>
-        <ul>
-          <li>Mouse AUDp/AUDd, VISrl and VISpm, which Lu et al. include, are among the least suppressed.</li>
-          <li>SSp-ll and MOs, which Whitesell et al. include, are task-driven (RI −0.25 and −0.18).</li>
-          <li>ACAd, part of all three definitions, is also below the median.</li>
-          <li>This is why the Lu set does not stand out and the Whitesell set is weaker than ours (Figure S1).</li>
-        </ul>
-      </li>
-      <li><strong>State difference:</strong> Lu et al. scanned anaesthetised rats, where sensory cortex can join a slow intrinsic network without any task to drive it. The BWM mice are awake and have just finished an audio-visual task.</li>
-      <li><strong>Their key result is untestable here:</strong> both papers' central claim is network structure: two modules joined by prefrontal–RSP hubs (Lu et al.), and preferential interconnection of frontal and medial regions (Whitesell et al.). The frontal–posterior edges are exactly the ones the BWM cannot test.
-        <ul>
-          <li>Within the Whitesell set, 24 of 105 edges are recorded, all frontal–frontal, RSP–RSP or one VISa–VISam pair.</li>
-          <li>Their cross-probe DMN–DMN excess (+0.15&nbsp;z) again comes mostly from the two frontal multi-probe sessions (Figure S2).</li>
-        </ul>
-      </li>
-    </ul>
+    <figure><img src="fig8_single_region.png" width="1470" height="1241" alt="Ranked rate-adjusted fALFF and local synchrony per cortical region, set differences for three single-region metrics, and fALFF against rest preference."></figure>
   </section>
 
   <section id="verdict" aria-labelledby="h-verdict">
-    <h2 id="h-verdict">9. How convincing is this as resting-state network evidence?</h2>
+    <h2 id="h-verdict">9. How convincing is this as evidence for DMN activation at rest?</h2>
     <div class="tablebox">
       <table>
-        <thead><tr><th>Criterion for a resting-state DMN</th><th>Verdict</th><th>Evidence</th></tr></thead>
+        <thead><tr><th>Criterion</th><th>Verdict</th><th>Evidence</th></tr></thead>
         <tbody>
           <tr><td>A true rest period exists in the data</td><td><span class="verdict v-ok">Yes</span></td><td class="txt">10&nbsp;min grey screen in 396 sessions, about 6.5&nbsp;min of it still</td></tr>
-          <tr><td>DMN regions are deactivated by the task relative to rest</td><td><span class="verdict v-ok">Yes</span></td><td class="txt">44% vs 31% suppressed (core + lateral), p&nbsp;&lt;&nbsp;0.001; holds vs higher-order cortex, vs the last third of trials, and vs ITIs</td></tr>
-          <tr><td>The deactivated regions match the literature</td><td><span class="verdict v-part">Partly</span></td><td class="txt">ILA, ORB, RSPv yes; ACAd, Whitesell's SSp-ll/MOs and Lu et al.'s auditory, VISrl and VISpm no; Whitesell set significant only vs all other cortex</td></tr>
-          <tr><td>DMN regions fluctuate differently at rest (fALFF, amplitude, synchrony)</td><td><span class="verdict v-no">No</span></td><td class="txt">Reproducible maps, but no DMN difference for any definition after rate adjustment, apart from lower amplitude in our core + lateral (p&nbsp;=&nbsp;0.03)</td></tr>
-          <tr><td>DMN regions co-fluctuate at rest more than with other regions</td><td><span class="verdict v-no">Not shown</span></td><td class="txt">All-pair contrasts include 0; the cross-probe excess rests on 2 sessions; detectable effect ≥0.12&nbsp;z</td></tr>
-          <tr><td>Frontal and posterior DMN are coupled (the hub edge)</td><td><span class="verdict v-no">Untestable</span></td><td class="txt">Never co-recorded in BWM; frontal DMN not imaged in the mesoscope</td></tr>
-          <tr><td>Rest-preferring regions form a network</td><td><span class="verdict v-no">Not shown</span></td><td class="txt">Cross-validated: 52% of splits, at chance</td></tr>
-          <tr><td>Posterior DMN regions couple with each other (mesoscope)</td><td><span class="verdict v-part">Weak</span></td><td class="txt">Above other–other, but not above DMN–other; DMN–DMN pairs from 2 mice; hub-like, not segregated</td></tr>
+          <tr><td>The DMN regions are agreed in the literature</td><td><span class="verdict v-part">Partly</span></td><td class="txt">ACA and RSP in all four maps, PL and ORB in three; the rest disputed</td></tr>
+          <tr><td>Core DMN regions are more active at rest than during the task</td><td><span class="verdict v-part">Weak</span></td><td class="txt">42% vs 35% suppressed: mouse CI excludes 0, region permutation p&nbsp;=&nbsp;0.07; not vs higher-order cortex; ORBm and RSP yes, ACA no</td></tr>
+          <tr><td>Core regions fluctuate differently at rest (fALFF, amplitude, synchrony)</td><td><span class="verdict v-no">No</span></td><td class="txt">Reproducible maps, no core difference after rate adjustment</td></tr>
+          <tr><td>Core regions co-fluctuate at rest more than with other regions</td><td><span class="verdict v-no">Not shown</span></td><td class="txt">+0.0005&nbsp;z (18 mice); detectable effect ≥0.15&nbsp;z; two-probe pairs too few</td></tr>
+          <tr><td>Frontal and retrosplenial DMN are coupled</td><td><span class="verdict v-no">Untestable</span></td><td class="txt">Never recorded together in BWM; frontal core not imaged in the mesoscope</td></tr>
         </tbody>
       </table>
     </div>
-    <p>The grey screen makes the task-negative result cleaner, and the regions involved overlap with the rodent DMN literature, though not with every region of Lu et al. It does not turn the BWM into resting-state network evidence. A DMN is defined by which regions fluctuate together at rest, and BWM probes rarely record two DMN regions at once; they never record the frontal and retrosplenial parts together. A convincing test needs simultaneous frontal and posterior recordings with a long grey-screen block: multi-probe sessions targeting ACA/PL and RSP, or wide-field or mesoscope imaging that includes medial frontal cortex.</p>
+    <p>Restricted to the regions the literature agrees on, the BWM gives at most weak evidence for task-negative DMN activity. The orbital and retrosplenial parts of the core prefer rest; the anterior cingulate does not. Earlier, stronger results depended on regions outside this core (ILA, ECT, PERI, TEa). A resting-state DMN is defined by co-fluctuation between frontal and retrosplenial cortex, and BWM recordings never contain both. A convincing test needs simultaneous frontal and posterior recordings with a long grey-screen block: multi-probe sessions targeting ACA/PL and RSP, or wide-field or mesoscope imaging that includes medial frontal cortex.</p>
   </section>
 
   <section id="si" aria-labelledby="h-si">
-    <h2 id="h-si">Supplementary figures: Whitesell et al. 2021</h2>
-    <p>The main figures compare our DMN set with Lu et al. These two figures add the Whitesell et al. mouse map. Figure S1 places the three definitions side by side for rest preference. Figure S2 shows which Whitesell edges can be tested and how they couple, in the BWM and the mesoscope.</p>
-    <figure><img src="figS1_whitesell_restpref.png" width="1478" height="918" alt="Task-suppressed neurons per region with membership in four DMN definitions, and set comparisons."></figure>
+    <h2 id="h-si">Supplementary figures: the wider literature sets</h2>
+    <p>Figure S1 places the conservative core next to the full Whitesell et al. and Lu et al. sets for rest preference, with region membership in all four papers. Figure S2 shows which Whitesell edges can be tested and how they couple, in the BWM and the mesoscope.</p>
+    <figure><img src="figS1_whitesell_restpref.png" width="1478" height="918" alt="Task-suppressed neurons per region with membership in the conservative core and four DMN maps, and set comparisons."></figure>
     <figure><img src="figS2_whitesell_coupling.png" width="1478" height="1051" alt="Whitesell DMN edge coverage matrix, DMN-DMN minus DMN-other coupling for three definitions in BWM and mesoscope, and per-edge coupling."></figure>
   </section>
 
@@ -395,18 +344,18 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
         </ul>
       </div>
       <div>
-        <h3>Rest preference (Figure 3)</h3>
+        <h3>Rest preference (Figure 4)</h3>
         <ul>
           <li><strong>Rest samples:</strong> 0.3&nbsp;s chunks of consecutive still grey-screen bins. The rate uses all chunks (median 1,171 per session). The test uses the first chunk in every 3&nbsp;s window (median 186), so the samples are roughly independent.</li>
           <li><strong>Task samples:</strong> per-trial rates in the movement-onset (−0.15–0&nbsp;s), movement (0–0.15&nbsp;s) and feedback (0–0.3&nbsp;s) windows, averaged, using BWM trial criteria (median 381 trials).</li>
           <li><strong>Per neuron:</strong> Welch t-test between the two sample sets. Suppressed means p&nbsp;&lt;&nbsp;0.01 with rest above task. RI&nbsp;=&nbsp;(rest&nbsp;−&nbsp;task)/(rest&nbsp;+&nbsp;task). Neurons below 0.5&nbsp;Hz are excluded.</li>
           <li><strong>Drift index:</strong> (last&nbsp;−&nbsp;first)/(last&nbsp;+&nbsp;first) of the task-window rate, comparing the last and first third of trials.</li>
-          <li><strong>Higher-order cortex:</strong> AId, AIp, AIv, AUDd, AUDpo, AUDv, FRP, MOs, SSs, VISal, VISl, VISli, VISpl, VISpm, VISpor and VISrl. This is cortex outside our DMN and outside the primary areas (VISp, SSp, MOp, AUDp, GU, VISC).</li>
+          <li><strong>Higher-order cortex:</strong> cortex outside the tested set and outside the primary areas (VISp, SSp, MOp, AUDp, GU, VISC).</li>
           <li><strong>Region tests:</strong> regions need ≥20 neurons in ≥2 sessions. The mean over set regions minus the mean over other cortex is tested by region permutation (20,000) and mouse bootstrap (1,000).</li>
         </ul>
       </div>
       <div>
-        <h3>Co-fluctuation (Figures 4–6)</h3>
+        <h3>Co-fluctuation (Figures 5–7)</h3>
         <ul>
           <li><strong>Nuisance regression:</strong> per neuron, wheel, licks and motion energy (each with a 1-bin lag; no lags in the mesoscope) are regressed out within the still bins.</li>
           <li><strong>Region signal:</strong> mean of z-scored neurons per region and probe (≥5 neurons; ≥10 ROIs in the mesoscope), with split-half reliability. Mesoscope pairs need reliability ≥0.5.</li>
@@ -416,7 +365,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
         </ul>
       </div>
       <div>
-        <h3>Single-region metrics (Figure 7)</h3>
+        <h3>Single-region metrics (Figure 8)</h3>
         <ul>
           <li><strong>Preprocessing:</strong> 1&nbsp;s binned spike counts over the whole grey-screen period. Wheel, licks and motion energy (each with a 1-bin lag) are regressed out per neuron. Neurons need ≥0.5&nbsp;Hz.</li>
           <li><strong>fALFF:</strong> Welch power spectrum (128-s segments), power in 0.01–0.1&nbsp;Hz divided by power in 0.01–0.5&nbsp;Hz. <strong>CV:</strong> standard deviation over mean of the 1&nbsp;s rate.</li>
@@ -428,19 +377,12 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
       <div>
         <h3>Region sets</h3>
         <ul>
-          <li><span class="mem m-both"></span><strong>Our mouse DMN:</strong>
-            <ul>
-              <li>core ACAd, ACAv, PL, ILA, ORBm, ORBl, ORBvl, RSPagl, RSPd, RSPv, VISa, VISam: the prefrontal and medial regions on which mouse rsfMRI studies agree (Stafford 2014, Sforazzini 2014, Gozzi &amp; Schwarz 2016, Whitesell 2021);</li>
-              <li>lateral TEa, ECT, PERI: temporal association areas, which Lu et al. include (TeA) but Whitesell et al. place in the lateral cortical network.</li>
-            </ul>
-          </li>
+          <li><span class="mem m-both"></span><strong>Conservative core (main):</strong> ACAd, ACAv, PL, ORBm, RSPagl, RSPd, RSPv.</li>
           <li><strong>Whitesell et al. (2021):</strong> ACAd, ACAv, PL, ILA, ORBl, ORBm, ORBvl, VISa, VISam, RSPagl, RSPd, RSPv, SSp-tr, SSp-ll, MOs (their Fig. 1E, &gt;50% of voxels in the core mask).</li>
-          <li><span class="mem m-lu"></span><strong>Lu et al. (2012), mapped to mouse:</strong>
-            <ul>
-              <li>prefrontal-temporal module: ORBm, ORBl, ORBvl, PL, ACAd, ACAv, AUDp, AUDd, AUDv, TEa;</li>
-              <li>parietal module: RSPagl, RSPd, RSPv, VISa, VISrl, VISam, VISpm, CA1.</li>
-            </ul>
-          </li>
+          <li><span class="mem m-lu"></span><strong>Lu et al. (2012), mapped to mouse:</strong> ORBm, ORBl, ORBvl, PL, ACAd, ACAv, AUDp, AUDd, AUDv, TEa (prefrontal-temporal module); RSPagl, RSPd, RSPv, VISa, VISrl, VISam, VISpm, CA1 (parietal module).</li>
+          <li><strong>Grandjean et al. (2020):</strong> ACAd, ACAv, RSPagl, RSPd, RSPv, TEa, and their unspecified prefrontal component mapped to PL, ILA, ORBm, ORBl, ORBvl.</li>
+          <li><strong>Mandino et al. (2022):</strong> ACAd, ACAv, RSPagl, RSPd, RSPv.</li>
+          <li><strong>Earlier versions</strong> of this report used a broader set (ACA, PL, ILA, ORB, RSP, VISa, VISam, plus TEa, ECT and PERI as "lateral"); ECT and PERI are in none of the four maps.</li>
         </ul>
       </div>
     </div>
@@ -457,6 +399,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
       <li><strong>Code:</strong>
         <ul>
           <li><code>~/default_mode_network/bwm/</code>: <code>40_spont_characterize.py</code>, <code>42_spont_A.py</code> (<code>G_full</code>; <code>G_me me_only</code>), <code>21_full_B.py spont motion 1 still</code> (and 0.5) and <code>41_spont_network.py</code>, <code>43_spont_single_region.py</code>;</li>
+          <li>region sets in <code>bwm/common.py</code>; Figure 1 from <code>report/fig_regions.py</code>;</li>
           <li><code>meso/33_meso_spont.py 200 require_me</code>;</li>
           <li>figures from <code>report/fig_grey.py</code>.</li>
         </ul>
@@ -465,7 +408,8 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   </section>
 
   <aside class="update" id="history" aria-label="Revision history">
-    <p><strong>Revision history.</strong> v2 followed an independent check of v1 against the outputs:</p>
+    <p><strong>Revision history.</strong> v5 (19 Oct) restricted all analyses to a conservative DMN core (ACA, RSP, PL, ORBm), justified by the overlap of four published rodent DMN maps (new Figure 1; Grandjean et al. 2020 and Mandino et al. 2022 added). The task-suppression result weakened from p&nbsp;&lt;&nbsp;0.001 to p&nbsp;=&nbsp;0.07, because the earlier effect came largely from ILA, ECT, PERI and TEa. The example session in Figure 2e now records retrosplenial neurons; figures were renumbered.</p>
+    <p>Earlier: v2 followed an independent check of v1 against the outputs:</p>
     <ul>
       <li><strong>Movement fractions:</strong> sessions without wheel or camera data were counted as "no movement". They are now left out (338 sessions with wheel, 361 with motion energy). Wheel movement is 14%, not 12%.</li>
       <li><strong>Suppression test:</strong> v1 treated about 1,170 overlapping 0.3&nbsp;s rest chunks per session as independent, which inflates significance. The test now uses one chunk per 3&nbsp;s, about 190 per session against about 380 trials. The DMN result holds; all percentages are lower.</li>

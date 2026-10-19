@@ -8,14 +8,16 @@ Map, BWM) and mesoscope data show signatures of the mouse default mode network
 - `report/grey/dmn_grey.html`: the current report, on the passive grey-screen period. Open it in a browser; the figures sit next to it. It covers the period's timing and movement, task suppression of DMN regions, which region pairs can be tested, resting coupling, and a comparison with Lu et al. 2012.
 - `report/REPORT.md` with `report/fig_dmn.pdf`: the earlier summary based on task inter-trial intervals (ITIs) as rest.
 
-**Short version**
-- **Supported:** DMN cortex is task-negative. It has more neurons suppressed during the task than other cortex, against ITIs and against the grey screen.
-- **Untestable with BWM:** a resting-state DMN *network*. Frontal and posterior DMN are never recorded together, and the few recorded DMN pairs show no preferential coupling.
+**Short version** (report v5)
+- **Region definition:** the main analyses use a conservative DMN core (ACA, RSP, PL, ORBm). ACA and RSP are in all four published rodent DMN maps (Lu 2012, Grandjean 2020, Whitesell 2021, Mandino 2022), and PL and ORB in three.
+- **Weak:** the core is only modestly more task-suppressed than other cortex (42% vs 35%, permutation p = 0.07). The earlier, stronger effect came from ILA, ECT, PERI and TEa.
+- **Untestable with BWM:** a resting-state DMN *network*. Frontal core and RSP are never recorded together, and the recorded core pairs show no preferential coupling.
 
 DMN regions (Allen Beryl level, `bwm/common.py`):
 - **Core:** ACAd, ACAv, PL, ILA, ORBm, ORBl, ORBvl, RSPagl, RSPd, RSPv, VISa, VISam.
 - **Lateral:** TEa, ECT, PERI.
-- **Published maps:** `common.py` also holds the Lu et al. 2012 rat DMN mapped to mouse areas, and the Whitesell et al. 2021 mouse DMN (Allen-registered rsfMRI). Whitesell et al. do not include our lateral regions.
+- **Conservative core (main):** `CONS_DMN` = ACAd, ACAv, PL, ORBm, RSPagl, RSPd, RSPv. `report/fig_regions.py` draws the Venn diagram that justifies it.
+- **Published maps:** `common.py` also holds the Lu et al. 2012, Grandjean et al. 2020, Whitesell et al. 2021 and Mandino et al. 2022 DMN sets. Whitesell et al. do not include our lateral regions.
 
 ## Setup
 - **Environment:** the IBL `iblenv` conda environment (ONE, ibllib, iblatlas, brainwidemap). Activate it before running anything.
@@ -70,7 +72,7 @@ python 21_full_B.py iti motion 0.5 still            # for the grey-vs-ITI compar
 python 41_spont_network.py spont_motion_0.5s_still && python 41_spont_network.py spont_motion_1s_still
 python 43_spont_single_region.py
 cd ../meso && python 33_meso_spont.py 200 && python 33_meso_spont.py 200 require_me
-cd ../report && python fig_grey.py
+cd ../report && python fig_regions.py && python fig_grey.py
 ```
 
 ## Contributing

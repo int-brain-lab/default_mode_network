@@ -103,3 +103,15 @@ LU_DMN = LU_PFC_TEMPORAL + LU_PARIETAL
 # cortical regions with >50% of voxels in the core DMN mask (z > 1.7), Fig. 1E.
 WHITESELL_DMN = ["ACAd", "ACAv", "PL", "ILA", "ORBl", "ORBm", "ORBvl", "VISa", "VISam", "RSPagl", "RSPd",
                  "RSPv", "SSp-tr", "SSp-ll", "MOs"]
+
+# Grandjean et al. 2020 (NeuroImage 205:116278; 17 mouse rsfMRI datasets, ACA seed + group ICA, CCFv3):
+# DMN components 'PFC' (prefrontal, subregions not specified -> PL, ILA, ORB here), 'Cg/RSP' and 'Tea'.
+GRANDJEAN_DMN = ["ACAd", "ACAv", "RSPagl", "RSPd", "RSPv", "TEa", "PL", "ILA", "ORBm", "ORBl", "ORBvl"]
+GRANDJEAN_PFC_UNSPECIFIED = ["PL", "ILA", "ORBm", "ORBl", "ORBvl"]
+# Mandino et al. 2022 (Mol Psychiatry 27:2110; mouse rsfMRI co-activation patterns + tracer projection
+# similarity to an ACA seed): cortical DMN labelled ACA and RSP ('anterior/posterior cingulate'), plus a medial
+# visual extension that is not labelled (not included here).
+MANDINO_DMN = ["ACAd", "ACAv", "RSPagl", "RSPd", "RSPv"]
+# Conservative core used from v5 of the report: ACA and RSP (all four papers) plus PL and ORBm
+# (Lu, Whitesell and Grandjean's prefrontal component). ORBl and ORBvl have the same literature support as ORBm.
+CONS_DMN = ["ACAd", "ACAv", "PL", "ORBm", "RSPagl", "RSPd", "RSPv"]

@@ -288,6 +288,23 @@
   "RSPd": 8
  },
  "classes": {
+  "cons": {
+   "n": {
+    "other-other": 546,
+    "dmn-other": 20,
+    "dmn-dmn": 1
+   },
+   "means": {
+    "dmn-dmn": 0.2373,
+    "dmn-other": -0.0225,
+    "other-other": 0.0004
+   },
+   "dmn-other minus other-other": [
+    -0.0229,
+    -0.1172,
+    0.0837
+   ]
+  },
   "ours_core": {
    "n": {
     "other-other": 410,
@@ -301,18 +318,18 @@
    },
    "dmn-dmn minus dmn-other": [
     0.0294,
-    -0.1771,
-    0.1367
+    -0.1712,
+    0.1382
    ],
    "dmn-dmn minus other-other": [
     0.2132,
-    0.0223,
+    0.0446,
     0.3288
    ],
    "dmn-other minus other-other": [
     0.1837,
-    0.1101,
-    0.2398
+    0.1082,
+    0.2384
    ]
   },
   "ours_core+lateral": {
@@ -328,18 +345,18 @@
    },
    "dmn-dmn minus dmn-other": [
     0.0535,
-    -0.1335,
-    0.1364
+    -0.1297,
+    0.1339
    ],
    "dmn-dmn minus other-other": [
     0.1743,
-    -0.0483,
-    0.2255
+    -0.0488,
+    0.2272
    ],
    "dmn-other minus other-other": [
     0.1208,
     0.0258,
-    0.1812
+    0.1762
    ]
   },
   "lu_all": {
@@ -355,18 +372,18 @@
    },
    "dmn-dmn minus dmn-other": [
     -0.0037,
-    -0.1481,
-    0.0561
+    -0.1426,
+    0.0556
    ],
    "dmn-dmn minus other-other": [
     0.0284,
-    -0.11,
-    0.1345
+    -0.1208,
+    0.1336
    ],
    "dmn-other minus other-other": [
     0.032,
-    -0.036,
-    0.1139
+    -0.0341,
+    0.1114
    ]
   },
   "lu_pfc_temporal": {
@@ -387,13 +404,13 @@
    ],
    "dmn-dmn minus other-other": [
     -0.1726,
-    -0.355,
-    -0.0363
+    -0.3516,
+    -0.0319
    ],
    "dmn-other minus other-other": [
     -0.1619,
-    -0.2109,
-    -0.0505
+    -0.2086,
+    -0.0533
    ]
   },
   "lu_parietal": {
@@ -409,18 +426,18 @@
    },
    "dmn-dmn minus dmn-other": [
     -0.0107,
-    -0.1473,
-    0.133
+    -0.1424,
+    0.1398
    ],
    "dmn-dmn minus other-other": [
     0.108,
-    -0.0668,
-    0.249
+    -0.0649,
+    0.2569
    ],
    "dmn-other minus other-other": [
     0.1186,
-    0.0424,
-    0.1628
+    0.0453,
+    0.1611
    ]
   },
   "whitesell": {
@@ -436,18 +453,18 @@
    },
    "dmn-dmn minus dmn-other": [
     0.2155,
-    0.077,
-    0.4091
+    0.0814,
+    0.4083
    ],
    "dmn-dmn minus other-other": [
     0.3764,
-    0.1874,
-    0.6047
+    0.1872,
+    0.6092
    ],
    "dmn-other minus other-other": [
     0.1608,
-    0.0124,
-    0.2271
+    0.0078,
+    0.228
    ]
   }
  }
