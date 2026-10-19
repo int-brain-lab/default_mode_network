@@ -10,6 +10,7 @@ Map, BWM) and mesoscope data show signatures of the mouse default mode network
 
 **Short version** (report v5)
 - **Region definition:** the main analyses use a conservative DMN core (ACA, RSP, PL, ORBm). ACA and RSP are in all four published rodent DMN maps (Lu 2012, Grandjean 2020, Whitesell 2021, Mandino 2022), and PL and ORB in three.
+- **No deactivation:** across behavioural windows the core's population firing is never below its own rest level. It rises 19% during movement and feedback, against 39% in other cortex.
 - **Weak:** the core is only modestly more task-suppressed than other cortex (42% vs 35%, permutation p = 0.07). The earlier, stronger effect came from ILA, ECT, PERI and TEa.
 - **Untestable with BWM:** a resting-state DMN *network*. Frontal core and RSP are never recorded together, and the recorded core pairs show no preferential coupling.
 
@@ -47,6 +48,8 @@ The grey-screen analyses are run separately (see below).
 | 40_spont_characterize.py | grey-screen period per session: timing, duration, wheel / licks / motion energy / pupil, stillness |
 | 41_spont_network.py | grey screen: region-pair coverage, DMN coupling (ours and Lu et al.), robustness, power, CV network, grey-vs-ITI consistency |
 | 42_spont_A.py | rest preference vs the grey screen, with drift controls (`G_full`; `G_me me_only`) |
+| 44_windows.py | session-averaged rates per neuron in stimulus, movement + feedback, quiescence, inter-trial rest/moving and grey still/moving windows; trial-wise coupling in quiescence and inter-trial rest |
+| 45_window_stats.py | DMN-motivated contrasts (within region, core vs other cortex / all regions, within session), suppressed fractions, trial-wise coupling classes |
 | 43_spont_single_region.py | single-region resting metrics on the grey screen: fALFF, fluctuation amplitude, local synchrony (ReHo analogue) |
 | common.py, dmnstats.py | region sets, loaders, region-level statistics |
 
@@ -71,8 +74,9 @@ python 21_full_B.py spont motion 1 still && python 21_full_B.py spont motion 0.5
 python 21_full_B.py iti motion 0.5 still            # for the grey-vs-ITI comparison
 python 41_spont_network.py spont_motion_0.5s_still && python 41_spont_network.py spont_motion_1s_still
 python 43_spont_single_region.py
+python 44_windows.py && python 45_window_stats.py
 cd ../meso && python 33_meso_spont.py 200 && python 33_meso_spont.py 200 require_me
-cd ../report && python fig_regions.py && python fig_grey.py
+cd ../report && python fig_regions.py && python fig_grey.py && python fig_windows.py
 ```
 
 ## Contributing

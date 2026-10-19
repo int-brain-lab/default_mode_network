@@ -454,8 +454,8 @@ caps = [
     f"recorded in $\\geq$3 mice (blue) and recorded on two different probes in $\\geq$3 mice (orange), top to bottom. The frontal-to-RSP edge at the centre of every DMN map (ACA/PL/ILA/ORB to RSP) is recorded "
     f"in {J['lu_hub_pfc_rsp']['n_sessions']} sessions.",
 ]
-save_with_caption(fig, OUTD / "fig5_coverage", caps, label="grey_coverage", number=5)
-png(OUTD / "fig5_coverage")
+save_with_caption(fig, OUTD / "fig7_coverage", caps, label="grey_coverage", number=7)
+png(OUTD / "fig7_coverage")
 
 # ======================================================================= Fig 5: BWM coupling
 J5 = json.load(open(BWM / f"41_spont_network_spont_motion_0.5s_still.json"))
@@ -544,8 +544,8 @@ caps = [
     "mice (terciles), coupling measured in the other half; mean and 2.5--97.5\\% range over 400 half-splits; rest--rest exceeds rest--task in 52\\% of splits.",
     "Within-session contrast DMN-DMN minus DMN-other, mean over mice (number of mice above bars).",
 ]
-save_with_caption(fig, OUTD / "fig6_coupling", caps, label="grey_coupling", number=6)
-png(OUTD / "fig6_coupling")
+save_with_caption(fig, OUTD / "fig8_coupling", caps, label="grey_coupling", number=8)
+png(OUTD / "fig8_coupling")
 
 # ======================================================================= Fig 6: mesoscope grey screen
 MJ = json.load(open(MESO / "33_spont_meso_me.json"))
@@ -635,8 +635,8 @@ caps = [
     "the most coupled regions together with trunk somatosensory cortex (SSp-tr); RSP has too few pairs in this subset; "
     "the auditory areas and TEa (Lu et al. temporal module) are among the least coupled.",
 ]
-save_with_caption(fig, OUTD / "fig7_meso", caps, label="grey_meso", number=7)
-png(OUTD / "fig7_meso")
+save_with_caption(fig, OUTD / "fig9_meso", caps, label="grey_meso", number=9)
+png(OUTD / "fig9_meso")
 
 # ======================================================================= Fig 7: single-region metrics
 SR = json.load(open(BWM / "43_single_region.json"))
@@ -700,8 +700,8 @@ caps = [
     f"Per region, grey-screen rest preference (RI, Fig. 4) against fALFF: Spearman $\\rho$ = "
     f"{SR['vs_RI_grey_neuron']['fALFF_adj']:.2f}; the two single-region measures are unrelated.",
 ]
-save_with_caption(fig, OUTD / "fig8_single_region", caps, label="grey_single", number=8)
-png(OUTD / "fig8_single_region")
+save_with_caption(fig, OUTD / "fig10_single_region", caps, label="grey_single", number=10)
+png(OUTD / "fig10_single_region")
 
 # ======================================================================= Fig S1: three DMN definitions, rest preference
 GS = json.load(open(BWM / "42_spont_A_G_full.json"))
