@@ -140,7 +140,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
       <li><strong>When:</strong> always after the task, a median 1.1&nbsp;min after the last trial (5–95%: 0.6–3.9&nbsp;min).</li>
       <li><strong>How long:</strong> 600&nbsp;s in 341 sessions and 300&nbsp;s in 55 (Figure 1). The first second is skipped in all analyses.</li>
     </ul>
-    <figure><img src="fig1_protocol.png" width="1470" height="1086" alt="Passive protocol timeline, histograms of grey-screen duration, delay after the task and still fraction, and an example session's wheel, motion energy and still bins."></figure>
+    <figure><img src="fig1_protocol.png" width="1470" height="1466" alt="Passive protocol timeline, histograms of grey-screen duration, delay after the task and still fraction, and an example session's wheel, motion energy, still bins and a raster of its 20 most active neurons."></figure>
   </section>
 
   <section id="movement" aria-labelledby="h-movement">
@@ -164,6 +164,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
     <ul>
       <li><strong>Missing behaviour data:</strong> motion energy is missing for 35 sessions and the wheel for 58. Without motion energy, stillness rests on wheel and licks only and is more lenient (still fraction 0.81 vs 0.67). Section 3 repeats the main test without these sessions.</li>
       <li><strong>Licks:</strong> 107 sessions show more than 10 detected licks per minute on the grey screen, with no reward available. Part of this is probably lick-detection noise; lick bins are excluded either way.</li>
+      <li><strong>Most face and paw movements happen without wheel turns.</strong> In the example session (Figure 1e), only 40% of the bins with high motion energy have any wheel movement. The rest are brief snout, head and paw movements (median 0.15&nbsp;s, about one per second), confirmed by the nose and paw keypoints and by the right camera (motion energy correlated with the left camera at 0.93). The stillness criterion removes these too, not just wheel turns.</li>
       <li><strong>Stillness is stable over time:</strong> the still fraction stays near 0.68 from the first to the last minute (Figure 2d).</li>
     </ul>
     <figure><img src="fig2_movement.png" width="1470" height="632" alt="Scatter plots of wheel movement and high motion energy fractions in grey screen vs task ITI, ratios of motion energy and pupil, and stillness time course."></figure>

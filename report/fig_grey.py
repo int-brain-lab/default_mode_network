@@ -18,7 +18,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "bwm"))
 from plotstyle import NATURE_DOUBLE_COL_IN, panel_label, save_with_caption, style_axes  # noqa: E402
-from common import DMN_ALL, DMN_CORE, DMN_LATERAL, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, WHITESELL_DMN  # noqa: E402
+from common import beryl, DMN_ALL, DMN_CORE, DMN_LATERAL, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, WHITESELL_DMN  # noqa: E402
 
 BWM = HERE.parent / "bwm" / "output"
 MESO = HERE.parent / "meso" / "output"
@@ -57,8 +57,8 @@ def mboot_mean(v, n=2000):
 # ======================================================================= Fig 1: protocol and timing
 D = pd.read_csv(BWM / "40_spont_sessions.csv")
 H = D[D.has_spont].copy()
-fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 4.0))
-gs = fig.add_gridspec(3, 3, height_ratios=[0.4, 1, 1.15], hspace=0.75, wspace=0.45)
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 5.8))
+gs = fig.add_gridspec(3, 3, height_ratios=[0.4, 1, 2.9], hspace=0.55, wspace=0.45)
 ax = fig.add_subplot(gs[0, :])
 blocks = [("task", 0, 38, "#d9d7cf", "k"), ("grey screen, 10 min", 42, 66, C_GREY, "white"),
           ("RF map, ~5 min", 67, 80, "#d9d7cf", "k"), ("task replay", 81, 96, "#d9d7cf", "k")]
@@ -108,7 +108,22 @@ w, me, lk = (s[k][a:b].astype(float) for k in ("wheel_speed", "motion_energy", "
 thr = np.nanpercentile(s["motion_energy"].astype(float), 60)
 mov = (w > 0.05) | ((lk > 0) & (lk < 255)) | (me > thr)
 mov = mov | np.r_[False, mov[:-1]] | np.r_[mov[1:], False]
-sub = gs[2, :].subgridspec(3, 1, hspace=0.15)
+# raster: 20 neurons with the highest firing rate in the window, 0.5 s bins
+RB = 10  # 50 ms bins per raster bin
+Xs, regs_ = [], []
+for f in sorted((BWM / "full").glob(f"{ex}_probe*.npz")):
+    p_ = np.load(f, allow_pickle=True)
+    Xs.append(p_["counts"][:, a:b].astype(np.float32))
+    regs_.append(np.char.add(beryl(p_["atlas_id"]).astype(str), np.full(len(p_["atlas_id"]), f" ({str(p_['probe'])[-2:]})")))
+Xs, regs_ = np.concatenate(Xs), np.concatenate(regs_)
+rates = Xs.sum(1) / ((b - a) * BIN)
+top = np.argsort(rates)[::-1][:20]
+nr = (b - a) // RB
+Rr = Xs[top, : nr * RB].reshape(len(top), nr, RB).sum(2) / (RB * BIN)
+lo_, hi_ = np.percentile(Rr, 1, axis=1, keepdims=True), np.percentile(Rr, 99, axis=1, keepdims=True)
+Rr = (Rr - lo_) / (hi_ - lo_).clip(1e-9)
+n_neurons_ex = len(rates)
+sub = gs[2, :].subgridspec(4, 1, hspace=0.15, height_ratios=[1, 1, 0.45, 4.2])
 for i, (y, lab, c) in enumerate(((w, "wheel", "k"), (me / np.nanmedian(s["motion_energy"]), "motion\nenergy", "k"),
                                   (None, "still", None))):
     ax = fig.add_subplot(sub[i])
@@ -125,11 +140,20 @@ for i, (y, lab, c) in enumerate(((w, "wheel", "k"), (me / np.nanmedian(s["motion
         style_axes(ax)
         ax.set_yticks([])
         ax.set_ylabel(lab, fontsize=6, rotation=0, ha="right", va="center")
-        ax.set_xlabel("time in grey-screen period (min)")
+        ax.set_xticks([])
         ax.spines["left"].set_visible(False)
+        ax.spines["bottom"].set_visible(False)
     ax.set_xlim(0, t[-1])
     if i == 0:
         panel_label(ax, "e", x=-0.085, y=1.0)
+ax = fig.add_subplot(sub[3])
+ax.imshow(np.clip(Rr, 0, 1), aspect="auto", cmap="Greys", interpolation="nearest",
+          extent=[0, nr * RB * BIN / 60, len(top) - 0.5, -0.5])
+ax.set_yticks(range(len(top)))
+ax.set_yticklabels([f"{regs_[i]} {rates[i]:.0f} Hz" for i in top], fontsize=4.2)
+ax.set_xlim(0, t[-1])
+style_axes(ax, categorical_y=True)
+ax.set_xlabel("time in grey-screen period (min)")
 caps = [
     "IBL passive protocol after the task (iblrig \\texttt{passiveChoiceWorld}): frame2ttl spacers separate the spontaneous "
     "period, during which Bonsai clears the screen to grey with the sync square off and shows no stimulus "
@@ -143,7 +167,10 @@ caps = [
     "session's 60th percentile, with a one-bin margin (the first second is skipped); median 6.5 min of 10. In the 35 sessions without "
     "motion energy, stillness rests on wheel and licks only (median fraction 0.81 vs 0.67).",
     f"Example session with median stillness: wheel speed, left-camera motion energy (normalised to "
-    "the session median; dashed, the stillness threshold; wheel in rad/s) and the resulting still bins.",
+    "the session median; dashed, the stillness threshold; wheel in rad/s), the resulting still bins, and a raster of the "
+    "20 neurons with the highest firing rate in this window (of " + f"{n_neurons_ex}" + " good units on both probes; 0.5 s bins, "
+    "each row scaled between its 1st and 99th percentile, black = high; labels give Beryl region, probe and mean rate). "
+    "This session's probes are in cerebellum and brainstem, so these are not DMN neurons.",
 ]
 save_with_caption(fig, OUTD / "fig1_protocol", caps, label="grey_protocol", number=1)
 png(OUTD / "fig1_protocol")
