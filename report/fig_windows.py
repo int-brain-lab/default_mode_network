@@ -12,6 +12,7 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "bwm"))
+from matplotlib.patches import Rectangle  # noqa: E402
 from plotstyle import NATURE_DOUBLE_COL_IN, panel_label, save_with_caption, style_axes  # noqa: E402
 from common import CONS_DMN  # noqa: E402
 
@@ -31,7 +32,50 @@ def png(stem):
 # ======================================================================= Fig 5: rates per window
 groups = [(r, r) for r in ["ACAd", "ACAv", "PL", "ORBm", "RSPagl", "RSPd", "RSPv"]] + \
          [("core", "core (all 7)"), ("other_ctx", "other cortex"), ("other_all", "all other regions")]
-fig, axs = plt.subplots(2, 5, figsize=(NATURE_DOUBLE_COL_IN, 3.6))
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 4.6))
+gs5 = fig.add_gridspec(3, 5, height_ratios=[0.62, 1, 1], hspace=0.5, wspace=0.45)
+axs = np.array([[fig.add_subplot(gs5[r + 1, c]) for c in range(5)] for r in range(2)])
+# a: windows on a median trial, relative to stimulus onset
+T = json.load(open(BWM / "44_trial_timing.json"))
+rt, fbt, fbend, gap, qd = (T[k][1] for k in ("rt", "fb", "fb_end", "gap", "quies"))
+t_start, t_end = -qd, fbt + fbend
+t_next = t_end + gap
+col = {w: c for w, _, c in WIN}
+ax = fig.add_subplot(gs5[0, :])
+# lane y-ranges: main lane for rest/quiescence/movement/feedback; a lower lane for the stimulus window,
+# which overlaps the movement window in time on a median trial
+UP, LO = (0.42, 0.7), (0.3, 0.4)
+blocks = [(-qd, -0.1, "quies", UP, "quiescence (still bins)", (-qd + -0.1) / 2, 0.76, "center"),
+          (0, 0.15, "stim", LO, "stimulus 0–0.15 s", -0.03, 1.12, "right"),
+          (rt - 0.15, rt + 0.15, "movefb", UP, "movement ±0.15 s", rt, 1.0, "left"),
+          (fbt, fbt + 0.3, "movefb", UP, "feedback 0–0.3 s", fbt + 0.32, 0.76, "left"),
+          (t_end, t_next, "iti", UP, "ITI rest (still bins)\nITI moving (moving bins)", (t_end + t_next) / 2, 0.76, "center"),
+          (-qd - gap, -qd, "iti", UP, "", 0, 0, "center")]
+for a0, a1, w, (y0, y1), lab, lx, ly, ha in blocks:
+    ax.add_patch(Rectangle((a0, y0), a1 - a0, y1 - y0, color=col[w], lw=0, alpha=1 if lab else 0.45))
+    if lab:
+        ax.text(lx, ly, lab, ha=ha, va="bottom", fontsize=4.8, color=col[w], linespacing=1.0)
+        if ly >= 1.0:
+            ax.plot([(a0 + a1) / 2, (a0 + a1) / 2 if ha == "left" else lx], [y1, ly - 0.02], color=col[w], lw=0.4)
+ax.add_patch(Rectangle((fbt + 0.32, 0.5), t_end - fbt - 0.32, 0.12, color="#e6e4dc", lw=0))
+ax.text((fbt + 0.32 + t_end) / 2, 0.56, "reward / error tone (not used)", ha="center", va="center", fontsize=4.0, color="#77756c")
+ax.plot([-qd - gap - 0.2, t_next + 0.5], [0.3, 0.3], color="k", lw=0.6)
+for x, lab, ly, ha in ((-qd - gap, "prev. trial end", 0.17, "center"), (-qd, "trial start", 0.17, "center"),
+                       (0, "stimulus onset", -0.36, "right"), (rt, "1st movement", -0.36, "left"),
+                       (fbt, "feedback", 0.17, "left"), (t_end, "trial end", 0.17, "center"),
+                       (t_next, "next trial start", 0.17, "center")):
+    ax.plot([x, x], [ly + 0.04, 0.3], color="k", lw=0.5)
+    ax.text(x, ly, f"{lab}\n{x:+.2f} s", ha=ha, va="top", fontsize=4.3, linespacing=1.0)
+# grey screen block after an axis break
+gx = t_next + 1.0
+ax.text(t_next + 0.62, 0.3, "//", ha="center", va="center", fontsize=6)
+ax.add_patch(Rectangle((gx, 0.3), 1.6, 0.38, color=col["grey"], lw=0))
+ax.text(gx + 0.8, 0.76, "grey screen (after the task, 10 min)\nstill bins / moving bins", ha="center", va="bottom",
+        fontsize=4.8, color=col["grey"], linespacing=1.0)
+ax.set_xlim(-qd - gap - 0.25, gx + 1.7)
+ax.set_ylim(-0.68, 1.3)
+ax.axis("off")
+panel_label(ax, "a", x=-0.02, y=0.8)
 for ax, (key, lab) in zip(axs.flat, groups):
     for i, (w, wl, col) in enumerate(WIN):
         m, lo, hi, nm = S["rates"][w][key]
@@ -46,8 +90,13 @@ for ax, (key, lab) in zip(axs.flat, groups):
 from matplotlib.patches import Patch
 fig.legend(handles=[Patch(color=col, label=wl.replace("\n", " ")) for w, wl, col in WIN], loc="lower center", ncol=7,
            fontsize=5.5, frameon=False, handlelength=1, columnspacing=1.2, bbox_to_anchor=(0.5, -0.01))
-fig.subplots_adjust(bottom=0.1, hspace=0.45, wspace=0.45)
+fig.subplots_adjust(bottom=0.08)
+panel_label(axs[0, 0], "b", x=-0.45, y=1.12)
 caps = [
+    "The windows on a median trial, aligned to stimulus onset (median event times from all BWM trials; quiescence "
+    f"lasts {T['quies'][0]:.2f}--{T['quies'][2]:.2f} s (IQR) because it restarts when the wheel moves). Window "
+    "lengths are to scale; the faded block is the previous inter-trial gap. The period between feedback and trial end "
+    "(reward consumption or error tone) is not used. The grey screen follows the task.",
     "Session-averaged firing rate in seven behavioural windows for each region of the conservative DMN core, the core "
     "pooled, all other cortex and all other recorded regions (bars, left to right as in the legend): stimulus "
     "(0--0.15 s after onset), movement + feedback (movement onset $-$0.15--0 s, 0--0.15 s and feedback 0--0.3 s; the task "
