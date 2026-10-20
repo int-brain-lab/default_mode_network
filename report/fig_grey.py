@@ -389,348 +389,274 @@ P["subject"] = P.eid.map(SUBJ)
 M = pd.read_parquet(BWM / f"21_regions_{BTAG}.pqt")
 keep = (P.c1.eq("Isocortex") | P.r1.eq("CA1")) & (P.c2.eq("Isocortex") | P.r2.eq("CA1"))
 Q = P[keep]
-order_groups = [("conservative core", CONS_DMN), ("other literature DMN", [r for r in LIT_DMN if r not in CONS_DMN])]
-present = set(Q.r1) | set(Q.r2) | set(M[M.cosmos.eq("Isocortex") | M.region.eq("CA1")].region)
-order, bounds = [], []
-for lab, mem in order_groups:
-    m = [r for r in mem if r in present]
-    bounds.append((lab, len(order), len(order) + len(m)))
-    order += m
-others = sorted(present - set(order), key=lambda r: (r[:3], r))
-bounds.append(("other cortex", len(order), len(order) + len(others)))
-order += others
+# a: core region pairs only (7 x 7): mice with the pair, of which on two different probes
+order = list(CONS_DMN)
 idx = {r: i for i, r in enumerate(order)}
 n = len(order)
 MM = np.zeros((n, n))
 XX = np.zeros((n, n))
-for (r1, r2), g in Q.groupby(["r1", "r2"]):
+for (r1, r2), g in Q[Q.r1.isin(order) & Q.r2.isin(order)].groupby(["r1", "r2"]):
     i, j = idx[r1], idx[r2]
     MM[i, j] = MM[j, i] = g.subject.nunique()
     XX[i, j] = XX[j, i] = g[~g.same_probe].subject.nunique()
-fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 8.2))
-gs = fig.add_gridspec(2, 3, height_ratios=[3.2, 1], hspace=0.28, wspace=0.75)
-ax = fig.add_subplot(gs[0, :])
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 2.5))
+gs = fig.add_gridspec(1, 4, width_ratios=[1.25, 1, 1, 1.25], wspace=0.75)
+ax = fig.add_subplot(gs[0, 0])
+cmW7 = plt.get_cmap("Blues").copy()
+cmW7.set_bad("#f0efea")
 Mshow = np.where(MM > 0, MM, np.nan)
-im = ax.imshow(Mshow, cmap="Blues", vmin=0, vmax=max(5, np.nanmax(Mshow)), interpolation="nearest")
+np.fill_diagonal(Mshow, np.nan)
+im = ax.imshow(np.ma.masked_invalid(Mshow), cmap=cmW7, vmin=0, vmax=max(8, np.nanmax(Mshow)), interpolation="nearest")
 for i in range(n):
     for j in range(n):
-        if XX[i, j] > 0:
-            ax.plot(j, i, marker="x", ms=3, color="k", mew=0.8)
-for lab, a, b in bounds[:-1]:
-    ax.add_patch(Rectangle((a - .5, a - .5), b - a, b - a, fill=False, ec="k", lw=0.8))
+        if i != j and MM[i, j] > 0:
+            ax.text(j, i, f"{MM[i, j]:.0f}" + (f"\n({XX[i, j]:.0f})" if XX[i, j] else ""), ha="center", va="center",
+                    fontsize=4.3, color="white" if MM[i, j] >= 5 else "k", linespacing=0.9)
+ax.add_patch(Rectangle((-.5, -.5), 4, 4, fill=False, ec="k", lw=0.6))
+ax.add_patch(Rectangle((3.5, 3.5), 3, 3, fill=False, ec="k", lw=0.6))
 ax.set_xticks(range(n))
 ax.set_yticks(range(n))
-ax.set_xticklabels(order, rotation=90, fontsize=5)
-ax.set_yticklabels(order, fontsize=5)
-for t_, r in zip(ax.get_yticklabels(), order):
-    t_.set_color(rcol(r) if rcol(r) != C_OTH else "k")
-for t_, r in zip(ax.get_xticklabels(), order):
-    t_.set_color(rcol(r) if rcol(r) != C_OTH else "k")
-cb = fig.colorbar(im, ax=ax, fraction=0.025, pad=0.01, shrink=0.6)
-cb.set_label("mice with the pair", fontsize=6)
-cb.ax.tick_params(labelsize=5)
-panel_label(ax, "a", x=-0.03, y=1.0)
-ax = fig.add_subplot(gs[1, 0])
+ax.set_xticklabels(order, rotation=90, fontsize=5.5)
+ax.set_yticklabels(order, fontsize=5.5)
+ax.tick_params(length=0)
+for sp_ in ax.spines.values():
+    sp_.set_visible(False)
+panel_label(ax, "a", x=-0.45, y=1.02)
+ax = fig.add_subplot(gs[0, 1])
 k_ours = M[M.region.isin(CONS_DMN)].groupby("eid").region.nunique().reindex(M.eid.unique(), fill_value=0)
 k_lu = M[M.region.isin(LU_DMN)].groupby("eid").region.nunique().reindex(M.eid.unique(), fill_value=0)
 xs = np.arange(0, 6)
-ax.bar(xs - .2, [(k_ours == x).sum() for x in xs], width=.4, color=C_BOTH, label="core")
-ax.bar(xs + .2, [(k_lu == x).sum() for x in xs], width=.4, color=C_LU, label="Lu et al.")
-ax.set_xlabel("DMN regions per session")
+ax.bar(xs, [(k_ours == x).sum() for x in xs], width=.7, color=C_BOTH)
+ax.set_xlabel("core regions per session")
 ax.set_ylabel("sessions")
-ax.text(0.98, 0.95, "conservative core", color=C_BOTH, transform=ax.transAxes, ha="right", fontsize=6, va="top")
-ax.text(0.98, 0.83, "Lu et al.", color=C_LU, transform=ax.transAxes, ha="right", fontsize=6, va="top")
 style_axes(ax)
 ax.set_xticks(range(0, 6))
 panel_label(ax, "b", x=-0.4)
-ax = fig.add_subplot(gs[1, 1])
+ax = fig.add_subplot(gs[0, 2])
 kc = M[M.cosmos == "Isocortex"].groupby("eid").region.nunique().reindex(M.eid.unique(), fill_value=0)
 ax.bar(range(0, 8), [(kc == x).sum() for x in range(8)], color=C_OTH)
 ax.set_xlabel("cortical regions\nper session")
 ax.set_ylabel("sessions")
 style_axes(ax)
 panel_label(ax, "c", x=-0.4)
-ax = fig.add_subplot(gs[1, 2])
+ax = fig.add_subplot(gs[0, 3])
 J = json.load(open(BWM / f"41_spont_network_{BTAG}.json"))
-labels = ["conservative core", "Whitesell et al.", "Lu et al."]
-keys = ["cons", "whitesell", "lu"]
+labels = ["conservative core"]
+keys = ["cons"]
 poss = [J["coverage"][k]["n_possible_edges"] for k in keys]
 anyp = [J["coverage"][k]["n_edges_any"] for k in keys]
 ge3 = [J["coverage"][k]["n_edges_ge3_mice"] for k in keys]
-y = np.arange(3)
+y = np.arange(1)
 cx3 = [J["coverage"][k]["n_edges_cross_probe_ge3_mice"] for k in keys]
 for j, (vals, col) in enumerate(((poss, "#cfccc2"), (anyp, "#86b6ef"), (ge3, C_BOTH), (cx3, C_OURS))):
     ax.barh(y - 0.3 + j * 0.2, vals, color=col, height=0.18)
-    for i in range(3):
-        ax.text(vals[i] + 2, y[i] - 0.3 + j * 0.2, str(vals[i]), va="center", fontsize=4.5)
-ax.set_yticks(y)
-ax.set_yticklabels(labels)
+    for i in range(len(keys)):
+        ax.text(vals[i] + 0.4, y[i] - 0.3 + j * 0.2, str(vals[i]), va="center", fontsize=5)
+ax.set_yticks(y - 0.3 + np.arange(4) * 0.2 if False else [])
+for j, lab in enumerate(["possible", "recorded", "$\\geq$3 mice", "$\\geq$3 mice, 2 probes"]):
+    ax.text(-0.6, -0.3 + j * 0.2, lab, ha="right", va="center", fontsize=5.5)
 ax.invert_yaxis()
-ax.set_xlabel("region pairs (edges)")
-ax.set_xlim(0, max(poss) * 1.2)
-for j, (lab, col) in enumerate((("possible", "#a9a597"), ("recorded", "#5b9be6"), ("$\\geq$3 mice", C_BOTH),
-                                ("$\\geq$3 mice, 2 probes", C_OURS))):
-    ax.text(1.0, 1.12 - j * 0.08, lab, color=col, fontsize=5, transform=ax.transAxes, ha="right")
+ax.set_xlabel("core region pairs")
+ax.set_xlim(0, max(poss) * 1.25)
 style_axes(ax, categorical_y=True)
 panel_label(ax, "d", x=-0.35)
 caps = [
-    f"Which cortical (and CA1) region pairs have grey-screen co-fluctuation data: number of mice with both regions "
-    f"recorded ($\\geq$5 neurons each) in the same session with $\\geq$120 still 1 s bins. Of 319 sessions (116 mice) "
-    f"with enough still bins, 308 (114 mice) yield region signals and {J['n_sessions']} ({J['n_mice']} mice) record at "
-    f"least one such pair. Black crosses: at least one session records the pair on two different probes. Boxes: "
-    "the conservative DMN core and the other regions assigned to the DMN by at least one paper (Fig. 1). Tick colours "
-    "as in Fig. 4.",
-    "Number of DMN regions recorded per session, by definition.",
+    "Core DMN region pairs with grey-screen co-fluctuation data: number of mice with both regions recorded ($\\geq$5 "
+    "neurons each) in the same session with $\\geq$120 still 1 s bins; in brackets, mice in which the pair is recorded on "
+    "two different probes; grey, never recorded. Boxes: frontal core (ACA, PL, ORBm) and RSP. No frontal-RSP pair is "
+    "ever recorded.",
+    "Number of core regions recorded per session, out of 308 sessions with region signals.",
     "Number of cortical regions recorded per session; most sessions record none or one.",
-    "Edges (region pairs) within each DMN definition: possible (light grey), recorded at least once (light blue), "
-    f"recorded in $\\geq$3 mice (blue) and recorded on two different probes in $\\geq$3 mice (orange), top to bottom. The frontal-to-RSP edge at the centre of every DMN map (ACA/PL/ILA/ORB to RSP) is recorded "
-    f"in {J['lu_hub_pfc_rsp']['n_sessions']} sessions.",
+    "Core region pairs: possible, recorded at least once, recorded in $\\geq$3 mice and recorded on two different "
+    f"probes in $\\geq$3 mice. The frontal-to-RSP edge at the centre of every DMN map is recorded in "
+    f"{J['lu_hub_pfc_rsp']['n_sessions']} sessions.",
 ]
 save_with_caption(fig, OUTD / "fig7_coverage", caps, label="grey_coverage", number=7)
 png(OUTD / "fig7_coverage")
 
-# ======================================================================= Fig 5: BWM coupling
+# ======================================================================= Fig 8: BWM coupling, core only
 J5 = json.load(open(BWM / f"41_spont_network_spont_motion_0.5s_still.json"))
-fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 3.6))
-gs = fig.add_gridspec(2, 3, width_ratios=[1.3, 1.1, 0.9], hspace=0.7, wspace=0.85)
-ax = fig.add_subplot(gs[:, 0])
-sets = [("cons", "cons. core"), ("whitesell", "Whitesell"), ("lu_all", "Lu et al.")]
-yl, yt = [], []
-yy = 0
-for k, lab in sets:
-    for scope, sl, mk in (("cortex", "all pairs", "o"), ("cortex_cross_probe", "cross-probe", "s")):
-        for jj, (JJ, col, off) in enumerate(((J, "k", -.12), (J5, C_OTH, .12))):
-            v = JJ["classes"][f"{k}|{scope}"].get("dmn-dmn minus dmn-other")
-            if v is None:
-                continue
-            ax.plot([v[1], v[2]], [yy + off] * 2, color=col, lw=0.9)
-            ax.plot(v[0], yy + off, mk, color=col, ms=2.8)
-            dt = JJ["classes"][f"{k}|{scope}"].get("drop_top_pair")
-            if dt is not None and jj == 0:
-                ax.plot(dt, yy + off, "|", color=C_OURS, ms=5, mew=1.2)
-        nm = JJ["classes"][f"{k}|{scope}"]["n_mice_dd"]
-        yt.append(f"{lab}, {sl} ({J['classes'][f'{k}|{scope}']['n_mice_dd']})")
-        yl.append(yy)
-        yy += 1
-    yy += 0.4
+# residual coupling per pair as in 41_spont_network.py (cortex + CA1 baseline, 0.5 mm distance bins x probe relation)
+P8 = pd.read_parquet(BWM / f"21_pairs_{BTAG}.pqt")
+P8["subject"] = P8.eid.map(SUBJ)
+ctxca1 = (P8.c1.eq("Isocortex") | P8.r1.eq("CA1")) & (P8.c2.eq("Isocortex") | P8.r2.eq("CA1"))
+P8 = P8[ctxca1].copy()
+P8["dbin"] = pd.cut(P8.dist_mm, [0, .5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 20], labels=False)
+P8["resid"] = P8.z - P8.groupby(["dbin", "same_probe"]).z.transform("mean")
+P8 = P8[(P8.c1 == "Isocortex") & (P8.c2 == "Isocortex")]
+d1, d2 = P8.r1.isin(CONS_DMN), P8.r2.isin(CONS_DMN)
+P8["cl"] = np.where(d1 & d2, "core–core", np.where(d1 | d2, "core–other", "other–other"))
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 2.6))
+gs = fig.add_gridspec(1, 3, width_ratios=[1.2, 0.9, 1.0], wspace=1.25)
+ax = fig.add_subplot(gs[0, 0])
+rows8 = [("dmn-dmn minus dmn-other", "core–core − core–other"), ("dmn-dmn minus other-other", "core–core − other–other"),
+         ("dmn-other minus other-other", "core–other − other–other")]
+for i, (k, lab) in enumerate(rows8):
+    for JJ, col, off in ((J, "k", -0.12), (J5, C_OTH, 0.12)):
+        v = JJ["classes"]["cons|cortex"].get(k)
+        if v:
+            ax.plot([v[1], v[2]], [i + off] * 2, color=col, lw=1)
+            ax.plot(v[0], i + off, "o", color=col, ms=2.8)
 ax.axvline(0, color="k", lw=0.5, ls=":")
-ax.set_yticks(yl)
-ax.set_yticklabels(yt, fontsize=5)
+ax.set_yticks(range(len(rows8)))
+ax.set_yticklabels([r[1] for r in rows8], fontsize=5.5)
 ax.invert_yaxis()
-ax.set_xlabel("DMN-DMN minus DMN-other\n(distance residual, z)")
+ax.set_xlabel("difference in residual\ncoupling (z)")
+ax.text(1.0, 1.1, "1 s bins", color="k", fontsize=5.5, transform=ax.transAxes, ha="right")
+ax.text(1.0, 1.03, "0.5 s bins", color=C_OTH, fontsize=5.5, transform=ax.transAxes, ha="right")
 style_axes(ax, categorical_y=True)
-panel_label(ax, "a", x=-1.05, y=1.02)
-# edges with >= 3 mice
-EE = pd.concat([pd.read_csv(BWM / f"41_edges_{k}_{BTAG}.csv") for k in ("cons", "whitesell", "lu")]).drop_duplicates(["r1", "r2"])
-EE = EE[EE.n_mice >= 3].sort_values("mouse_mean")
-ax = fig.add_subplot(gs[:, 1])
-for i, (_, e) in enumerate(EE.iterrows()):
-    col = C_BOTH if (e.r1 in CONS_DMN and e.r2 in CONS_DMN) else C_OURS
-    ax.plot([e.ci_lo, e.ci_hi], [i, i], color=col, lw=0.9)
-    ax.plot(e.mouse_mean, i, "o", color=col, ms=2.8)
+panel_label(ax, "a", x=-1.0, y=1.02)
+ax = fig.add_subplot(gs[0, 1])
+mm = P8.groupby(["subject", "cl"]).resid.mean().unstack()
+for i, (c, colc) in enumerate((("other–other", C_OTH), ("core–other", "#86b6ef"), ("core–core", C_BOTH))):
+    v = mm[c].dropna().values
+    ax.scatter(i + rng.uniform(-0.15, 0.15, len(v)), v, s=5, color=colc, lw=0)
+    m, lo, hi = mboot_mean(v)
+    ax.errorbar(i + 0.3, m, yerr=[[m - lo], [hi - m]], fmt="o", color="k", ms=2, lw=0.7)
+    ax.text(i, -0.95, f"{len(v)}", ha="center", fontsize=5)
+ax.axhline(0, color="k", lw=0.4, ls=":")
+ax.set_ylim(-1.0, 1.0)
+ax.set_xticks(range(3))
+ax.set_xticklabels(["other–other", "core–other", "core–core"], rotation=30, ha="right", fontsize=5.5)
+ax.set_ylabel("residual coupling (z)")
+style_axes(ax, categorical_x=True)
+panel_label(ax, "b", x=-0.45, y=1.02)
+EC = pd.read_csv(BWM / f"41_edges_cons_{BTAG}.csv").sort_values("mouse_mean")
+ax = fig.add_subplot(gs[0, 2])
+for i, (_, e) in enumerate(EC.iterrows()):
+    if np.isfinite(e.ci_lo):
+        ax.plot([e.ci_lo, e.ci_hi], [i, i], color=C_BOTH, lw=0.9)
+    ax.plot(e.mouse_mean, i, "o", color=C_BOTH, ms=2.8, mfc=C_BOTH if np.isfinite(e.ci_lo) else "white")
 ax.axvline(0, color="k", lw=0.5, ls=":")
-ax.set_yticks(range(len(EE)))
-ax.set_yticklabels([f"{a}–{b} ({m}, {d:.1f} mm)" for a, b, m, d in zip(EE.r1, EE.r2, EE.n_mice, EE.dist_mm / 1)],
+ax.set_yticks(range(len(EC)))
+ax.set_yticklabels([f"{a}–{b} ({m} mice, {d:.1f} mm)" for a, b, m, d in zip(EC.r1, EC.r2, EC.n_mice, EC.dist_mm)],
                    fontsize=5)
 ax.set_xlabel("residual coupling (z)")
 style_axes(ax, categorical_y=True)
-panel_label(ax, "b", x=-1.0, y=1.02)
-# CV
-ax = fig.add_subplot(gs[0, 2])
-cv = J["cv_restpref"]["resid_means"]
-cq = J["cv_restpref"]["resid_q025_q975"]
-kk = ["rest-rest", "rest-task", "task-task"]
-ax.bar(range(3), [cv[k] for k in kk], color=[C_BOTH, "#86b6ef", C_OTH])
-ax.errorbar(range(3), [cv[k] for k in kk], yerr=[[cv[k] - cq[k][0] for k in kk], [cq[k][1] - cv[k] for k in kk]],
-            fmt="none", color="k", lw=0.7)
-ax.set_xticks(range(3))
-ax.set_xticklabels(["rest–rest", "rest–task", "task–task"], rotation=30, ha="right")
-ax.set_ylabel("residual coupling (z)")
-ax.axhline(0, color="k", lw=0.5)
-style_axes(ax, categorical_x=True)
-panel_label(ax, "c", x=-0.6)
-ax = fig.add_subplot(gs[1, 2])
-W = J["within"]
-ks = [k for k, _ in sets if k in W and W[k]["n_mice"] >= 5]
-ax.bar(range(len(ks)), [W[k]["mean"] for k in ks], color=[C_BOTH if k == "cons" else C_OURS for k in ks])
-for i, k in enumerate(ks):
-    ax.text(i, max(W[k]["mean"], 0) + .01, f"{W[k]['n_mice']}", ha="center", fontsize=5)
-ax.set_xticks(range(len(ks)))
-ax.set_xticklabels([dict(sets)[k] for k in ks], rotation=30, ha="right", fontsize=5)
-ax.set_ylabel("within session,\nDMN-DMN $-$ DMN-other")
-ax.axhline(0, color="k", lw=0.5)
-style_axes(ax, categorical_x=True)
-panel_label(ax, "d", x=-0.6)
+panel_label(ax, "c", x=-1.05, y=1.02)
+W8 = J["within"]["cons"]
 caps = [
-    "Grey-screen co-fluctuation of region signals (still bins only; wheel, lick and motion-energy regression), as "
-    "residual from pairs at the same distance and probe relation. Difference DMN-DMN minus DMN-other cortical pairs "
-    "for each region set, all pairs (circles) and pairs on different probes only (squares), 1 s (black) and 0.5 s "
-    "(grey) bins; 95\\% mouse-bootstrap CI; number of mice with a DMN-DMN pair in brackets. Orange tick: the 1 s "
-    "estimate after dropping the single most coupled DMN-DMN pair. The distance baseline uses cortical and CA1 pairs only. "
-    "With about 20 such contrasts, CIs that just exclude 0 would not survive correction. The conservative core has only 4 "
-    "cross-probe DMN-DMN pairs (4 mice), too few to estimate.",
-    "Every DMN edge (conservative core, Whitesell et al. or Lu et al.) recorded in $\\geq$3 mice: mean over mice of the "
-    "residual coupling, 95\\% bootstrap CI; brackets give the number of mice and the median distance between the two "
-    "regions. Blue: both regions in the conservative core; orange: other literature DMN edges.",
-    "Cross-validated rest-preference network: cortical regions ranked by grey-screen rest preference (RI) in one half of the "
-    "mice (terciles), coupling measured in the other half; mean and 2.5--97.5\\% range over 400 half-splits; rest--rest exceeds rest--task in 52\\% of splits.",
-    "Within-session contrast DMN-DMN minus DMN-other, mean over mice (number of mice above bars).",
+    "Grey-screen co-fluctuation of region signals for the conservative core (still bins only; wheel, lick and "
+    "motion-energy regression), as residual from cortical and CA1 pairs at the same distance and probe relation. "
+    "Differences between pair classes (cortical pairs only), 1 s (black) and 0.5 s (grey) bins, 95\\% mouse-bootstrap "
+    f"CI ({J['classes']['cons|cortex']['n_mice_dd']} mice with a core--core pair). Only 4 core--core pairs come from "
+    "two probes, too few to test separately.",
+    "Residual coupling per pair class, averaged per mouse (dots; number of mice at the bottom), black: mean and 95\\% "
+    "bootstrap CI.",
+    "Every recorded core pair: mean residual coupling over mice, with 95\\% bootstrap CI where $\\geq$3 mice (open "
+    "markers: fewer mice). Within session, core--core minus core--other coupling is "
+    f"{W8['mean']:+.2f} ({W8['n_mice']} mice, Wilcoxon p = {W8['wilcoxon_p']:.2f}).",
 ]
 save_with_caption(fig, OUTD / "fig8_coupling", caps, label="grey_coupling", number=8)
 png(OUTD / "fig8_coupling")
 
-# ======================================================================= Fig 6: mesoscope grey screen
-MJ = json.load(open(MESO / "33_spont_meso_me.json"))
-MJA = json.load(open(MESO / "33_spont_meso.json"))
-MP = pd.read_parquet(MESO / "33_spont_pairs_me.pqt")
-fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 3.0))
-gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1.25, 1.0], wspace=0.7)
+# ======================================================================= Fig 9: mesoscope, core (RSP) only
+msubj = pd.read_csv(MESO / "session_subjects.csv").drop_duplicates("session").set_index("session").subject
+MI = pd.read_parquet(MESO / "30_pairs_motion_iti1.pqt")
+MI["subject"] = MI.eid.map(msubj)
+MI = MI[(MI.rel1 >= .5) & (MI.rel2 >= .5)].copy()
+MI["z"] = np.arctanh(MI.r.clip(-.999, .999))
+MI["dbin"] = pd.cut(MI.dist_mm, [0, .5, 1, 1.5, 2, 2.5, 3, 4, 10], labels=False)
+MI["resid"] = MI.z - MI.groupby("dbin").z.transform("mean")
+m1, m2 = MI.r1.isin(CONS_DMN), MI.r2.isin(CONS_DMN)
+MI["cl"] = np.where(m1 & m2, "core–core", np.where(m1 | m2, "core–other", "other–other"))
+RS = MI[MI.cl == "core–other"].copy()
+RS["partner"] = np.where(RS.r1.isin(CONS_DMN), RS.r2, RS.r1)
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 2.5))
+gs = fig.add_gridspec(1, 2, width_ratios=[0.8, 1.6], wspace=0.45)
 ax = fig.add_subplot(gs[0, 0])
-for i, (k, lab, mem) in enumerate((("cons", "conservative core", CONS_DMN), ("lu_all", "Lu et al.", LU_DMN))):
-    d1, d2 = MP.r1.isin(mem), MP.r2.isin(mem)
-    cl = np.where(d1 & d2, "dmn-dmn", np.where(d1 | d2, "dmn-other", "other-other"))
-    mm = MP.assign(cl=cl).groupby(["subject", "cl"]).resid.mean().unstack()
-    for j, c in enumerate(["other-other", "dmn-other", "dmn-dmn"]):
-        if c not in mm:
-            continue
-        v = mm[c].dropna().values
-        x0 = i * 3.6 + j
-        col = (C_OTH, "#86b6ef" if i == 0 else "#8fd6b8", C_BOTH if i == 0 else C_LU)[j]
-        ax.scatter(x0 + rng.uniform(-.15, .15, len(v)), v, s=5, color=col, lw=0)
+mm = MI.groupby(["subject", "cl"]).resid.mean().unstack()
+for i, (c, colc) in enumerate((("other–other", C_OTH), ("core–other", "#86b6ef"), ("core–core", C_BOTH))):
+    v = mm[c].dropna().values if c in mm else np.array([])
+    ax.scatter(i + rng.uniform(-0.15, 0.15, len(v)), v, s=5, color=colc, lw=0)
+    if len(v) >= 3:
         m, lo, hi = mboot_mean(v)
-        ax.errorbar(x0 + .3, m, yerr=[[m - lo], [hi - m]], fmt="o", color="k", ms=2, lw=.7)
-        ax.text(x0, -0.56, f"{len(v)}", ha="center", fontsize=5)
-    ax.text(i * 3.6 + 1.1, 0.62, lab, ha="center", fontsize=6)
-ax.axhline(0, color="k", lw=.4, ls=":")
-ax.set_xlim(-0.6, 6.2)
-ax.set_xticks([0, 1, 2, 3.6, 4.6, 5.6])
-ax.set_xticklabels(["oth–oth", "DMN–oth", "DMN–DMN"] * 2, rotation=45, ha="right", fontsize=5)
-ax.set_ylim(-0.6, 0.7)
+        ax.errorbar(i + 0.3, m, yerr=[[m - lo], [hi - m]], fmt="o", color="k", ms=2, lw=0.7)
+    ax.text(i, ax.get_ylim()[0] if False else -0.55, f"{len(v)}", ha="center", fontsize=5)
+ax.axhline(0, color="k", lw=0.4, ls=":")
+ax.set_ylim(-0.6, 0.6)
+ax.set_xticks(range(3))
+ax.set_xticklabels(["other–other", "RSP–other", "RSP–RSP"], rotation=30, ha="right", fontsize=5.5)
 ax.set_ylabel("residual coupling (z)")
 style_axes(ax, categorical_x=True)
-panel_label(ax, "a", x=-0.3)
-ME = pd.read_csv(MESO / "33_spont_edges_me.csv")
-regs = [r for r in ["RSPagl", "RSPd", "VISam", "VISa", "VISpm", "VISrl", "TEa", "AUDp", "AUDd", "AUDpo", "VISp", "VISl",
-                    "VISal", "VISli", "SSp-bfd", "SSp-tr", "SSp-ll", "SSp-ul", "SSp-un", "SSp-n", "SSp-m", "SSs", "MOp",
-                    "MOs"] if r in set(ME.r1) | set(ME.r2)]
-ix = {r: i for i, r in enumerate(regs)}
-A = np.full((len(regs), len(regs)), np.nan)
-ME2 = ME[ME.n_mice >= 2]
-regs = [r for r in regs if r in set(ME2.r1) | set(ME2.r2)]
-ix = {r: i for i, r in enumerate(regs)}
-A = np.full((len(regs), len(regs)), np.nan)
-for _, e in ME2.iterrows():
-    if e.r1 in ix and e.r2 in ix:
-        A[ix[e.r1], ix[e.r2]] = A[ix[e.r2], ix[e.r1]] = e.resid
+panel_label(ax, "a", x=-0.45, y=1.02)
 ax = fig.add_subplot(gs[0, 1])
-lim = np.nanmax(np.abs(A))
-cmap6 = plt.get_cmap("RdBu_r").copy()
-cmap6.set_bad("#d9d7cf")
-im = ax.imshow(np.ma.masked_invalid(A), cmap=cmap6, vmin=-lim, vmax=lim, interpolation="nearest")
-ax.set_xticks(range(len(regs)))
-ax.set_yticks(range(len(regs)))
-ax.set_xticklabels(regs, rotation=90, fontsize=4.5)
-ax.set_yticklabels(regs, fontsize=4.5)
-for tl in list(ax.get_xticklabels()) + list(ax.get_yticklabels()):
-    r = tl.get_text()
-    tl.set_color(rcol(r) if rcol(r) != C_OTH else "k")
-cb = fig.colorbar(im, ax=ax, fraction=0.045, pad=0.02)
-cb.set_label("residual coupling (z)", fontsize=6)
-cb.ax.tick_params(labelsize=5)
-panel_label(ax, "b", x=-0.25, y=1.01)
-ax = fig.add_subplot(gs[0, 2])
-rr = []
-for r in regs:
-    v = ME[(ME.r1 == r) | (ME.r2 == r)]
-    v = v[v.n_mice >= 2]
-    if len(v) >= 3:
-        rr.append((r, v.resid.mean()))
-rr = sorted(rr, key=lambda x: x[1])
-ax.barh(range(len(rr)), [x[1] for x in rr], color=[rcol(x[0]) for x in rr], height=.7)
-ax.set_yticks(range(len(rr)))
-ax.set_yticklabels([x[0] for x in rr], fontsize=5)
-ax.axvline(0, color="k", lw=.5)
-ax.set_xlabel("mean residual coupling\nwith all other regions (z)")
-style_axes(ax, categorical_y=True)
-panel_label(ax, "c", x=-0.45)
+pm = RS.groupby(["partner", "subject"]).resid.mean().groupby("partner").agg(["mean", "size"])
+pm = pm[pm["size"] >= 2].sort_values("mean")
+ax.bar(range(len(pm)), pm["mean"], color=[rcol(r) for r in pm.index], width=0.7)
+for i, (r, row) in enumerate(pm.iterrows()):
+    ax.text(i, row["mean"] + (0.01 if row["mean"] >= 0 else -0.01), f"{int(row['size'])}", ha="center",
+            va="bottom" if row["mean"] >= 0 else "top", fontsize=4.5)
+ax.axhline(0, color="k", lw=0.5)
+ax.set_ylim(min(pm["mean"].min() * 1.25, -0.05), max(pm["mean"].max() * 1.25, 0.05))
+ax.set_xticks(range(len(pm)))
+ax.set_xticklabels(pm.index, rotation=60, ha="right", fontsize=5)
+ax.set_ylabel("RSP coupling with region\n(residual z, mean over mice)")
+style_axes(ax, categorical_x=True)
+panel_label(ax, "b", x=-0.12, y=1.02)
 caps = [
-    f"Mesoscope grey-screen period: sessions with $\\geq$200 s (most canonical sessions have only 60 s) and motion "
-    f"energy to verify stillness, {MJ['n_sessions_with_pairs']} sessions, {MJ['n_mice_with_pairs']} mice "
-    f"(all {MJA['n_sessions_long_spont']} long sessions, without the motion-energy requirement, give the same ordering). Region-averaged calcium activity in "
-    "still 1 s bins with nuisance regression; coupling as residual from the distance-matched mean; dots are mice, black "
-    "mean and 95\\% mouse-bootstrap CI; numbers at the bottom give the mice per class (the mesoscope images "
-    "only the RSP part of the conservative core, giving a single core-core pair, RSPagl-RSPd, from one mouse). No frontal DMN region is imaged in these sessions; the wheel is logged in only 8 of "
-    "the 23 long sessions.",
-    "Residual coupling of every imaged region pair present in $\\geq$2 mice (grey: pair not imaged in $\\geq$2 mice; regions without any such pair omitted), ordered posterior DMN, Lu temporal "
-    "(TEa, AUD), visual, somatosensory, motor; tick colours as in Fig. 4.",
-    "Mean residual coupling of each region with all other imaged regions (pairs in $\\geq$2 mice). VISa and VISam are "
-    "the most coupled regions together with trunk somatosensory cortex (SSp-tr); RSP has too few pairs in this subset; "
-    "the auditory areas and TEa (Lu et al. temporal module) are among the least coupled.",
+    f"Mesoscope, inter-trial rest (the grey screen images RSP in only 1--2 mice): still 1 s bins from 1 s after "
+    f"feedback to 0.2 s before the next stimulus, nuisance-regressed; RSP pairs from {RS.eid.nunique()} sessions, "
+    f"{RS.subject.nunique()} mice. The mesoscope images no frontal core region, so the core is RSPagl and RSPd. Residual "
+    "coupling (distance-matched) per pair class, averaged per mouse (dots; number of mice at the bottom); black, mean "
+    "and 95\\% bootstrap CI where $\\geq$3 mice.",
+    "Mean residual coupling of RSP with each imaged region (pairs in $\\geq$2 mice; numbers above bars: mice), "
+    "coloured as in Fig. 4.",
 ]
 save_with_caption(fig, OUTD / "fig9_meso", caps, label="grey_meso", number=9)
 png(OUTD / "fig9_meso")
 
-# ======================================================================= Fig 7: single-region metrics
+# ======================================================================= Fig 10: single-region metrics, core only
 SR = json.load(open(BWM / "43_single_region.json"))
-RN = pd.read_csv(BWM / "43_regions_neuron_metrics.csv", index_col=0)
-RS = pd.read_csv(BWM / "43_regions_sync.csv", index_col=0)
-fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 5.2))
-gs = fig.add_gridspec(3, 3, height_ratios=[1, 1, 1.25], hspace=0.95, wspace=0.6)
-for row, (R_, col, lab, let) in enumerate(((RN, "fALFF_adj", "fALFF\n(rate-adjusted)", "a"),
-                                           (RS, "sync_adj", "local synchrony\n(rate-adjusted)", "b"))):
-    C7 = R_[R_.cosmos == "Isocortex"].sort_values(col, ascending=False)
-    ax = fig.add_subplot(gs[row, :])
-    ax.bar(np.arange(len(C7)), C7[col], color=[rcol(r) for r in C7.index], width=0.75)
-    ax.axhline(0, color="k", lw=0.5)
-    ax.set_xticks(np.arange(len(C7)))
-    ax.set_xticklabels(C7.index, rotation=60, ha="right", fontsize=5)
-    ax.set_xlim(-0.7, len(C7) - 0.3)
+N43 = pd.read_parquet(BWM / "43_neurons.pqt")
+S43 = pd.read_parquet(BWM / "43_region_sessions.pqt")
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 2.4))
+gs = fig.add_gridspec(1, 4, width_ratios=[1, 1, 1, 1.15], wspace=0.75)
+for k, (D_, col, lab) in enumerate(((N43, "fALFF_adj", "fALFF (rate-adj.)"), (N43, "CV_adj", "CV (rate-adj.)"),
+                                     (S43, "sync_adj", "local synchrony\n(rate-adj.)"))):
+    ax = fig.add_subplot(gs[0, k])
+    oth = D_[(D_.cosmos == "Isocortex") & ~D_.region.isin(CONS_DMN)]
+    mo, lo_o, hi_o = mboot_mean(oth.groupby("subject")[col].mean().values)
+    ax.axhspan(lo_o, hi_o, color=C_OTH, alpha=0.3, lw=0)
+    ax.axhline(mo, color=C_OTH, lw=0.8)
+    for i, r in enumerate(CONS_DMN):
+        v = D_[D_.region == r].groupby("subject")[col].mean().dropna().values
+        if len(v) >= 2:
+            m, lo, hi = mboot_mean(v)
+            ax.plot([i, i], [lo, hi], color=C_BOTH, lw=0.9)
+        elif len(v):
+            m = v.mean()
+        else:
+            continue
+        ax.plot(i, m, "o", color=C_BOTH, ms=3)
+    ax.set_xticks(range(len(CONS_DMN)))
+    ax.set_xticklabels(CONS_DMN, rotation=60, ha="right", fontsize=5)
     ax.set_ylabel(lab)
     style_axes(ax, categorical_x=True)
-    if row == 0:
-        legend_sets(ax, x=0.3, y=0.42)
-    panel_label(ax, let, x=-0.05)
-ax = fig.add_subplot(gs[2, :2])
-sets7 = [("cons", "conservative core"), ("whitesell", "Whitesell et al."), ("lu_all", "Lu et al.")]
-mets = [("fALFF_adj", "fALFF", "k", 1), ("CV_adj", "CV", C_OTH, 0.1), ("sync_adj", "synchrony", C_GREY, 1)]
-for i, (k, lab) in enumerate(sets7):
-    for j, (m, ml, col, sc) in enumerate(mets):
-        v = SR["tests"][f"{m}|{k}|vs_other_ctx"]
-        lo, hi = v["subject_boot_ci95"]
-        y = i + (j - 1) * 0.22
-        ax.plot([lo * sc, hi * sc], [y, y], color=col, lw=1)
-        ax.plot(v["diff"] * sc, y, "o", color=col, ms=2.6, mfc=col if v["p_perm"] < 0.05 else "white")
+    panel_label(ax, "abc"[k], x=-0.45, y=1.02)
+ax = fig.add_subplot(gs[0, 3])
+for i, (m_, lab, sc) in enumerate((("fALFF_adj", "fALFF", 1), ("CV_adj", "CV × 0.1", 0.1), ("sync_adj", "synchrony", 1))):
+    v = SR["tests"][f"{m_}|cons|vs_other_ctx"]
+    lo, hi = v["subject_boot_ci95"]
+    ax.plot([lo * sc, hi * sc], [i, i], color=C_BOTH, lw=1)
+    ax.plot(v["diff"] * sc, i, "o", color=C_BOTH, ms=3, mfc=C_BOTH if v["p_perm"] < 0.05 else "white")
+    ax.text(max(hi * sc, 0) + 0.003, i, f"p={v['p_perm']:.2f}", va="center", fontsize=5)
 ax.axvline(0, color="k", lw=0.5, ls=":")
-ax.set_yticks(range(len(sets7)))
-ax.set_yticklabels([x[1] for x in sets7])
+ax.set_yticks(range(3))
+ax.set_yticklabels(["fALFF", "CV × 0.1", "synchrony"], fontsize=5.5)
 ax.invert_yaxis()
-ax.set_xlabel("set $-$ other cortex (rate-adjusted metric; CV $\\times$ 0.1)")
-for j, (m, ml, col, sc) in enumerate(mets):
-    ax.text(1.0, 1.16 - j * 0.09, ml, color=col, fontsize=6, transform=ax.transAxes, ha="right")
+ax.set_xlabel("core − other cortex")
 style_axes(ax, categorical_y=True)
-panel_label(ax, "c", x=-0.3)
-ax = fig.add_subplot(gs[2, 2])
-G7 = pd.read_csv(BWM / "42_regions_G_full.csv", index_col=0)
-cm = RN[RN.cosmos == "Isocortex"].index.intersection(G7.index)
-ax.scatter(G7.loc[cm, "RI_grey"], RN.loc[cm, "fALFF_adj"], s=8, c=[rcol(r) for r in cm], lw=0)
-ax.set_xlabel("rest index RI (grey)")
-ax.set_ylabel("fALFF (rate-adj.)")
-style_axes(ax)
-panel_label(ax, "d", x=-0.45)
+panel_label(ax, "d", x=-0.5, y=1.02)
 caps = [
-    f"Single-region resting metrics need no co-recording, so they pool across animals ({SR['n_neurons']:,} neurons, "
-    f"{SR['n_sessions']} sessions, {SR['n_mice']} mice). fALFF per neuron: fraction of 0.01--0.1 Hz power in the 1 s "
-    "binned rate over the whole grey-screen period after regressing wheel, licks and motion energy (the analogue of "
-    "fMRI fALFF), residualised on log firing rate, averaged per cortical region. Colours as in Fig. 4. The map is "
-    f"reproducible across halves of the mice (Spearman--Brown {SR['reliability']['fALFF_adj']['spearman_brown']:.2f}) but DMN regions "
-    "are spread throughout it.",
-    f"Local synchrony (ReHo analogue): mean pairwise correlation between neurons of a region on one probe in still 1 s "
-    f"bins, residualised on rate ({SR['n_region_sessions_sync']:,} region-sessions, {SR['n_mice_sync']} mice).",
-    "Difference between each DMN definition and other cortex for fALFF, fluctuation amplitude (coefficient of "
-    "variation, CV, scaled by 0.1) and local synchrony, all rate-adjusted: 95\\% mouse-bootstrap CI; filled markers "
-    "region-permutation p $<$ 0.05 (uncorrected).",
-    f"Per region, grey-screen rest preference (RI, Fig. 4) against fALFF: Spearman $\\rho$ = "
-    f"{SR['vs_RI_grey_neuron']['fALFF_adj']:.2f}; the two single-region measures are unrelated.",
+    f"Single-region resting metrics of the grey screen for each core region: fALFF per neuron (fraction of "
+    f"0.01--0.1 Hz power in the 1 s binned rate after regressing wheel, licks and motion energy, residualised on log "
+    f"firing rate), mean over mice with 95\\% bootstrap CI. Grey line and band: all other cortex.",
+    "Fluctuation amplitude (coefficient of variation of the 1 s rate, rate-adjusted).",
+    "Local synchrony (ReHo analogue): mean pairwise correlation between neurons of a region on one probe in still "
+    "1 s bins, rate-adjusted.",
+    "Core minus other cortex for the three metrics: 95\\% mouse-bootstrap CI and region-permutation p (open markers: "
+    "p $\\geq$ 0.05).",
 ]
 save_with_caption(fig, OUTD / "fig10_single_region", caps, label="grey_single", number=10)
 png(OUTD / "fig10_single_region")

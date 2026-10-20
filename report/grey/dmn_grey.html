@@ -352,54 +352,58 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   </section>
 
   <section id="coverage" aria-labelledby="h-coverage">
-    <h2 id="h-coverage">6. Which region pairs can be computed</h2>
+    <h2 id="h-coverage">6. Which core region pairs can be computed</h2>
     <p class="note">Conservative core: ACAd, ACAv, PL, ORBm, RSPagl, RSPd, RSPv.</p>
-    <p>Resting-state networks are defined by co-fluctuation, which needs two regions recorded at the same time. A region pair counts if a session has at least 5 neurons in each region and at least 120 fully still 1&nbsp;s bins. 319 sessions (116 mice) have enough still bins and 308 of them yield region signals, but only 104 (70 mice) record any cortical or CA1 pair (Figure 7).</p>
+    <p>Resting-state networks are defined by co-fluctuation, which needs two regions recorded at the same time. A region pair counts if a session has at least 5 neurons in each region and at least 120 fully still 1&nbsp;s bins. 319 sessions (116 mice) have enough still bins and 308 of them yield region signals (Figure 7).</p>
     <ul>
-      <li><strong>Core regions per session:</strong> of the 308 sessions, 267 record no core region, 21 record one, 19 two and 1 three.</li>
+      <li><strong>Core regions per session:</strong> of the 308 sessions, 267 record no core region, 21 record one, 19 two and 1 three. Most sessions record no or one cortical region at all.</li>
       <li><strong>Frontal core and RSP are never recorded together:</strong> frontal core (ACA, PL, ORBm) appears in 17 sessions and RSP in 24, never in the same one.</li>
       <li><strong>Core pairs:</strong> 7 of the 21 possible core pairs are recorded, all between neighbouring areas: ACAd–ACAv, ACAd–PL, ACAv–PL, ORBm–PL and the three RSP subdivisions.</li>
       <li><strong>Pairs in at least 3 mice:</strong> three (ACAd–ACAv, ACAd–PL, RSPd–RSPv). None is recorded on two probes in 3 mice.</li>
-      <li><strong>The wider literature sets do not help:</strong> 24 of 105 Whitesell pairs and 34 of 153 Lu pairs are recorded. None links frontal and posterior DMN.</li>
     </ul>
-    <figure><img src="fig7_coverage.png" width="1470" height="1766" alt="Matrix of mice per region pair for cortical regions and CA1, ordered by conservative core and other literature DMN, with histograms of core and cortical regions per session and bars of possible versus recorded edges."></figure>
+    <figure><img src="fig7_coverage.png" width="1470" height="845" alt="Matrix of mice per core region pair, histograms of core and cortical regions per session, and bars of possible versus recorded core pairs."></figure>
   </section>
 
   <section id="coupling" aria-labelledby="h-coupling">
-    <h2 id="h-coupling">7. Do DMN regions co-fluctuate on the grey screen?</h2>
+    <h2 id="h-coupling">7. Do core regions co-fluctuate on the grey screen?</h2>
     <p>There is no evidence that they do. Each region signal is the mean of z-scored neurons in still 1&nbsp;s bins, after regressing out wheel, licks and motion energy. Each pair correlation is compared with cortical pairs at the same distance and probe relation (Figure 8).</p>
     <ul>
-      <li><strong>Core:</strong> core–core pairs couple exactly as much as core–other pairs: +0.0005&nbsp;z, CI −0.10 to 0.11. That is 25 pairs from 20 sessions and 18 mice; the smallest detectable effect at 80% power is 0.15&nbsp;z. Only 4 core–core pairs come from two probes, too few to test.</li>
-      <li><strong>Single core edges</strong> recorded in ≥3 mice are all compatible with zero (ACAd–ACAv +0.03, ACAd–PL 0.00, RSPd–RSPv −0.03).</li>
+      <li><strong>Pair classes:</strong> core–core pairs couple exactly as much as core–other pairs: +0.0005&nbsp;z, CI −0.10 to 0.11; the same holds with 0.5&nbsp;s bins.
+        <ul>
+          <li>That is 25 pairs from 20 sessions and 18 mice; the smallest detectable effect at 80% power is 0.15&nbsp;z.</li>
+          <li>Only 4 core–core pairs come from two probes, too few to test.</li>
+        </ul>
+      </li>
+      <li><strong>Single core pairs</strong> recorded in ≥3 mice are all compatible with zero (ACAd–ACAv +0.03, ACAd–PL 0.00, RSPd–RSPv −0.03). The other four are recorded in only 1–2 mice.</li>
       <li><strong>Within session:</strong> core–core minus core–other is +0.04 (8 mice, p&nbsp;=&nbsp;0.64).</li>
-      <li><strong>Literature sets:</strong> the full Whitesell set gives a two-probe excess of +0.15&nbsp;z, but 72% of those pairs come from two frontal multi-probe sessions (Figure S2). The Lu set shows nothing.</li>
-      <li><strong>Cross-validated rest-preference network:</strong> cortical regions that prefer rest in one half of the mice do not co-fluctuate more in the other half (52% of 400 splits).</li>
-      <li><strong>State invariance:</strong> the same region pair in the same session couples similarly on the grey screen and in task ITIs (Spearman ρ&nbsp;=&nbsp;0.39 over 3,516 pairs). Coupling structure is partly a fixed property of the recorded circuits.</li>
+      <li><strong>State invariance:</strong> the same region pair in the same session couples similarly on the grey screen and in task ITIs (Spearman ρ&nbsp;=&nbsp;0.39 over 3,516 pairs of all regions). Coupling structure is partly a fixed property of the recorded circuits.</li>
+      <li><strong>Wider literature sets:</strong> see Figure S2.</li>
     </ul>
-    <figure><img src="fig8_coupling.png" width="1470" height="1019" alt="Forest plots of DMN minus other coupling for the conservative core, Whitesell and Lu sets and per DMN edge, cross-validated rest preference network bars, and within-session contrasts."></figure>
+    <figure><img src="fig8_coupling.png" width="1470" height="805" alt="Core pair-class coupling differences, per-mouse coupling by pair class, and coupling of every recorded core pair."></figure>
   </section>
 
   <section id="meso" aria-labelledby="h-meso">
     <h2 id="h-meso">8. Mesoscope comparison</h2>
-    <p>The mesoscope images many dorsal areas at once, but none of the frontal core.</p>
+    <p>The mesoscope images many dorsal areas at once, but none of the frontal core, so its core is RSP (RSPagl and RSPd) alone.</p>
     <ul>
-      <li><strong>Sessions:</strong> 79 of 102 canonical sessions with passive data have only 60&nbsp;s of grey screen. Of the 23 longer ones, 14 have motion energy to verify stillness, and 13 of these (7 mice) yield region pairs (Figure 9).</li>
-      <li><strong>The core is RSP only:</strong> RSPagl and RSPd give a single core–core pair, from one mouse. Core–other pairs are not more coupled than other–other pairs (+0.02&nbsp;z, CI −0.05 to 0.07).</li>
-      <li><strong>Other literature DMN regions:</strong> VISa and VISam (Lu and Whitesell) are among the most coupled imaged regions, together with trunk somatosensory cortex; auditory cortex and TEa are among the least. This pattern is not specific to DMN regions.</li>
+      <li><strong>Data:</strong> on the grey screen RSP is imaged in only 1–2 mice, too few to show. Figure 9 therefore uses inter-trial rest: still 1&nbsp;s bins from 1&nbsp;s after feedback to 0.2&nbsp;s before the next stimulus, giving RSP pairs from 14 sessions and 5 mice.</li>
+      <li><strong>RSP–RSP pairs</strong> (2 mice) are more coupled than distance predicts (+0.21&nbsp;z), but they are adjacent subdivisions of one area.</li>
+      <li><strong>RSP–other pairs</strong> (5 mice) are not more coupled than other–other pairs (−0.04 vs 0.00&nbsp;z).</li>
+      <li><strong>Per region:</strong> RSP couples least with trunk, limb and unassigned somatosensory cortex and most with MOp, VISal, VISam and VISp (each in only 2–4 mice). There is no pattern that follows the literature DMN regions.</li>
     </ul>
-    <figure><img src="fig9_meso.png" width="1470" height="1026" alt="Mesoscope grey-screen coupling by pair class per mouse, region pair matrix and per-region mean coupling."></figure>
+    <figure><img src="fig9_meso.png" width="1470" height="738" alt="Mesoscope inter-trial coupling by pair class per mouse for RSP, and RSP coupling with each imaged region."></figure>
   </section>
 
   <section id="single" aria-labelledby="h-single">
     <h2 id="h-single">9. Single-region resting metrics</h2>
-    <p>Resting-state fMRI also has measures for one region at a time. ALFF and fALFF measure how strongly and how slowly a region fluctuates at rest; ReHo measures how synchronised neighbouring voxels are. Their electrophysiological analogues need only one region per recording, so they pool across all 130 mice (Figure 10).</p>
+    <p>Resting-state fMRI also has measures for one region at a time. ALFF and fALFF measure how strongly and how slowly a region fluctuates at rest; ReHo measures how synchronised neighbouring voxels are. Their electrophysiological analogues need only one region per recording, so they pool across all mice (Figure 10).</p>
     <ul>
-      <li><strong>fALFF</strong> is the fraction of slow (0.01–0.1&nbsp;Hz) power in each neuron's 1&nbsp;s rate, after regressing out wheel, licks and motion energy and adjusting for firing rate. It gives a reproducible cortical map (split-half Spearman–Brown 0.75), but the core does not stand out (+0.0005, p&nbsp;=&nbsp;0.97).</li>
-      <li><strong>Fluctuation amplitude</strong> (coefficient of variation of the 1&nbsp;s rate) is largely set by firing rate (ρ&nbsp;=&nbsp;−0.79). After rate adjustment the core is slightly lower: −0.06, with a mouse CI excluding zero but region-permutation p&nbsp;=&nbsp;0.14.</li>
-      <li><strong>Local synchrony</strong> (mean correlation between neurons of one region in still 1&nbsp;s bins; 1,695 region-sessions, 116 mice) does not differ (−0.01, p&nbsp;=&nbsp;0.57).</li>
-      <li><strong>Independence:</strong> these resting metrics are unrelated to rest preference across regions (fALFF ρ&nbsp;=&nbsp;−0.05).</li>
+      <li><strong>fALFF</strong> is the fraction of slow (0.01–0.1&nbsp;Hz) power in each neuron's 1&nbsp;s rate, after regressing out wheel, licks and motion energy and adjusting for firing rate. Core regions scatter around the other-cortex level, PL highest and RSPv lowest; the core as a whole does not differ (+0.0005, p&nbsp;=&nbsp;0.97).</li>
+      <li><strong>Fluctuation amplitude</strong> (coefficient of variation of the 1&nbsp;s rate) is largely set by firing rate (ρ&nbsp;=&nbsp;−0.79). After rate adjustment the core is slightly lower (−0.06; mouse CI excludes zero, region-permutation p&nbsp;=&nbsp;0.14), driven by ACAv and RSPagl.</li>
+      <li><strong>Local synchrony</strong> (mean correlation between neurons of one region in still 1&nbsp;s bins) does not differ (−0.01, p&nbsp;=&nbsp;0.57).</li>
+      <li><strong>Independence:</strong> across cortical regions, these resting metrics are unrelated to rest preference (fALFF ρ&nbsp;=&nbsp;−0.05).</li>
     </ul>
-    <figure><img src="fig10_single_region.png" width="1470" height="1241" alt="Ranked rate-adjusted fALFF and local synchrony per cortical region, set differences for three single-region metrics, and fALFF against rest preference."></figure>
+    <figure><img src="fig10_single_region.png" width="1470" height="737" alt="Rate-adjusted fALFF, fluctuation amplitude and local synchrony for each core region against other cortex, and core minus other cortex for the three metrics."></figure>
   </section>
 
   <section id="verdict" aria-labelledby="h-verdict">
