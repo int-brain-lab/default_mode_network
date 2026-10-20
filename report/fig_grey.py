@@ -315,70 +315,62 @@ caps = [
 save_with_caption(fig, OUTD / "fig3_movement", caps, label="grey_movement", number=3)
 png(OUTD / "fig3_movement")
 
-# ======================================================================= Fig 3: rest preference vs grey screen
+# ======================================================================= Fig 4: rest preference vs grey screen, core only
 G = json.load(open(BWM / "42_spont_A_G_full.json"))
+GM = json.load(open(BWM / "42_spont_A_G_me.json"))
 RG = pd.read_csv(BWM / "42_regions_G_full.csv", index_col=0)
-RA = pd.read_csv(BWM / "20_regions_A_full.csv", index_col=0)
-C = RG[RG.cosmos == "Isocortex"].sort_values("suppressed_grey", ascending=False)
-fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 3.9))
-gs = fig.add_gridspec(2, 3, height_ratios=[1, 1.05], hspace=0.8, wspace=0.55)
-ax = fig.add_subplot(gs[0, :])
-ax.bar(np.arange(len(C)), C.suppressed_grey * 100, color=[rcol(r) for r in C.index], width=0.75)
-ax.set_xticks(np.arange(len(C)))
-ax.set_xticklabels(C.index, rotation=60, ha="right", fontsize=5)
-ax.set_xlim(-0.7, len(C) - 0.3)
-ax.set_ylabel("task-suppressed\nneurons (%)")
-style_axes(ax, categorical_x=True)
-legend_sets(ax)
-panel_label(ax, "a", x=-0.05)
-sub3 = gs[1, :].subgridspec(1, 2, width_ratios=[1, 2.1], wspace=1.0)
-ax = fig.add_subplot(sub3[0])
-cm = C.index.intersection(RA.index)
-ax.scatter(RA.loc[cm, "suppressed"] * 100, C.loc[cm, "suppressed_grey"] * 100, s=8, c=[rcol(r) for r in cm], lw=0)
-xmax = RA.loc[cm, "suppressed"].idxmax()
-for r, dx, ha in (("ORBm", 1.2, "left"), ("RSPv", 1.2, "left"), ("VISl", 1.2, "left"), ("AUDd", 1.2, "left"),
-                  ("ACAd", -1.2, "right"), (xmax, -1.2, "right")):
-    if r in cm:
-        ax.text(RA.loc[r, "suppressed"] * 100 + dx, C.loc[r, "suppressed_grey"] * 100 + 1.5, r, fontsize=5,
-                va="bottom", ha=ha)
-ax.set_xlabel("suppressed vs task ITI (%)")
-ax.set_ylabel("suppressed vs grey (%)")
-style_axes(ax)
-panel_label(ax, "b", x=-0.35)
-sub3b = sub3[1].subgridspec(1, 2, wspace=0.12)
-rows = [("cons", "conservative core"), ("whitesell", "Whitesell et al."), ("lu_all", "Lu et al."),
-        ("lu_without_auditory", "Lu et al. without AUD")]
+NG = pd.read_parquet(BWM / "42_neurons_G_full.pqt")
+NG = NG[NG.cosmos == "Isocortex"]
+fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 2.5))
+gs = fig.add_gridspec(1, 5, width_ratios=[1, 1, 0.5, 1.05, 0.85], wspace=0.85)
+for k, (col, scale, lab) in enumerate((("suppressed_grey", 100, "task-suppressed\nneurons (%)"), ("RI_grey", 1, "rest index RI"))):
+    ax = fig.add_subplot(gs[0, k])
+    oth = NG[~NG.region.isin(CONS_DMN)]
+    mo, lo_o, hi_o = mboot_mean(oth.groupby("subject")[col].mean().values * scale)
+    ax.axhspan(lo_o, hi_o, color=C_OTH, alpha=0.3, lw=0)
+    ax.axhline(mo, color=C_OTH, lw=0.8)
+    for i, r in enumerate(CONS_DMN):
+        v = NG[NG.region == r].groupby("subject")[col].mean().dropna().values * scale
+        m, lo, hi = mboot_mean(v)
+        ax.plot([i, i], [lo, hi], color=C_BOTH, lw=0.9)
+        ax.plot(i, m, "o", color=C_BOTH, ms=3)
+        ax.text(i, ax.get_ylim()[0], "", fontsize=4)
+    if col == "RI_grey":
+        ax.axhline(0, color="k", lw=0.4, ls=":")
+    ax.set_xticks(range(len(CONS_DMN)))
+    ax.set_xticklabels(CONS_DMN, rotation=60, ha="right", fontsize=5)
+    ax.set_ylabel(lab)
+    style_axes(ax, categorical_x=True)
+    panel_label(ax, "ab"[k], x=-0.45, y=1.02)
+rows4 = [("all trials", G, "", "other_ctx", "k"), ("last third of trials", G, "_late", "other_ctx", C_GREY),
+         ("vs higher-order cortex", G, "", "higher_order_ctx", C_OTH), ("motion-energy sessions", GM, "", "other_ctx", "#6250d6")]
 for jj, (met, scale, xl) in enumerate((("suppressed_grey", 100, "suppressed (% points)"), ("RI_grey", 1, "rest index RI"))):
-    ax = fig.add_subplot(sub3b[jj])
-    for i, (k, lab) in enumerate(rows):
-        for (suf, col, off) in (("", "k", -.15), ("_late", C_GREY, .15)):
-            v = G["tests"][f"{met}{suf}|{k}|vs_other_ctx"]
-            lo, hi = v["subject_boot_ci95"]
-            ax.plot([lo * scale, hi * scale], [i + off] * 2, color=col, lw=1)
-            ax.plot(v["diff"] * scale, i + off, "o", color=col, ms=2.6, mfc="white" if v["p_perm"] >= 0.05 else col)
+    ax = fig.add_subplot(gs[0, 3 + jj])
+    for i, (lab, src, suf, oth, colr) in enumerate(rows4):
+        v = src["tests"].get(f"{met}{suf}|cons|vs_{oth}")
+        if v is None:
+            continue
+        lo, hi = v["subject_boot_ci95"]
+        ax.plot([lo * scale, hi * scale], [i, i], color=colr, lw=1)
+        ax.plot(v["diff"] * scale, i, "o", color=colr, ms=3, mfc=colr if v["p_perm"] < 0.05 else "white")
     ax.axvline(0, color="k", lw=0.5, ls=":")
-    ax.set_yticks(range(len(rows)))
-    ax.set_yticklabels([r[1] for r in rows] if jj == 0 else [])
+    ax.set_yticks(range(len(rows4)))
+    ax.set_yticklabels([r[0] for r in rows4] if jj == 0 else [], fontsize=5.5)
     ax.invert_yaxis()
-    ax.set_xlabel(f"set $-$ other cortex,\n{xl}")
+    ax.set_xlabel(f"core $-$ other cortex,\n{xl}")
     style_axes(ax, categorical_y=True)
-    if jj == 0:
-        panel_label(ax, "c", x=-1.0)
-        ax.text(0, 1.1, "all trials", color="k", fontsize=6, transform=ax.transAxes)
-        ax.text(0, 1.02, "last third of trials", color=C_GREY, fontsize=6, transform=ax.transAxes)
+    panel_label(ax, "cd"[jj], x=-0.75 if jj == 0 else -0.1, y=1.02)
 caps = [
-    f"Percentage of neurons per cortical region (Beryl) significantly suppressed during the task (movement onset, "
-    f"movement and feedback windows) relative to still 0.3 s chunks of the grey-screen period (Welch test with one "
-    f"chunk per 3 s, p $<$ 0.01; {G['n_neurons']:,} neurons, {G['n_sessions']} sessions, {G['n_subjects']} mice). Colour: the conservative "
-    "DMN core (ACA, RSP, PL, ORBm; Fig. 1), regions assigned to the DMN by at least one of the four papers but not in the "
-    "core, and regions in none.",
-    f"Per region, the same measure referenced to task ITIs (earlier report) against the grey-screen reference; "
-    f"Spearman $\\rho$ = {G['vs_iti_A']['suppressed']:.2f} over {G['vs_iti_A']['n']} regions.",
-    "Difference between the conservative core (and, for comparison, the full Whitesell et al. and Lu et al. sets) and all other cortex in the suppressed fraction (left) and in the "
-    "continuous rest index RI = (rest $-$ task)/(rest + task) (right), against all trials (black) or only the last "
-    "third of trials, closest in time to the grey screen (blue): 95\\% mouse-bootstrap CI; filled markers, "
-    "region-permutation p $<$ 0.05. Note that 81\\% of neurons differ significantly between grey screen and task, so "
-    "the suppressed fraction is close to the sign of RI.",
+    f"Percentage of neurons in each core region significantly suppressed during the task (movement onset, movement "
+    f"and feedback windows) relative to still 0.3 s chunks of the grey screen (Welch test with one chunk per 3 s, "
+    f"p $<$ 0.01): mean over mice with 95\\% bootstrap CI; grey line and band, all other cortex ({G['n_neurons']:,} "
+    f"neurons, {G['n_sessions']} sessions, {G['n_subjects']} mice in total).",
+    "The continuous rest index RI = (rest $-$ task)/(rest + task) for the same neurons.",
+    "Core minus other cortex in the suppressed fraction (regions averaged): against all trials, against only the last "
+    "third of trials (closest in time to the grey screen), against higher-order cortex only, and in the 361 sessions "
+    "with motion energy; 95\\% mouse-bootstrap CI; filled markers, region-permutation p $<$ 0.05.",
+    "The same for the rest index. 81\\% of all neurons differ significantly between grey screen and task, so the "
+    "suppressed fraction is close to the sign of RI.",
 ]
 save_with_caption(fig, OUTD / "fig4_restpref", caps, label="grey_restpref", number=4)
 png(OUTD / "fig4_restpref")
@@ -601,7 +593,7 @@ caps = [
     "coupling (distance-matched) per pair class, averaged per mouse (dots; number of mice at the bottom); black, mean "
     "and 95\\% bootstrap CI where $\\geq$3 mice.",
     "Mean residual coupling of RSP with each imaged region (pairs in $\\geq$2 mice; numbers above bars: mice), "
-    "coloured as in Fig. 4.",
+    "orange: regions assigned to the DMN by at least one paper (Fig. 1) but not in the core; grey: in none.",
 ]
 save_with_caption(fig, OUTD / "fig9_meso", caps, label="grey_meso", number=9)
 png(OUTD / "fig9_meso")
@@ -714,7 +706,7 @@ for jj, (met, scale, xl) in enumerate((("suppressed_grey", 100, "suppressed (% p
                                          ("vs higher-order cortex", C_OTH))):
             ax.text(1.0, 1.25 - t_ * 0.1, lab, color=col, fontsize=5.5, transform=ax.transAxes, ha="right")
 caps = [
-    "Task-suppressed neurons per cortical region relative to the grey screen (as Fig. 4a, grey bars), with region "
+    "Task-suppressed neurons per cortical region relative to the grey screen (the measure of Fig. 4a, here for all cortical regions), with region "
     "membership in the conservative core and the four published DMN maps underneath (Fig. 1). Whitesell et al. (2021): "
     "cortical regions with $>$50\\% of voxels in the core DMN mask of mouse rsfMRI group ICA registered to the Allen "
     "CCFv3; they place TEa, ECT and PERI in a separate lateral cortical network.",
