@@ -60,7 +60,7 @@ def mboot_mean(v, n=2000):
 D = pd.read_csv(BWM / "40_spont_sessions.csv")
 H = D[D.has_spont].copy()
 fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 7.2))
-gs = fig.add_gridspec(4, 3, height_ratios=[0.4, 1, 1.25, 2.9], hspace=0.55, wspace=0.45)
+gs = fig.add_gridspec(4, 4, height_ratios=[0.4, 1, 1.25, 2.9], hspace=0.55, wspace=0.55)
 ax = fig.add_subplot(gs[0, :])
 blocks = [("task", 0, 38, "#d9d7cf", "k"), ("grey screen, 10 min", 42, 66, C_GREY, "white"),
           ("RF map, ~5 min", 67, 80, "#d9d7cf", "k"), ("task replay", 81, 96, "#d9d7cf", "k")]
@@ -96,6 +96,35 @@ ax.set_xlabel("still fraction of the period")
 ax.set_ylabel("sessions")
 style_axes(ax)
 panel_label(ax, "d", x=-0.3)
+# e: durations of uninterrupted still bouts on the grey screen (same stillness definition as d), all sessions
+bouts = []
+for eid_ in H.eid:
+    s_ = dict(np.load(BWM / "full" / f"{eid_}.npz", allow_pickle=True))
+    B_ = float(s_["BIN"])
+    a_, b_ = int(s_["spont"][0] / B_) + 20, min(len(s_["licks"]), int(s_["spont"][1] / B_))
+    w_, lk_, me_ = (s_[k].astype(float) for k in ("wheel_speed", "licks", "motion_energy"))
+    mv = (np.isfinite(w_) & (w_ > 0.05)) | ((lk_ > 0) & (lk_ < 255))
+    if np.isfinite(me_).mean() > .5:
+        mv |= np.isfinite(me_) & (me_ > np.nanpercentile(me_, 60))
+    bad_ = mv | np.r_[False, mv[:-1]] | np.r_[mv[1:], False]
+    st_ = (~bad_[a_:b_]).astype(int)
+    dd = np.diff(np.r_[0, st_, 0])
+    bouts.append((np.flatnonzero(dd == -1) - np.flatnonzero(dd == 1)) * B_)
+bouts = np.concatenate(bouts)
+ax = fig.add_subplot(gs[1, 3])
+# log-spaced bins snapped to the 50 ms grid, so every bin contains at least one possible duration
+edges_ = np.unique(np.round(np.logspace(np.log10(0.05), np.log10(120), 40) / 0.05)) * 0.05 - 0.025
+ax.hist(bouts, bins=edges_, color=C_GREY)
+ax.set_xscale("log")
+ax.set_xticks([0.1, 1, 10, 100])
+ax.set_xticklabels(["0.1", "1", "10", "100"])
+ax.set_xlabel("still bout duration (s)")
+ax.set_ylabel("bouts")
+style_axes(ax, categorical_x=True)
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v / 1000:.0f}k" if v >= 1000 else f"{v:.0f}"))
+f_ge1 = bouts[bouts >= 1].sum() / bouts.sum()
+f_ge5 = bouts[bouts >= 5].sum() / bouts.sum()
+panel_label(ax, "e", x=-0.3)
 
 # example session: most conservative-core DMN neurons (3 RSP subregions) among sessions with full wheel and camera
 # coverage, 600 s, and median stillness (0.70 vs median 0.69); no session records frontal and RSP core together
@@ -157,7 +186,7 @@ for i, (y, lab, c) in enumerate(((w, "wheel", "k"), (me / np.nanmedian(s["motion
     ax.set_xlim(0, t[-1])
     axes_e.append(ax)
     if i == 0:
-        panel_label(ax, "e", x=-0.085, y=1.0)
+        panel_label(ax, "f", x=-0.085, y=1.0)
 for ax_ in axes_e:
     ax_.axvspan(z0, z1, color=C_OURS, alpha=0.25, lw=0)
 # f: 10 s zoom at the native 50 ms resolution
@@ -187,7 +216,7 @@ for i, (y, lab) in enumerate(((w[zs:zs + ZW], "wheel"), (me[zs:zs + ZW] / np.nan
         ax.spines["bottom"].set_visible(False)
     ax.set_xlim(tz[0] - BIN / 2, tz[-1] + BIN / 2)
     if i == 0:
-        panel_label(ax, "f", x=-0.085, y=1.0)
+        panel_label(ax, "g", x=-0.085, y=1.0)
 ax = fig.add_subplot(subf[3])
 Z = Xs[top, zs:zs + ZW] / BIN
 zhi = np.percentile(Xs[top] / BIN, 99, axis=1, keepdims=True).clip(1e-9)
@@ -209,11 +238,14 @@ caps = [
     "Fraction of the period that is still: 50 ms bins without wheel movement ($>$0.05 rad/s), licks or motion energy above the "
     "session's 60th percentile, with a one-bin margin (the first second is skipped); median 6.5 min of 10. In the 35 sessions without "
     "motion energy, stillness rests on wheel and licks only (median fraction 0.81 vs 0.67).",
+    f"Durations of uninterrupted still bouts on the grey screen (same stillness definition as d), all sessions pooled "
+    f"({len(bouts):,} bouts, log axis): median {np.median(bouts):.2f} s; {f_ge1 * 100:.0f}\\% of still time lies in bouts "
+    f"of $\\geq$1 s and {f_ge5 * 100:.0f}\\% in bouts of $\\geq$5 s.",
     f"Example session with neurons in the conservative DMN core (CSH\\_ZAD\\_019, {n_core_ex} of {n_neurons_ex} good units "
     "in RSPagl, RSPd and RSPv; still fraction 0.70, close to the median): wheel speed, left-camera motion energy "
     "(normalised to the session median; dashed, the stillness threshold; wheel in rad/s) and the resulting still bins. "
-    "Orange band: the 10 s shown in f.",
-    "Zoom into 10 s of e at the native 50 ms resolution: wheel speed (dashed, the 0.05 rad/s movement threshold), motion "
+    "Orange band: the 10 s shown in g.",
+    "Zoom into 10 s of f at the native 50 ms resolution: wheel speed (dashed, the 0.05 rad/s movement threshold), motion "
     "energy (dashed, stillness threshold), still bins and spike counts per 50 ms bin of the 20 most active core-DMN neurons of the session (each row "
     "scaled to its 99th percentile over the whole period, black = high; labels give region, probe and mean rate). The window was chosen automatically as the one after the "
     "first 30 s whose still fraction is closest to 0.5 and that contains wheel movement.",

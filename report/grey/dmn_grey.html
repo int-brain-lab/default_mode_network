@@ -186,9 +186,9 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
       <li><strong>Coverage:</strong> 396 of 426 extracted BWM sessions (130 mice) have the interval; the other 30 have no passive data.</li>
       <li><strong>When:</strong> always after the task, a median 1.1&nbsp;min after the last trial (5–95%: 0.6–3.9&nbsp;min).</li>
       <li><strong>How long:</strong> 600&nbsp;s in 341 sessions and 300&nbsp;s in 55 (Figure 2). The first second is skipped in all analyses.</li>
-      <li><strong>Example session (Figure 2e–f):</strong> CSH_ZAD_019 has 55 neurons in RSPagl, RSPd and RSPv and median stillness. Panel f zooms into 10&nbsp;s at 50&nbsp;ms resolution, showing the alternation of brief movements and still bouts alongside the activity of its 20 most active retrosplenial neurons. No session records frontal core and RSP together.</li>
+      <li><strong>Example session (Figure 2f–g):</strong> CSH_ZAD_019 has 55 neurons in RSPagl, RSPd and RSPv and median stillness. Panel f zooms into 10&nbsp;s at 50&nbsp;ms resolution, showing the alternation of brief movements and still bouts alongside the activity of its 20 most active retrosplenial neurons. No session records frontal core and RSP together.</li>
     </ul>
-    <figure><img src="fig2_protocol.png" width="1470" height="1778" alt="Passive protocol timeline, histograms of grey-screen duration, delay after the task and still fraction, an example session's wheel, motion energy and still bins over 10 minutes, and a 10-second zoom with spike counts of its 20 most active retrosplenial neurons."></figure>
+    <figure><img src="fig2_protocol.png" width="1470" height="1828" alt="Passive protocol timeline, histograms of grey-screen duration, delay after the task and still fraction, an example session's wheel, motion energy and still bins over 10 minutes, and a 10-second zoom with spike counts of its 20 most active retrosplenial neurons."></figure>
   </section>
 
   <section id="movement" aria-labelledby="h-movement">
@@ -213,6 +213,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
       <li><strong>Missing behaviour data:</strong> motion energy is missing for 35 sessions and the wheel for 58. Without motion energy, stillness rests on wheel and licks only and is more lenient (still fraction 0.81 vs 0.67). Section 4 repeats the main test without these sessions.</li>
       <li><strong>Licks:</strong> 107 sessions show more than 10 detected licks per minute on the grey screen, with no reward available. Part of this is probably lick-detection noise; lick bins are excluded either way.</li>
       <li><strong>Most face and paw movements happen without wheel turns.</strong> In a session examined in detail (ZFM-01577), only 40% of the bins with high motion energy have any wheel movement. The rest are brief snout, head and paw movements (median 0.15&nbsp;s, about one per second), confirmed by the nose and paw keypoints and by the right camera (motion energy correlated with the left camera at 0.93). The stillness criterion removes these too, not just wheel turns.</li>
+      <li><strong>Still bouts are short</strong> (Figure 2e). Pooled over all sessions there are 110,156 uninterrupted still bouts on the grey screen, median 0.6&nbsp;s. Their durations are bimodal: many 50–100&nbsp;ms gaps between movements, and a second mode around 1&nbsp;s. 84% of still time lies in bouts of at least 1&nbsp;s, but only 36% in bouts of at least 5&nbsp;s.</li>
       <li><strong>Stillness is stable over time:</strong> the still fraction stays near 0.68 from the first to the last minute (Figure 3d).</li>
     </ul>
     <figure><img src="fig3_movement.png" width="1470" height="658" alt="Scatter plots of wheel movement and high motion energy fractions in grey screen vs task ITI, ratios of motion energy and pupil, and stillness time course."></figure>
