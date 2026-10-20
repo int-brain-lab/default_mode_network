@@ -274,13 +274,35 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
       </li>
       <li><strong>Two rest conditions</strong> are compared: inter-trial rest, interleaved with the task (no drift), and the grey screen, longer and later.</li>
     </ul>
-    <p><strong>Windows</strong> (Figure 5a shows them on a median trial, aligned to stimulus onset), all session-averaged per neuron, with still bins as in section 3:</p>
+    <p><strong>Window definitions.</strong> Figure 5a shows the windows on a median trial, aligned to stimulus onset. All windows were fixed before looking at DMN results. Each neuron's rate in a window is its spike count summed over all qualifying trials or bins of the session, divided by their total duration.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Window</th><th>Definition</th><th>Bins used</th><th>Duration</th><th>Why this window</th></tr></thead>
+        <tbody>
+          <tr><td>Stimulus</td><td class="txt">0 to 0.15&nbsp;s after stimulus onset (<code>stimOn_times</code>)</td><td class="txt">all (exact spike counts per trial)</td><td>0.15&nbsp;s per trial</td><td class="txt">sensory response to the visual stimulus; the window of the <code>~/dmn</code> PETH pipeline</td></tr>
+          <tr><td>Movement + feedback</td><td class="txt">mean of three windows: first movement −0.15 to 0&nbsp;s and 0 to 0.15&nbsp;s (<code>firstMovement_times</code>), and feedback 0 to 0.3&nbsp;s (<code>feedback_times</code>, reward or error)</td><td class="txt">all (exact spike counts per trial)</td><td>0.15, 0.15 and 0.3&nbsp;s per trial</td><td class="txt">the active, externally directed part of the trial; the task windows of section 4 and of the <code>~/dmn</code> pipeline (BWM single-cell windows are shorter: 0.1, 0.1 and 0.2&nbsp;s)</td></tr>
+          <tr><td>Quiescence</td><td class="txt">trial start (<code>intervals_0</code>) to 0.1&nbsp;s before stimulus onset</td><td class="txt">still bins only</td><td>median 0.7&nbsp;s per trial (IQR 0.56–1.17)</td><td class="txt">engaged waiting without movement: the mouse must hold the wheel still for the stimulus to appear. The last 0.1&nbsp;s is cut to exclude anticipation and the earliest visual responses</td></tr>
+          <tr><td>ITI rest</td><td class="txt">trial end (<code>intervals_1</code>) to the next trial start (<code>intervals_0</code>)</td><td class="txt">still bins only</td><td>median 0.67&nbsp;s per trial</td><td class="txt">disengaged rest between trials, interleaved with the task so slow drift cannot separate it from the task windows. Feedback to trial end (1.57&nbsp;s; reward consumption and licking, or the error tone) is left out</td></tr>
+          <tr><td>ITI moving</td><td class="txt">the same inter-trial gaps</td><td class="txt">moving bins only</td><td>median 0.67&nbsp;s per trial, moving part</td><td class="txt">movement without the task, interleaved with it</td></tr>
+          <tr><td>Grey still</td><td class="txt">passive grey screen (<code>_ibl_passivePeriods</code>, <code>spontaneousActivity</code>), first second skipped</td><td class="txt">still bins only</td><td>median 392&nbsp;s per session</td><td class="txt">long passive rest after the task, the closest to a resting-state scan</td></tr>
+          <tr><td>Grey moving</td><td class="txt">the same grey-screen period</td><td class="txt">moving bins only</td><td>the remaining ~3&nbsp;min per session</td><td class="txt">movement with no task at all</td></tr>
+        </tbody>
+      </table>
+    </div>
     <ul>
-      <li><strong>Stimulus:</strong> 0–0.15&nbsp;s after stimulus onset.</li>
-      <li><strong>Movement + feedback:</strong> the task windows of section 4.</li>
-      <li><strong>Quiescence:</strong> still bins from trial start to 0.1&nbsp;s before the stimulus (median 0.7&nbsp;s per trial).</li>
-      <li><strong>ITI rest</strong> and <strong>ITI moving:</strong> still and moving bins between the end of one trial and the start of the next (median 0.67&nbsp;s per trial).</li>
-      <li><strong>Grey still</strong> and <strong>grey moving:</strong> still and moving bins of the grey screen.</li>
+      <li><strong>Still bin:</strong> a 50&nbsp;ms bin with wheel speed ≤0.05&nbsp;rad/s, no detected lick, and left-camera motion energy at or below the session's 60th percentile. One bin on either side of any movement is also excluded. <strong>Moving bin:</strong> any of these criteria violated, without the margin.</li>
+      <li><strong>Trials:</strong> BWM trial criteria apply to all trial-based windows.</li>
+      <li><strong>Inclusion:</strong> a window enters a session's estimate only with at least 2&nbsp;s of bins in total. Neurons need an overall rate of at least 0.5&nbsp;Hz.</li>
+      <li><strong>Known weak points:</strong>
+        <ul>
+          <li>In the quarter of trials with reaction times under 0.13&nbsp;s, the stimulus window already contains movement onset.</li>
+          <li>Task windows (0.15–0.3&nbsp;s around events) weigh transient responses more than the seconds-long rest windows.</li>
+          <li>The motion-energy threshold is relative within each session.</li>
+          <li>Quiescence includes recovery after wheel movements that restart it.</li>
+          <li>The inter-trial gap starts right after trial end.</li>
+          <li>A sensitivity analysis over these choices has not been run yet.</li>
+        </ul>
+      </li>
     </ul>
     <p>Data: 58,417 neurons ≥0.5&nbsp;Hz, 426 sessions, 138 mice; the core has 1,951 neurons from 49 mice.</p>
     <figure><img src="fig5_windows.png" width="1470" height="1231" alt="Timeline of the analysis windows on a median trial, and small-multiple bar plots of firing rate in seven behavioural windows for each core region, the core pooled, other cortex and all other regions."></figure>
