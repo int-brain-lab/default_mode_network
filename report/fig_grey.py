@@ -415,7 +415,7 @@ im = ax.imshow(Mshow, cmap="Blues", vmin=0, vmax=max(5, np.nanmax(Mshow)), inter
 for i in range(n):
     for j in range(n):
         if XX[i, j] > 0:
-            ax.plot(j, i, marker="x", ms=3, color=C_OURS, mew=0.8)
+            ax.plot(j, i, marker="x", ms=3, color="k", mew=0.8)
 for lab, a, b in bounds[:-1]:
     ax.add_patch(Rectangle((a - .5, a - .5), b - a, b - a, fill=False, ec="k", lw=0.8))
 ax.set_xticks(range(n))
@@ -477,7 +477,7 @@ caps = [
     f"Which cortical (and CA1) region pairs have grey-screen co-fluctuation data: number of mice with both regions "
     f"recorded ($\\geq$5 neurons each) in the same session with $\\geq$120 still 1 s bins. Of 319 sessions (116 mice) "
     f"with enough still bins, 308 (114 mice) yield region signals and {J['n_sessions']} ({J['n_mice']} mice) record at "
-    f"least one such pair. Orange crosses: at least one session records the pair on two different probes. Boxes: "
+    f"least one such pair. Black crosses: at least one session records the pair on two different probes. Boxes: "
     "the conservative DMN core and the other regions assigned to the DMN by at least one paper (Fig. 1). Tick colours "
     "as in Fig. 4.",
     "Number of DMN regions recorded per session, by definition.",
@@ -817,7 +817,7 @@ im = ax.imshow(np.ma.masked_invalid(MW), cmap=cmW, vmin=0, vmax=np.nanmax(MW), i
 for i in range(len(wreg)):
     for j in range(len(wreg)):
         if XW[i, j] > 0:
-            ax.plot(j, i, marker="x", ms=3, color=C_OURS, mew=0.8)
+            ax.plot(j, i, marker="x", ms=3, color="k", mew=0.8)
 ax.set_xticks(range(len(wreg)))
 ax.set_yticks(range(len(wreg)))
 ax.set_xticklabels(wreg, rotation=90, fontsize=5)
