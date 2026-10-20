@@ -81,7 +81,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
     <p class="authors">International Brain Laboratory, Michael Schartner, Claude Opus 5.5</p>
     <p class="lead">After the task, 396 of 426 BWM sessions have a passive block in which the screen is uniformly grey and nothing is presented (600&nbsp;s in most sessions, 300&nbsp;s in 55). It is the closest the dataset comes to a resting-state recording, although the mouse still moves for about a third of it. This report first fixes which brain regions count as default mode network (DMN), using four published rodent DMN maps. It then characterises the grey-screen block and uses it as the rest condition. It then tests whether those regions are more active at rest than during the task, across several rest and task windows, and maps which region pairs can be tested for co-activation.</p>
     <nav aria-label="Sections">
-      <a href="#abstract">Abstract</a><a href="#terms">Terms</a><a href="#regions">DMN regions</a><a href="#period">The period</a><a href="#movement">Movement</a><a href="#restpref">Rest preference</a><a href="#windows">Rates by window</a><a href="#coverage">Which pairs</a><a href="#coupling">Coupling</a><a href="#meso">Mesoscope</a><a href="#single">Single regions</a><a href="#verdict">How convincing</a><a href="#si">SI figures</a><a href="#methods">Methods</a><a href="#notes">Notes</a><a href="#history">Revisions</a>
+      <a href="#abstract">Abstract</a><a href="#terms">Terms</a><a href="#regions">DMN regions</a><a href="#period">The period</a><a href="#movement">Movement</a><a href="#restpref">Rest preference</a><a href="#windows">Rates by window</a><a href="#coverage">Which pairs</a><a href="#coupling">Coupling</a><a href="#meso">Mesoscope</a><a href="#single">Single regions</a><a href="#verdict">How convincing</a><a href="#discussion">Discussion</a><a href="#si">SI figures</a><a href="#methods">Methods</a><a href="#notes">Notes</a><a href="#history">Revisions</a>
     </nav>
   </header>
 
@@ -419,6 +419,34 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
       </table>
     </div>
     <p>Restricted to the regions the literature agrees on, the BWM gives at most weak evidence for task-negative DMN activity, and only in a relative sense: the core is less recruited by movement and the task than other cortex, but its population firing never drops below its own resting level. The orbital and retrosplenial parts of the core prefer rest; the anterior cingulate does not. Earlier, stronger results depended on regions outside this core (ILA, ECT, PERI, TEa). A resting-state DMN is defined by co-fluctuation between frontal and retrosplenial cortex, and BWM recordings never contain both. A convincing test needs simultaneous frontal and posterior recordings with a long grey-screen block: multi-probe sessions targeting ACA/PL and RSP, or wide-field or mesoscope imaging that includes medial frontal cortex.</p>
+  </section>
+
+  <section id="discussion" aria-labelledby="h-discussion">
+    <h2 id="h-discussion">11. Discussion: what the reference papers claim, and what this report tests</h2>
+    <p><strong>None of the four rodent DMN papers claims or tests that DMN regions deactivate during a task, and none records spikes.</strong> All four define the DMN by resting-state co-fluctuation (plus anatomy), mostly in anaesthetised or sedated animals. The task-negative idea tested in sections 4–5 comes from human imaging. The rodent papers' defining property, coupled fluctuation between frontal and retrosplenial cortex, is the one the BWM cannot test.</p>
+    <div class="tablebox">
+      <table class="deftable">
+        <thead><tr><th>Paper</th><th>Main claims</th><th>Relevance to this report</th></tr></thead>
+        <tbody>
+          <tr><td>Lu et al. 2012 (PNAS), rat</td><td class="txt">Rats have a DMN like that of primates and humans. Group ICA of rsfMRI under dexmedetomidine/isoflurane finds orbital, prelimbic and cingulate cortex, auditory/temporal association cortex, posterior parietal cortex, RSP and medial secondary visual cortex (dorsal CA1 tentative). The network splits into a prefrontal-temporal and a parietal module with prefrontal cortex and RSP as hubs. They propose the DMN is a conserved mammalian feature integrating multisensory and emotional information.</td><td class="txt">Defined by coupling at rest under anaesthesia; no task.</td></tr>
+          <tr><td>Grandjean et al. 2020 (NeuroImage), mouse, 17 datasets</td><td class="txt">Mouse resting-state networks, including a DMN, are reproducible across centres. An anterior cingulate seed shows prefrontal cortex, RSP, dorsal striatum, dorsal thalamus and peri-hippocampal areas. How specifically the DMN is detected depends on anaesthesia (best with medetomidine-isoflurane and ventilation), field strength and coil. A lateral cortical network appears antagonistic to the midline DMN.</td><td class="txt">Defined by coupling. The antagonism between DMN and lateral cortex is the closest these papers come to “task-negative vs task-positive”.</td></tr>
+          <tr><td>Whitesell et al. 2021 (Neuron), mouse</td><td class="txt">An Allen-registered rsfMRI DMN map under halothane, combined with tracing. DMN cortical regions are preferentially connected to each other. Layer 2/3 DMN neurons project almost only within the DMN, layer 5 neurons both inside and outside it. RSP contains two layer-5 projection types, inside- and outside-projecting, that differ in laminar position and gene expression.</td><td class="txt">Anatomy and rsfMRI; no activity during tasks.</td></tr>
+          <tr><td>Mandino et al. 2022 (Mol. Psychiatry), mouse with human and macaque comparison</td><td class="txt">The mouse has a triple-network organisation (salience, default-mode and lateral cortical / central-executive) with spatio-temporal properties shared with humans and macaques. The model's predictions hold in a mouse model of depression (chronic social stress). Tracer maps were validated with optogenetics, and mouse maps can be converted to human coordinates. Serotonin is linked to the salience network rather than the DMN.</td><td class="txt">Defined by resting-state co-activation patterns; cortical DMN = ACA and RSP.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Human DMN papers</strong>, cited for the definition of deactivation:
+        <ul>
+          <li><strong>Shulman et al. 1997</strong> (a PET meta-analysis): a consistent set of regions decreases its blood flow during many different active tasks compared with passive conditions: medial frontal cortex, posterior cingulate/precuneus and lateral parietal cortex.</li>
+          <li><strong>Raichle et al. 2001</strong> interpreted these decreases as an organised baseline, a “default mode” suspended during goal-directed tasks, rather than deactivation from an arbitrary baseline.</li>
+        </ul>
+      </li>
+      <li><strong>Movement papers</strong>, cited for the confound: <strong>Stringer et al. 2019</strong> and <strong>Musall et al. 2019</strong> showed that spontaneous and uninstructed movements drive a large share of activity across mouse cortex, during rest and during tasks. This is why section 5 separates movement from engagement.</li>
+      <li><strong>Earlier region sources:</strong> Stafford et al. 2014, Sforazzini et al. 2014 and Gozzi &amp; Schwarz 2016 are cited only for the region set of earlier report versions. They too are rsfMRI and connectome studies.</li>
+    </ul>
+    <p class="note">The four rodent papers were read for this report. The summaries of the human and movement papers are from general knowledge and were not re-checked against the papers.</p>
+    <p><strong>What this means.</strong> The BWM tests rest preference, a property derived from human imaging that the rodent papers assume but do not demonstrate. It cannot test the property they do define. A fairer framing is that the rodent DMN is established as a resting-state network. Whether its regions are task-negative in mice is an open question, which these data answer mostly in the negative: the conservative core is less recruited by the task than other cortex, but is not deactivated. The rodent literature that does test task-induced deactivation, for example fMRI or fibre photometry during behaviour, has not yet been reviewed for this report; it would give the rest-preference results a direct rodent reference point.</p>
   </section>
 
   <section id="si" aria-labelledby="h-si">
