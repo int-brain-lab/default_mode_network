@@ -46,6 +46,7 @@ section { display: grid; gap: 14px; }
 figure { margin: 0; background: var(--plate); border: 1px solid var(--plate-edge); border-radius: 6px; padding: 14px; }
 figure img { display: block; width: 100%; height: auto; }
 figure.narrow img { max-width: 440px; margin: 0 auto; }
+.deftable th, .deftable td { text-align: left; }
 .tablebox { overflow-x: auto; }
 table { border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 560px; width: 100%; }
 th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
@@ -276,7 +277,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
     </ul>
     <p><strong>Window definitions.</strong> Figure 5a shows the windows on a median trial, aligned to stimulus onset. All windows were fixed before looking at DMN results. Each neuron's rate in a window is its spike count summed over all qualifying trials or bins of the session, divided by their total duration.</p>
     <div class="tablebox">
-      <table>
+      <table class="deftable">
         <thead><tr><th>Window</th><th>Definition</th><th>Bins used</th><th>Duration</th><th>Why this window</th></tr></thead>
         <tbody>
           <tr><td>Stimulus</td><td class="txt">0 to 0.15&nbsp;s after stimulus onset (<code>stimOn_times</code>)</td><td class="txt">all (exact spike counts per trial)</td><td>0.15&nbsp;s per trial</td><td class="txt">sensory response to the visual stimulus; the window of the <code>~/dmn</code> PETH pipeline</td></tr>
