@@ -1,7 +1,7 @@
 """Figures for the grey-screen (passive spontaneous period) report.
 
 Reads outputs of bwm/40_spont_characterize.py, 42_spont_A.py, 41_spont_network.py,
-21_full_B.py (spont ... still) and meso/33_meso_spont.py. Writes report/grey/fig*.pdf
+21_full_B.py (spont ... still) and meso/33_meso_spont.py. Writes comprehensive_report/fig*.pdf
 (+ .png for the web page).
 """
 import json
@@ -17,12 +17,12 @@ from matplotlib.patches import Rectangle
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "bwm"))
-from plotstyle import NATURE_DOUBLE_COL_IN, panel_label, save_with_caption, style_axes  # noqa: E402
+from plotstyle import ALLEN_EDGE, NATURE_DOUBLE_COL_IN, allen_color, panel_label, save_with_caption, style_axes  # noqa: E402
 from common import beryl, CONS_DMN, GRANDJEAN_DMN, MANDINO_DMN, DMN_ALL, DMN_CORE, DMN_LATERAL, LU_DMN, LU_PARIETAL, LU_PFC_TEMPORAL, WHITESELL_DMN  # noqa: E402
 
 BWM = HERE.parent / "bwm" / "output"
 MESO = HERE.parent / "meso" / "output"
-OUTD = HERE / "grey"
+OUTD = HERE.parent / "comprehensive_report"
 OUTD.mkdir(exist_ok=True)
 BTAG = "spont_motion_1s_still"
 # categorical slots 1-3 of the dataviz reference palette + neutral
@@ -332,9 +332,8 @@ for k, (col, scale, lab) in enumerate((("suppressed_grey", 100, "task-suppressed
     for i, r in enumerate(CONS_DMN):
         v = NG[NG.region == r].groupby("subject")[col].mean().dropna().values * scale
         m, lo, hi = mboot_mean(v)
-        ax.plot([i, i], [lo, hi], color=C_BOTH, lw=0.9)
-        ax.plot(i, m, "o", color=C_BOTH, ms=3)
-        ax.text(i, ax.get_ylim()[0], "", fontsize=4)
+        ax.plot([i, i], [lo, hi], color=allen_color(r), lw=0.9)
+        ax.plot(i, m, "o", color=allen_color(r), ms=3.5, mec=ALLEN_EDGE, mew=0.3)
     if col == "RI_grey":
         ax.axhline(0, color="k", lw=0.4, ls=":")
     ax.set_xticks(range(len(CONS_DMN)))
@@ -575,14 +574,15 @@ panel_label(ax, "a", x=-0.45, y=1.02)
 ax = fig.add_subplot(gs[0, 1])
 pm = RS.groupby(["partner", "subject"]).resid.mean().groupby("partner").agg(["mean", "size"])
 pm = pm[pm["size"] >= 2].sort_values("mean")
-ax.bar(range(len(pm)), pm["mean"], color=[rcol(r) for r in pm.index], width=0.7)
+ax.bar(range(len(pm)), pm["mean"], color=[allen_color(r) for r in pm.index], width=0.7, edgecolor=ALLEN_EDGE, lw=0.3)
 for i, (r, row) in enumerate(pm.iterrows()):
     ax.text(i, row["mean"] + (0.01 if row["mean"] >= 0 else -0.01), f"{int(row['size'])}", ha="center",
             va="bottom" if row["mean"] >= 0 else "top", fontsize=4.5)
 ax.axhline(0, color="k", lw=0.5)
 ax.set_ylim(min(pm["mean"].min() * 1.25, -0.05), max(pm["mean"].max() * 1.25, 0.05))
 ax.set_xticks(range(len(pm)))
-ax.set_xticklabels(pm.index, rotation=60, ha="right", fontsize=5)
+ax.set_xticklabels([r + ("*" if r in CONS_DMN else "†" if r in LIT_DMN else "") for r in pm.index],
+                   rotation=60, ha="right", fontsize=5)
 ax.set_ylabel("RSP coupling with region\n(residual z, mean over mice)")
 style_axes(ax, categorical_x=True)
 panel_label(ax, "b", x=-0.12, y=1.02)
@@ -593,10 +593,10 @@ caps = [
     "coupling (distance-matched) per pair class, averaged per mouse (dots; number of mice at the bottom); black, mean "
     "and 95\\% bootstrap CI where $\\geq$3 mice.",
     "Mean residual coupling of RSP with each imaged region (pairs in $\\geq$2 mice; numbers above bars: mice), "
-    "orange: regions assigned to the DMN by at least one paper (Fig. 1) but not in the core; grey: in none.",
+    "bars in Allen atlas region colours; * conservative core, $\\dagger$ assigned to the DMN by at least one paper (Fig. 1) but not in the core.",
 ]
-save_with_caption(fig, OUTD / "fig9_meso", caps, label="grey_meso", number=9)
-png(OUTD / "fig9_meso")
+save_with_caption(fig, OUTD / "fig16_meso", caps, label="grey_meso", number=16)
+png(OUTD / "fig16_meso")
 
 # ======================================================================= Fig 10: single-region metrics, core only
 SR = json.load(open(BWM / "43_single_region.json"))
@@ -615,12 +615,12 @@ for k, (D_, col, lab) in enumerate(((N43, "fALFF_adj", "fALFF (rate-adj.)"), (N4
         v = D_[D_.region == r].groupby("subject")[col].mean().dropna().values
         if len(v) >= 2:
             m, lo, hi = mboot_mean(v)
-            ax.plot([i, i], [lo, hi], color=C_BOTH, lw=0.9)
+            ax.plot([i, i], [lo, hi], color=allen_color(r), lw=0.9)
         elif len(v):
             m = v.mean()
         else:
             continue
-        ax.plot(i, m, "o", color=C_BOTH, ms=3)
+        ax.plot(i, m, "o", color=allen_color(r), ms=3.5, mec=ALLEN_EDGE, mew=0.3)
     ax.set_xticks(range(len(CONS_DMN)))
     ax.set_xticklabels(CONS_DMN, rotation=60, ha="right", fontsize=5)
     ax.set_ylabel(lab)
@@ -650,8 +650,8 @@ caps = [
     "Core minus other cortex for the three metrics: 95\\% mouse-bootstrap CI and region-permutation p (open markers: "
     "p $\\geq$ 0.05).",
 ]
-save_with_caption(fig, OUTD / "fig10_single_region", caps, label="grey_single", number=10)
-png(OUTD / "fig10_single_region")
+save_with_caption(fig, OUTD / "fig9_single_region", caps, label="grey_single", number=9)
+png(OUTD / "fig9_single_region")
 
 # ======================================================================= Fig S1: three DMN definitions, rest preference
 GS = json.load(open(BWM / "42_spont_A_G_full.json"))
@@ -660,7 +660,8 @@ fig = plt.figure(figsize=(NATURE_DOUBLE_COL_IN, 3.9))
 gs = fig.add_gridspec(2, 2, height_ratios=[1.35, 1], width_ratios=[1, 1], hspace=0.9, wspace=0.6)
 sub = gs[0, :].subgridspec(2, 1, height_ratios=[1, 0.55], hspace=0.05)
 ax = fig.add_subplot(sub[0])
-ax.bar(np.arange(len(CS)), CS.suppressed_grey * 100, color=C_OTH, width=0.75)
+ax.bar(np.arange(len(CS)), CS.suppressed_grey * 100, color=[allen_color(r) for r in CS.index], width=0.75,
+       edgecolor=ALLEN_EDGE, lw=0.3)
 ax.set_xlim(-0.7, len(CS) - 0.3)
 ax.set_xticks([])
 ax.set_ylabel("task-suppressed\nneurons (%)")
@@ -779,7 +780,7 @@ style_axes(ax, categorical_y=True)
 panel_label(ax, "c", x=-0.7, y=1.02)
 JW = J["classes"]["whitesell|cortex_cross_probe"]
 caps = [
-    f"Grey-screen region pairs within the Whitesell et al. DMN: mice with the pair (grey: never recorded); orange "
+    f"Grey-screen region pairs within the Whitesell et al. DMN: mice with the pair (grey: never recorded); black "
     f"crosses, recorded on two probes in at least one session. {J['coverage']['whitesell']['n_edges_any']} of "
     f"{J['coverage']['whitesell']['n_possible_edges']} edges are recorded, {J['coverage']['whitesell']['n_edges_ge3_mice']} in "
     "$\\geq$3 mice; those are all frontal-frontal (ACA, PL, ILA, ORB, MOs) or RSPd-RSPv, and no frontal-posterior "

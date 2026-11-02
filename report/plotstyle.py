@@ -34,6 +34,36 @@ NATURE_ONEHALF_COL_IN = 136 / 25.4  # ~5.35 in
 NATURE_DOUBLE_COL_IN = 183 / 25.4   # ~7.20 in
 NATURE_MAX_HEIGHT_IN = 247 / 25.4   # ~9.72 in
 
+# ---------------------------------------------------------------------
+# Allen atlas region colours, as get_allen_info in ~/dmn/dmn_bwm.py:
+# colour_hex_triplet of allen_structure_tree.csv, with cerebellum (CB and
+# every region under it) replaced by brown #767A3A because the Allen yellow
+# is invisible on white. Keys are Allen acronyms at any level (Beryl
+# regions, Cosmos divisions such as Isocortex, HPF, TH).
+# ---------------------------------------------------------------------
+ALLEN_EDGE = "#3a3a3a"  # thin outline so pale Allen colours stay visible on white
+_ALLEN = None
+
+
+def allen_colors():
+    global _ALLEN
+    if _ALLEN is None:
+        import iblatlas
+        import pandas as pd
+        d = pd.read_csv(Path(iblatlas.__file__).parent / "allen_structure_tree.csv")
+        cb = int(d.loc[d.acronym == "CB", "id"].iloc[0])
+        _ALLEN = {}
+        for acr, hx, path in zip(d.acronym, d.color_hex_triplet, d.structure_id_path):
+            hx = {"19399": "19399A"}.get(str(hx), str(hx)) if isinstance(hx, str) and hx not in ("nan", "0") else "FFFFFF"
+            if f"/{cb}/" in str(path):
+                hx = "767A3A"
+            _ALLEN[acr] = "#" + hx.upper()
+    return _ALLEN
+
+
+def allen_color(acronym, default="#8a8880"):
+    return allen_colors().get(acronym, default)
+
 
 def apply_nature_style():
     """Sans-serif font, small point sizes, thin lines -- Nature house

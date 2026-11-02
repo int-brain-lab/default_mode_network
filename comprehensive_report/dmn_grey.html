@@ -1,0 +1,1101 @@
+<title>DMN analogues and stillness in IBL and Allen data</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500&display=swap">
+<style>
+/* Layout: one reading column, sibling of the dorsal-maps report. Figures sit on white plates carrying their LaTeX captions; a short plain-language lead sits above each. Accent = the figures' grey-screen blue. */
+:root {
+  --bg: #f4f5f6;
+  --fg: #181b20;
+  --muted: #59606b;
+  --rule: #d6dade;
+  --accent: #2a6cc0;
+  --plate: #ffffff;
+  --plate-edge: #e0e3e7;
+  --ok: #1d7f57;
+  --part: #a86a00;
+  --no: #b5403a;
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171b; --fg: #e8ebef; --muted: #a2a9b3; --rule: #2c3138;
+    --accent: #6ea8f0; --plate: #ffffff; --plate-edge: #353b43;
+    --ok: #5cc596; --part: #e0a63a; --no: #ef7f78; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14171b; --fg: #e8ebef; --muted: #a2a9b3; --rule: #2c3138;
+  --accent: #6ea8f0; --plate: #ffffff; --plate-edge: #353b43;
+  --ok: #5cc596; --part: #e0a63a; --no: #ef7f78; color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--body); }
+.wrap { max-width: 880px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; display: grid; gap: 40px; }
+.wrap > * { min-width: 0; }
+header { display: grid; gap: 12px; }
+.eyebrow { font: 500 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 500 clamp(30px, 5vw, 42px)/1.1 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 500 24px/1.2 var(--display); margin: 0; text-wrap: balance; }
+h3 { font: 600 15px/1.3 var(--body); margin: 0; }
+p { margin: 0; max-width: 68ch; }
+.lead { color: var(--muted); font-size: 16px; }
+.authors { font: 500 14px/1.4 var(--body); }
+section { display: grid; gap: 14px; }
+figure { margin: 0; background: var(--plate); border: 1px solid var(--plate-edge); border-radius: 6px; padding: 14px; }
+figure img { display: block; width: 100%; height: auto; }
+figure.narrow img { max-width: 440px; margin: 0 auto; }
+.deftable th, .deftable td { text-align: left; }
+.tablebox { overflow-x: auto; }
+table { border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 560px; width: 100%; }
+th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th:first-child, td:first-child { text-align: left; }
+thead th { font: 500 12px/1.3 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+td { font-family: var(--mono); font-size: 13.5px; }
+td:first-child, td.txt { font-family: var(--body); text-align: left; }
+.note { font-size: 13px; color: var(--muted); }
+ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; max-width: 72ch; }
+code { font: 13px var(--mono); }
+nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 13px var(--mono); }
+nav a, a { color: var(--accent); }
+nav a { text-decoration: none; }
+nav a:hover, nav a:focus-visible { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.abstract { border-left: 3px solid var(--accent); padding: 2px 0 2px 16px; }
+.methods { display: grid; gap: 18px; }
+.methods > div { display: grid; gap: 6px; }
+.verdict { font: 600 12px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+.v-ok { color: var(--ok); } .v-part { color: var(--part); } .v-no { color: var(--no); }
+.mem { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.m-both { background: #2a78d6; }
+.update { border: 1px solid var(--rule); border-left: 3px solid var(--accent); padding: 12px 16px; display: grid; gap: 6px; }
+.update p, .update li { font-size: 14px; } .m-ours { background: #eb6834; } .m-lu { background: #1baf7a; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+.part { display: grid; gap: 10px; border-top: 2px solid var(--accent); padding-top: 14px; margin-top: 12px; }
+.partlabel { font: 500 clamp(22px, 3.6vw, 28px)/1.15 var(--display); max-width: none; }
+.partnum { display: block; font: 500 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+nav .navpart { color: var(--muted); }
+h2.major { font: 500 clamp(28px, 4.4vw, 34px)/1.15 var(--display); border-top: 1px solid var(--rule); padding-top: 18px; }
+.refs { list-style: none; padding-left: 0; gap: 6px; }
+.refs li { padding-left: 1.5em; text-indent: -1.5em; font-size: 14px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">IBL Neuropixels · IBL mesoscope · Allen Neuropixels · v10, 2 Nov 2026</div>
+    <h1>Default mode network analogues and correlates of stillness in IBL and Allen Institute data</h1>
+    <p class="authors">International Brain Laboratory, Michael Schartner, Claude Opus 5.5</p>
+    <p class="lead">One set of tests, for the neural correlates of awake stillness and for a default mode network analogue, applied to IBL Neuropixels, IBL mesoscope and Allen Institute Neuropixels recordings.</p>
+    <nav aria-label="Sections">
+      <a href="#abstract">Abstract</a><a href="#intro">Introduction</a><a href="#terms">Terms</a><a href="#results" class="navpart">Results</a><a href="#part-question">I Question and tests</a><a href="#part-ibl-ephys">II IBL Neuropixels</a><a href="#part-ibl-meso">III IBL mesoscope</a><a href="#part-allen-ephys">IV Allen Neuropixels</a><a href="#part-allen-meso">V Allen imaging</a><a href="#part-synthesis">VI Across datasets</a><a href="#discussion" class="navpart">Discussion</a><a href="#references" class="navpart">References</a><a href="#methods" class="navpart">Methods</a><a href="#si">SI figures</a><a href="#history">Revisions</a>
+    </nav>
+  </header>
+
+<section class="abstract" id="abstract" aria-labelledby="h-abstract">
+    <h2 id="h-abstract">Abstract</h2>
+    <p>In rodents, the default mode network (DMN) is defined by resting-state fMRI. It is unclear whether its regions behave as a network in spiking activity, and what neural activity accompanies awake rest. We applied one set of tests to four kinds of mouse recording:</p>
+    <ul>
+      <li>IBL Neuropixels, the Brain-Wide Map (130 mice);</li>
+      <li>the IBL mesoscope (9 mice);</li>
+      <li>Allen Institute Neuropixels (Visual Behavior, Visual Coding and OpenScope; 41 mice);</li>
+      <li>Allen imaging data, which have not yet been analysed.</li>
+    </ul>
+    <p><strong>Robust stillness signature.</strong> The most robust correlates of awake stillness are not regional, and they hold in every dataset tested.</p>
+    <ul>
+      <li>Activity is lower in stillness than during spontaneous movement in nearly every mouse: 129 of 130 (IBL Neuropixels), 34 of 34 (Allen) and 8 of 9 (IBL mesoscope).</li>
+      <li>A minority of neurons fires more in stillness, well above a circular-shift null: 13.6% in IBL and 11.0% in Allen.</li>
+      <li>Firing rises before movement, and rises more after longer stillness. Requiring ≥3&nbsp;s instead of ≥1&nbsp;s of prior stillness adds about 5 percentage points in both labs.</li>
+      <li>The size of the effect depends on the lab: in Allen mice it is a third of IBL's and absent from visual cortex after the Visual Behavior task. Matching movement definitions explains less than half of this gap.</li>
+    </ul>
+    <p><strong>Weak DMN evidence.</strong></p>
+    <ul>
+      <li>The conservative DMN core (ACA, PL, ORBm, RSP) is less recruited by movement and the task than other cortex, but it is never deactivated.</li>
+      <li>In stillness the core behaves like other cortex.</li>
+      <li>The first single-neuron test of the DMN's defining frontal–retrosplenial link (Allen OpenScope, passive viewing, 7 mice) finds frontal core–RSP pairs only at the 60th percentile of cross-probe region pairs, and not more coupled in stillness.</li>
+    </ul>
+  </section>
+
+  <section id="intro" aria-labelledby="h-intro">
+    <h2 class="major" id="h-intro">Introduction</h2>
+    <p>In human imaging, the default mode network (DMN) is a set of regions whose activity drops during externally directed tasks compared with passive rest (Shulman et al. 1997; Raichle et al. 2001). Rodent studies define a DMN by resting-state fMRI, mostly in anaesthetised or sedated animals. The regions they agree on are anterior cingulate, prelimbic and orbital cortex together with retrosplenial cortex (Lu et al. 2012; Grandjean et al. 2020; Whitesell et al. 2021; Mandino et al. 2022). Two properties can be tested with neural recordings in awake mice:</p>
+    <ul>
+      <li>rest preference: higher activity at rest than during a task;</li>
+      <li>co-fluctuation at rest: above all, frontal core with RSP, the link at the centre of every map.</li>
+    </ul>
+    <p>In awake mice, "rest" is confounded by movement. Spontaneous and uninstructed movements drive much of the activity across cortex and the brain (Stringer et al. 2019; Musall et al. 2019), and quiet wakefulness synchronises cortex (Poulet and Petersen 2008). A rest test is therefore a test of behaviourally defined, awake stillness. What changes in the brain when an awake mouse is still is a question in its own right, whether or not the DMN regions stand out.</p>
+    <p>We used large public datasets that contain a passive period with no task:</p>
+    <ul>
+      <li>the grey screen after the task in the IBL Brain-Wide Map (International Brain Laboratory et al. 2023);</li>
+      <li>the same protocol in IBL mesoscope imaging of dorsal cortex;</li>
+      <li>grey-screen and passive-viewing recordings of the Allen Institute (Siegle et al. 2021).</li>
+    </ul>
+    <p>Each dataset is reported in its own part with every test it allows, and the results are then compared across datasets.</p>
+  </section>
+
+<aside class="update" id="terms" aria-label="Terms used">
+    <p><strong>Terms used in this report</strong></p>
+    <ul>
+      <li><strong>Grey screen:</strong> the 10-minute spontaneous-activity block of the passive protocol, with no stimulus.</li>
+      <li><strong>Still bin:</strong> no wheel movement, no lick, and face motion energy at or below the session's 60th percentile.</li>
+      <li><strong>Conservative DMN core:</strong> ACAd, ACAv, PL, ORBm, RSPagl, RSPd and RSPv (Figure 1).</li>
+      <li><strong>Other literature DMN:</strong> regions that at least one of the four papers assigns to the DMN, but that are not in the core.</li>
+      <li><strong>Higher-order cortex:</strong> cortex outside the tested set and outside the primary sensory and motor areas.</li>
+      <li><strong>Regions:</strong> Allen atlas areas at the IBL standard level ("Beryl").</li>
+      <li><strong>Suppressed neuron:</strong> fires significantly less during the task than at rest.</li>
+      <li><strong>Rest index (RI):</strong> (rest&nbsp;−&nbsp;task)/(rest&nbsp;+&nbsp;task) firing rate.</li>
+      <li><strong>Coupling:</strong> the Fisher-z correlation of two regions' mean activity in still bins, minus the average for region pairs at the same distance.</li>
+      <li><strong>Cross-probe pair:</strong> two regions recorded on two different probes. Such pairs are cleaner than pairs along one probe, which share local signal.</li>
+      <li><strong>fALFF:</strong> fraction of a neuron's resting fluctuation power at slow frequencies (0.01–0.1&nbsp;Hz).</li>
+      <li><strong>Local synchrony:</strong> mean correlation between neurons of one region.</li>
+      <li><strong>Awake-still bin</strong> (section 10): a still bin at most 30&nbsp;s after the last movement and with pupil at or above the 10th percentile of the task-period pupil.</li>
+      <li><strong>Stillness index (SI)</strong> (section 10): (still&nbsp;−&nbsp;moving)/(still&nbsp;+&nbsp;moving) firing rate within the grey screen.</li>
+      <li><strong>Still- and movement-preferring neuron</strong> (or ROI): fires significantly more in stillness, or in movement, in a Welch test of spaced still against moving samples (p&nbsp;&lt;&nbsp;0.01).</li>
+      <li><strong>Circular-shift null:</strong> the same labels after rotating all neurons' activity together against the fixed behavioural labels. It keeps each neuron's autocorrelation and the population co-fluctuations and breaks only their alignment with behaviour, so it gives the labels' real false-positive rate.</li>
+      <li><strong>Datasets:</strong> BWM, the IBL Brain-Wide Map (Neuropixels); VBN, Allen Visual Behavior Neuropixels; VC, Allen Visual Coding Neuropixels; OpenScope, Allen OpenScope Neuropixels sessions.</li>
+    </ul>
+  </aside>
+
+  <h2 class="major newpage" id="results">Results</h2>
+  <div class="part noclear" id="part-question">
+    <p class="partlabel"><span class="partnum">Part I</span>Question, datasets and tests</p>
+    <p>Which regions count as DMN, which datasets can test them, and which tests each dataset allows.</p>
+  </div>
+
+<section id="regions" aria-labelledby="h-regions">
+    <h2 id="h-regions">1. Which regions count as DMN</h2>
+    <p>The rodent DMN has no single agreed region list. Four studies give explicit maps; all define the network from resting-state fMRI in anaesthetised or sedated animals, not from neural recordings.</p>
+    <ul>
+      <li><strong>Lu et al. 2012</strong> (<a href="https://www.pnas.org/doi/full/10.1073/pnas.1200506109">PNAS 109:3979</a>), rat. BOLD rsfMRI at 9.4&nbsp;T in 16 rats under dexmedetomidine plus low-dose isoflurane. The network comes from group ICA (30 components) with dual regression; modularity analysis of 13 regions of interest splits it into a prefrontal-temporal and a parietal module, with prefrontal cortex and RSP as hubs. Rat areas are mapped here to mouse areas.</li>
+      <li><strong>Grandjean et al. 2020</strong> (<a href="https://doi.org/10.1016/j.neuroimage.2019.116278">NeuroImage 205:116278</a>), mouse. 17 rsfMRI datasets from different centres (255 scans; 4.7–11.7&nbsp;T; various anaesthesia or awake) through one pipeline, labelled in the Allen CCFv3.
+        <ul>
+          <li>An anterior cingulate seed shows prefrontal cortex, RSP, dorsal striatum, dorsal thalamus and peri-hippocampal areas.</li>
+          <li>Group ICA gives DMN components named prefrontal, cingulate/RSP and temporal association areas. The prefrontal subregions are not specified.</li>
+        </ul>
+      </li>
+      <li><strong>Whitesell et al. 2021</strong> (<a href="https://doi.org/10.1016/j.neuron.2020.11.011">Neuron 109:545</a>), mouse. BOLD rsfMRI at 7&nbsp;T in 40 mice under light halothane sedation. Group ICA (5 components) gives the DMN component, which is registered to the Allen CCFv3. A cortical region counts when more than 50% of its voxels lie in the core mask. Anterograde viral tracing shows that these regions are preferentially interconnected.</li>
+      <li><strong>Mandino et al. 2022</strong> (<a href="https://doi.org/10.1038/s41380-021-01298-5">Mol. Psychiatry 27:2110</a>), mouse. rsfMRI co-activation patterns, and viral-tracer projection similarity to an anterior cingulate seed, define the DMN within a triple-network model. Its cortical part is labelled ACA and RSP ("anterior and posterior cingulate"), with an unlabelled medial visual extension.</li>
+    </ul>
+    <p>Figure 1 shows how the four maps overlap at the Allen (Beryl) level.</p>
+    <ul>
+      <li><strong>All four:</strong> ACAd, ACAv, RSPagl, RSPd and RSPv.</li>
+      <li><strong>Three (Lu, Whitesell and Grandjean's prefrontal component):</strong> PL and ORB. Mandino et al. name only cingulate regions.</li>
+      <li><strong>Two at most:</strong> ILA, VISa, VISam and TEa.</li>
+      <li><strong>One paper only:</strong> SSp-tr, SSp-ll and MOs (Whitesell), and auditory cortex, VISrl, VISpm and CA1 (Lu).</li>
+      <li><strong>None:</strong> ECT and PERI, which earlier versions of this report included as a "lateral" DMN.</li>
+    </ul>
+    <p>The analyses below therefore use a conservative core: ACA and RSP, which all four maps include, plus PL and ORBm. ORBl and ORBvl have the same literature support as ORBm, and their effect on the results is noted where relevant.</p>
+    <figure class="narrow"><img src="fig1_regions.png" width="566" height="664" alt="Four-set Venn diagram of the Allen cortical regions assigned to the DMN by Lu et al. 2012, Whitesell et al. 2021, Grandjean et al. 2020 and Mandino et al. 2022."></figure>
+  </section>
+
+  <section id="datasets" aria-labelledby="h-datasets">
+    <h2 id="h-datasets">2. Four datasets, one set of tests</h2>
+    <p>The goal is the same for every dataset: find the correlates of awake stillness, and look for evidence of a DMN analogue. The datasets differ in what they record, which rest period they offer and how movement is measured, so each is reported in its own part. Every test is applied wherever the recording allows it.</p>
+    <div class="tablebox">
+      <table class="deftable">
+        <thead><tr><th>Dataset</th><th>Recording</th><th>Rest period</th><th>Movement measured by</th><th>DMN core covered</th><th>Mice analysed</th></tr></thead>
+        <tbody>
+          <tr><td>IBL Neuropixels (BWM, Part II)</td><td class="txt">spikes; 1–2 probes per session, whole brain</td><td class="txt">10&nbsp;min grey screen after the task (5&nbsp;min in 55 sessions)</td><td class="txt">wheel, licks, face motion energy; pupil</td><td class="txt">all seven regions, but never frontal core and RSP in one session</td><td class="txt">130</td></tr>
+          <tr><td>IBL mesoscope (Part III)</td><td class="txt">two-photon calcium, dorsal cortex; deconvolved, 1&nbsp;s bins</td><td class="txt">60&nbsp;s grey screen in most sessions; grey screen plus receptive-field mapping (median 6&nbsp;min) for stillness</td><td class="txt">face motion energy, licks (wheel not recorded in the passive block); pupil</td><td class="txt">RSPagl and RSPd; frontal core not imaged</td><td class="txt">5 (coupling), 9 (stillness)</td></tr>
+          <tr><td>Allen Neuropixels: Visual Behavior and Visual Coding (Part IV)</td><td class="txt">spikes; up to 6 probes in visual cortex, thalamus, hippocampus and midbrain</td><td class="txt">about 5&nbsp;min grey screen after a change-detection task (VBN) or within passive viewing (VC)</td><td class="txt">running speed; pupil (VBN)</td><td class="txt">3 RSPd units in 1 mouse</td><td class="txt">34</td></tr>
+          <tr><td>Allen Neuropixels: OpenScope (Part IV)</td><td class="txt">spikes; probes in frontal and posterior cortex</td><td class="txt">none: passive viewing of stimuli</td><td class="txt">running speed</td><td class="txt">frontal core and RSP on separate probes</td><td class="txt">7</td></tr>
+          <tr><td>Allen mesoscope and two-photon (Part V)</td><td class="txt">calcium, mainly visual cortex</td><td class="txt" colspan="4">not analysed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Which test runs on which dataset.</strong> "Not run" means the data would allow the test but it has not been done. "n/a" means the data cannot support it.</p>
+    <div class="tablebox">
+      <table class="deftable">
+        <thead><tr><th>Test</th><th>IBL Neuropixels</th><th>IBL mesoscope</th><th>Allen Neuropixels</th><th>Allen imaging</th></tr></thead>
+        <tbody>
+          <tr><td>DMN: rest preference against the task</td><td class="txt">sections 5–6</td><td class="txt">not run</td><td class="txt">n/a (no core units in VBN/VC; no task in OpenScope)</td><td class="txt">not analysed</td></tr>
+          <tr><td>DMN: single-region resting metrics</td><td class="txt">section 9</td><td class="txt">not run</td><td class="txt">n/a (no core units)</td><td class="txt">not analysed</td></tr>
+          <tr><td>DMN: co-fluctuation of core regions</td><td class="txt">sections 7–8 (no frontal–RSP pair)</td><td class="txt">section 11 (RSP only)</td><td class="txt">section 14 (frontal–RSP, passive viewing)</td><td class="txt">not analysed</td></tr>
+          <tr><td>Stillness: rate ratio, still against moving</td><td class="txt">section 10.2</td><td class="txt">section 12</td><td class="txt">section 13</td><td class="txt">not analysed</td></tr>
+          <tr><td>Stillness: still- and movement-preferring cells, circular-shift null</td><td class="txt">sections 10.2, 13.4</td><td class="txt">section 12</td><td class="txt">section 13.4</td><td class="txt">not analysed</td></tr>
+          <tr><td>Stillness: reproducibility within recordings</td><td class="txt">section 10.3</td><td class="txt">not run</td><td class="txt">not run</td><td class="txt">not analysed</td></tr>
+          <tr><td>Stillness: time course and pre-movement rise</td><td class="txt">sections 10.4, 13.4</td><td class="txt">n/a (1&nbsp;s calcium bins)</td><td class="txt">sections 13.2, 13.4</td><td class="txt">not analysed</td></tr>
+          <tr><td>Stillness: population synchrony</td><td class="txt">section 10.5</td><td class="txt">not run</td><td class="txt">n/a (still periods too short)</td><td class="txt">not analysed</td></tr>
+          <tr><td>Stillness: pupil within stillness</td><td class="txt">section 10.6</td><td class="txt">not run</td><td class="txt">not run</td><td class="txt">not analysed</td></tr>
+          <tr><td>DMN core against other cortex in stillness</td><td class="txt">section 10.6</td><td class="txt">section 12 (RSP, 2 mice)</td><td class="txt">n/a (no core units in VBN/VC)</td><td class="txt">not analysed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Shared methods.</strong> All stillness contrasts compare interleaved still and moving samples from one passive period, so slow drift and task context cannot separate them. Per-neuron (or per-ROI) tests use spaced samples and are checked against a circular-shift null. Statistics are made at the mouse level: neurons are averaged per session, sessions per mouse, and CIs are bootstraps over mice. Movement definitions differ with what each rig records. The IBL Neuropixels data were therefore also re-analysed with the Allen definition (section 13).</p>
+  </section>
+
+  <div class="part" id="part-ibl-ephys">
+    <p class="partlabel"><span class="partnum">Part II</span>IBL Neuropixels (Brain-Wide Map)</p>
+    <p>Spike-sorted units from 426 BWM sessions of 138 mice (2023 release), recorded with one or two probes per session across the whole brain. 396 sessions (130 mice) have the passive grey-screen block, which serves as the rest condition for the DMN tests (sections 5–9) and for the stillness analysis (section 10). Movement is measured by the wheel, licks and face motion energy, arousal by pupil diameter.</p>
+  </div>
+
+<section id="period" aria-labelledby="h-period">
+    <h2 id="h-period">3. What the grey-screen period is</h2>
+    <p>The passive protocol (iblrig <code>passiveChoiceWorld</code>, version 7 for the BWM) runs after the task, with the mouse still head-fixed at the rig. The experimenter turns the water valve off first. Its Bonsai workflow clears the screen to <code>Gray</code>, keeps the sync square off and runs only a timer (10&nbsp;min by default; 5&nbsp;min in the <code>passiveChoiceWorldIndependent</code> variant). Frame2ttl spacer patterns before and after the block let ibllib extract it into <code>_ibl_passivePeriods.intervalsTable</code>. Receptive-field mapping (about 5&nbsp;min) and the replay of task stimuli, valve clicks and tones follow.</p>
+    <ul>
+      <li><strong>Coverage:</strong> 396 of 426 extracted BWM sessions (130 mice) have the interval; the other 30 have no passive data.</li>
+      <li><strong>When:</strong> always after the task, a median 1.1&nbsp;min after the last trial (5–95%: 0.6–3.9&nbsp;min).</li>
+      <li><strong>How long:</strong> 600&nbsp;s in 341 sessions and 300&nbsp;s in 55 (Figure 2). The first second is skipped in all analyses.</li>
+      <li><strong>Example session (Figure 2f–g):</strong> CSH_ZAD_019 has 55 neurons in RSPagl, RSPd and RSPv and median stillness. Panel f zooms into 10&nbsp;s at 50&nbsp;ms resolution, showing the alternation of brief movements and still bouts alongside the activity of its 20 most active retrosplenial neurons. No session records frontal core and RSP together.</li>
+    </ul>
+    <figure><img src="fig2_protocol.png" width="1470" height="1828" alt="Passive protocol timeline, histograms of grey-screen duration, delay after the task and still fraction, an example session's wheel, motion energy and still bins over 10 minutes, and a 10-second zoom with spike counts of its 20 most active retrosplenial neurons."></figure>
+  </section>
+
+<section id="movement" aria-labelledby="h-movement">
+    <h2 id="h-movement">4. Is the mouse inactive?</h2>
+    <p>Mostly, but not continuously. Compared with the task ITIs of the same session, the wheel and the face move far less. Pupil size is about the same, so the mice are not drowsier than during the task (Figure 3).</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Per session, median (5–95%)</th><th>Grey screen</th><th>Task ITI</th></tr></thead>
+        <tbody>
+          <tr><td>Fraction of 50&nbsp;ms bins with wheel movement (338 sessions)</td><td>0.14 (0.03–0.30)</td><td>0.48 (0.20–0.72)</td></tr>
+          <tr><td>Fraction of bins with motion energy above the session's 60th percentile (361)</td><td>0.23 (0.08–0.38)</td><td>0.44 (0.27–0.65)</td></tr>
+          <tr><td>Motion energy, grey / ITI</td><td colspan="2">0.51 (0.23–1.14)</td></tr>
+          <tr><td>Pupil diameter, grey / ITI</td><td colspan="2">1.02 (0.76–1.25)</td></tr>
+          <tr><td>Still fraction of the period</td><td>0.69 (0.47–0.89)</td><td></td></tr>
+          <tr><td>Still time</td><td>392&nbsp;s (203–513)</td><td></td></tr>
+          <tr><td>Median length of a still bout</td><td>0.85&nbsp;s (0.25–2.45)</td><td></td></tr>
+          <tr><td>Fully still 1&nbsp;s bins</td><td>212 (46–417)</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Missing behaviour data:</strong> motion energy is missing for 35 sessions and the wheel for 58. Without motion energy, stillness rests on wheel and licks only and is more lenient (still fraction 0.81 vs 0.67). Section 5 repeats the main test without these sessions.</li>
+      <li><strong>Licks:</strong> 107 sessions show more than 10 detected licks per minute on the grey screen, with no reward available. Part of this is probably lick-detection noise; lick bins are excluded either way.</li>
+      <li><strong>Most face and paw movements happen without wheel turns.</strong> In a session examined in detail (ZFM-01577), only 40% of the bins with high motion energy have any wheel movement. The rest are brief snout, head and paw movements (median 0.15&nbsp;s, about one per second), confirmed by the nose and paw keypoints and by the right camera (motion energy correlated with the left camera at 0.93). The stillness criterion removes these too, not just wheel turns.</li>
+      <li><strong>Still bouts are short</strong> (Figure 2e). Pooled over all sessions there are 110,156 uninterrupted still bouts on the grey screen, median 0.6&nbsp;s. Their durations are bimodal: many 50–100&nbsp;ms gaps between movements, and a second mode around 1&nbsp;s. 84% of still time lies in bouts of at least 1&nbsp;s, but only 36% in bouts of at least 5&nbsp;s.</li>
+      <li><strong>Stillness is stable over time:</strong> the still fraction stays near 0.68 from the first to the last minute (Figure 3d).</li>
+    </ul>
+    <figure><img src="fig3_movement.png" width="1470" height="658" alt="Scatter plots of wheel movement and high motion energy fractions in grey screen vs task ITI, ratios of motion energy and pupil, and stillness time course."></figure>
+  </section>
+
+<section id="restpref" aria-labelledby="h-restpref">
+    <h2 id="h-restpref">5. Rest preference measured against the grey screen</h2>
+    <p>Each neuron's activity during the task is compared with still 0.3&nbsp;s chunks of the grey-screen period. Task activity is the per-trial mean of the movement-onset, movement and feedback windows. The conservative core is somewhat more suppressed than the rest of cortex, but the difference is modest and not robust to every comparison (Figure 4).</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Region set vs other cortex</th><th>Suppressed, set / other</th><th>p (regions)</th><th>Mouse CI (% points)</th><th>Rest index p</th><th>Last third of trials, p</th></tr></thead>
+        <tbody>
+          <tr><td>Conservative core (7 regions)</td><td>42.0 / 34.6%</td><td>0.069</td><td>[1.6, 13.2]</td><td>0.21</td><td>0.032</td></tr>
+          <tr><td>… vs higher-order cortex only</td><td>42.0 / 37.2%</td><td>0.21</td><td>[−1.1, 11.0]</td><td>0.54</td><td>0.079</td></tr>
+          <tr><td>… sessions with motion energy only (361)</td><td>42.5 / 34.6%</td><td>0.055</td><td>[0.5, 14.0]</td><td>0.20</td><td>0.037</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Suppressed: p&nbsp;&lt;&nbsp;0.01 in a Welch test of rest chunks (one per 3&nbsp;s) against task trials, with rest above task; the fraction is averaged over regions. There are 53,213 neurons from 395 sessions and 130 mice. p values come from 20,000 region permutations; CIs come from a bootstrap over mice.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Core region</th><th>Suppressed vs grey</th><th>Rank (of 43 cortical regions)</th><th>RI</th><th>Neurons (mice)</th></tr></thead>
+        <tbody>
+          <tr><td>ORBm</td><td>49%</td><td>4</td><td>0.12</td><td>138 (5)</td></tr>
+          <tr><td>RSPv</td><td>49%</td><td>5</td><td>0.06</td><td>413 (20)</td></tr>
+          <tr><td>RSPagl</td><td>44%</td><td>7</td><td>−0.02</td><td>171 (15)</td></tr>
+          <tr><td>RSPd</td><td>42%</td><td>13</td><td>0.00</td><td>294 (21)</td></tr>
+          <tr><td>PL</td><td>40%</td><td>15</td><td>0.02</td><td>166 (12)</td></tr>
+          <tr><td>ACAv</td><td>36%</td><td>25</td><td>0.02</td><td>90 (8)</td></tr>
+          <tr><td>ACAd</td><td>34%</td><td>28</td><td>−0.11</td><td>249 (15)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Cortex median: 37% suppressed, RI −0.03. The most suppressed regions overall are ILA (56%), ECT (52%) and PERI (50%), which are not in the core.</p>
+    <ul>
+      <li><strong>Most neurons differ:</strong> 81% of all neurons differ significantly between grey screen and task (suppressed or enhanced), so the suppressed fraction is close to the sign of RI.</li>
+      <li><strong>Drift:</strong> task-window rates rise from the first to the last third of trials (median drift index +0.24 across cortical regions), but the drift is not specific to the core (p&nbsp;=&nbsp;0.53). Against only the last third of trials, closest in time to the grey screen, the core is p&nbsp;=&nbsp;0.03.</li>
+      <li><strong>Agreement with the ITI reference:</strong> the region ordering agrees with the earlier ITI-based analysis (Spearman ρ&nbsp;=&nbsp;0.44 across 43 regions).</li>
+      <li><strong>Per core region</strong> (Figure 4a–b, mouse-level CIs): only ORBm is clearly above the other-cortex level; ACAd and PL are at it, and the rest have wide CIs that overlap it.</li>
+      <li><strong>Wider literature sets:</strong> the full Whitesell set gives a similar difference, the Lu set a weaker one (Figure S1).</li>
+    </ul>
+    <figure><img src="fig4_restpref.png" width="1470" height="856" alt="Task-suppressed fraction and rest index for each core region against other cortex, and core minus other cortex under four comparisons."></figure>
+  </section>
+
+<section id="windows" aria-labelledby="h-windows">
+    <h2 id="h-windows">6. Firing rates across behavioural windows</h2>
+    <p><strong>What the DMN literature predicts.</strong></p>
+    <ul>
+      <li><strong>Deactivation is measured against the region's own baseline.</strong> In human fMRI the DMN signature is a decrease of a region's own activity during externally directed tasks, relative to its resting baseline (task-induced deactivation; Shulman et al. 1997, Raichle et al. 2001). The test is within region; specificity means other regions do not decrease, or increase.</li>
+      <li><strong>The analogue is the population mean rate.</strong> BOLD follows pooled population activity, so the closest spiking measure is the population mean firing rate, not the fraction of individually significant neurons.</li>
+      <li><strong>Movement is a confound.</strong> In mice, movement raises firing across most of cortex (Stringer et al. 2019; Musall et al. 2019), and the task windows contain movement. A rest-versus-task difference can therefore reflect movement rather than DMN-like disengagement.</li>
+      <li><strong>Two comparisons separate engagement from movement:</strong>
+        <ul>
+          <li>quiescence (waiting for the stimulus, engaged and still) against inter-trial rest (between trials, disengaged and still). A DMN region should drop during quiescence.</li>
+          <li>moving against still bins with no task at all, which measures the movement effect alone.</li>
+        </ul>
+      </li>
+      <li><strong>Two rest conditions</strong> are compared: inter-trial rest, interleaved with the task (no drift), and the grey screen, longer and later.</li>
+    </ul>
+    <p><strong>Window definitions.</strong> Figure 5a shows the windows on a median trial, aligned to stimulus onset. All windows were fixed before looking at DMN results. Each neuron's rate in a window is its spike count summed over all qualifying trials or bins of the session, divided by their total duration.</p>
+    <div class="tablebox">
+      <table class="deftable">
+        <thead><tr><th>Window</th><th>Definition</th><th>Bins used</th><th>Duration</th><th>Why this window</th></tr></thead>
+        <tbody>
+          <tr><td>Stimulus</td><td class="txt">0 to 0.15&nbsp;s after stimulus onset (<code>stimOn_times</code>)</td><td class="txt">all (exact spike counts per trial)</td><td>0.15&nbsp;s per trial</td><td class="txt">sensory response to the visual stimulus; the window of the <code>~/dmn</code> PETH pipeline</td></tr>
+          <tr><td>Movement + feedback</td><td class="txt">mean of three windows: first movement −0.15 to 0&nbsp;s and 0 to 0.15&nbsp;s (<code>firstMovement_times</code>), and feedback 0 to 0.3&nbsp;s (<code>feedback_times</code>, reward or error)</td><td class="txt">all (exact spike counts per trial)</td><td>0.15, 0.15 and 0.3&nbsp;s per trial</td><td class="txt">the active, externally directed part of the trial; the task windows of section 5 and of the <code>~/dmn</code> pipeline (BWM single-cell windows are shorter: 0.1, 0.1 and 0.2&nbsp;s)</td></tr>
+          <tr><td>Quiescence</td><td class="txt">trial start (<code>intervals_0</code>) to 0.1&nbsp;s before stimulus onset</td><td class="txt">still bins only</td><td>median 0.7&nbsp;s per trial (IQR 0.56–1.17)</td><td class="txt">engaged waiting without movement: the mouse must hold the wheel still for the stimulus to appear. The last 0.1&nbsp;s is cut to exclude anticipation and the earliest visual responses</td></tr>
+          <tr><td>ITI rest</td><td class="txt">trial end (<code>intervals_1</code>) to the next trial start (<code>intervals_0</code>)</td><td class="txt">still bins only</td><td>median 0.67&nbsp;s per trial</td><td class="txt">disengaged rest between trials, interleaved with the task so slow drift cannot separate it from the task windows. Feedback to trial end (1.57&nbsp;s; reward consumption and licking, or the error tone) is left out</td></tr>
+          <tr><td>ITI moving</td><td class="txt">the same inter-trial gaps</td><td class="txt">moving bins only</td><td>median 0.67&nbsp;s per trial, moving part</td><td class="txt">movement without the task, interleaved with it</td></tr>
+          <tr><td>Grey still</td><td class="txt">passive grey screen (<code>_ibl_passivePeriods</code>, <code>spontaneousActivity</code>), first second skipped</td><td class="txt">still bins only</td><td>median 392&nbsp;s per session</td><td class="txt">long passive rest after the task, the closest to a resting-state scan</td></tr>
+          <tr><td>Grey moving</td><td class="txt">the same grey-screen period</td><td class="txt">moving bins only</td><td>the remaining ~3&nbsp;min per session</td><td class="txt">movement with no task at all</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Still bin:</strong> a 50&nbsp;ms bin with wheel speed ≤0.05&nbsp;rad/s, no detected lick, and left-camera motion energy at or below the session's 60th percentile. One bin on either side of any movement is also excluded. <strong>Moving bin:</strong> any of these criteria violated, without the margin.</li>
+      <li><strong>Trials:</strong> BWM trial criteria apply to all trial-based windows.</li>
+      <li><strong>Inclusion:</strong> a window enters a session's estimate only with at least 2&nbsp;s of bins in total. Neurons need an overall rate of at least 0.5&nbsp;Hz.</li>
+      <li><strong>Known weak points:</strong>
+        <ul>
+          <li>In the quarter of trials with reaction times under 0.13&nbsp;s, the stimulus window already contains movement onset.</li>
+          <li>Task windows (0.15–0.3&nbsp;s around events) weigh transient responses more than the seconds-long rest windows.</li>
+          <li>The motion-energy threshold is relative within each session.</li>
+          <li>Quiescence includes recovery after wheel movements that restart it.</li>
+          <li>The inter-trial gap starts right after trial end.</li>
+          <li>A sensitivity analysis over these choices has not been run yet.</li>
+        </ul>
+      </li>
+    </ul>
+    <p>Data: 58,417 neurons ≥0.5&nbsp;Hz, 426 sessions, 138 mice; the core has 1,951 neurons from 49 mice.</p>
+    <figure><img src="fig5_windows.png" width="1470" height="1231" alt="Timeline of the analysis windows on a median trial, and small-multiple bar plots of firing rate in seven behavioural windows for each core region, the core pooled, other cortex and all other regions."></figure>
+    <p><strong>Results</strong> (Figure 6). Values are log<sub>2</sub> rate ratios, mean over mice with 95% CI. "Within session" compares core neurons with non-core neurons recorded at the same time.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Contrast</th><th>Core</th><th>Other cortex</th><th>All other regions</th><th>Core − other cortex, within session</th><th>Core − all other, within session</th></tr></thead>
+        <tbody>
+          <tr><td>Movement + feedback / ITI rest</td><td>+0.25 [0.09, 0.40]</td><td>+0.48</td><td>+0.43</td><td>−0.11 [−0.35, 0.12], p&nbsp;=&nbsp;0.35</td><td>−0.16 [−0.35, 0.04], p&nbsp;=&nbsp;0.14</td></tr>
+          <tr><td>Stimulus / ITI rest</td><td>+0.13 [0.04, 0.22]</td><td>+0.23</td><td>+0.23</td><td>+0.03, p&nbsp;=&nbsp;0.57</td><td>−0.09, p&nbsp;=&nbsp;0.13</td></tr>
+          <tr><td>Quiescence / ITI rest (engaged, still)</td><td>−0.09 [−0.15, −0.03]</td><td>−0.07</td><td>−0.01</td><td>+0.01 [−0.06, 0.07], p&nbsp;=&nbsp;0.82</td><td>−0.07 [−0.13, −0.01], p&nbsp;=&nbsp;0.02</td></tr>
+          <tr><td>Grey still / ITI rest</td><td>+0.01 [−0.21, 0.24]</td><td>−0.02</td><td>−0.28</td><td>−0.01, p&nbsp;=&nbsp;0.85</td><td>+0.25, p&nbsp;=&nbsp;0.04</td></tr>
+          <tr><td>ITI moving / ITI still</td><td>+0.18 [0.04, 0.32]</td><td>+0.34</td><td>+0.34</td><td>−0.05, p&nbsp;=&nbsp;0.52</td><td>−0.16, p&nbsp;=&nbsp;0.07</td></tr>
+          <tr><td>Grey moving / grey still</td><td>+0.31 [0.23, 0.41]</td><td>+0.42</td><td>+0.43</td><td>+0.02, p&nbsp;=&nbsp;0.98</td><td>−0.09, p&nbsp;=&nbsp;0.21</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>No task-induced deactivation.</strong> The core fires 19% more during movement and feedback than in still inter-trial rest, and 10% more after stimulus onset. Every core region is at or above its rest rate in the task windows.
+        <ul>
+          <li>The core increases less than other cortex (39%). That difference is significant over mice (−0.23, CI −0.40 to −0.05), but not over regions (p&nbsp;=&nbsp;0.18) or within sessions (p&nbsp;=&nbsp;0.35).</li>
+        </ul>
+      </li>
+      <li><strong>Engagement without movement lowers firing, but not specifically in the core.</strong> While waiting still for the stimulus, core neurons fire 6% less than when still between trials. This is the direction the DMN literature predicts.
+        <ul>
+          <li>Other cortex drops by 5%, so the core does not differ from it (within session p&nbsp;=&nbsp;0.82).</li>
+          <li>It differs only from the brain-wide average, which barely changes (p&nbsp;=&nbsp;0.02): a cortical, not a DMN-specific, effect.</li>
+        </ul>
+      </li>
+      <li><strong>Movement raises firing in the core too</strong>, by 13–24%, somewhat less than elsewhere. The core's weaker task increase fits its weaker movement modulation.</li>
+      <li><strong>Grey-screen and inter-trial rest give similar core rates.</strong> The grey screen does not reveal a higher "deep rest" level in the core.</li>
+      <li><strong>Suppressed neurons:</strong> with inter-trial rest or quiescence as the reference, the core has more neurons that fire less during the task than at rest (28% vs 22% in other cortex for inter-trial rest, region-permutation p&nbsp;=&nbsp;0.02; 27% vs 21% for quiescence, p&nbsp;=&nbsp;0.03).
+        <ul>
+          <li>Within session the difference is not significant (p&nbsp;=&nbsp;0.14 and 0.06). Individual suppressed neurons exist in every region, and the population mean of the core still rises during the task.</li>
+        </ul>
+      </li>
+      <li><strong>Trial-by-trial co-fluctuation in inter-trial rest and quiescence</strong> (Figure 6d): core–core pairs are more coupled than core–other pairs (+0.10, CI 0.04–0.17, 26 mice).
+        <ul>
+          <li>This comes from same-probe neighbours less than 0.5&nbsp;mm apart, mainly RSPd–RSPv and RSPagl–RSPd, which are subdivisions of one area.</li>
+          <li>The 4 cross-probe core pairs are below average, and distance-matched within session the excess is +0.06 (CI −0.02 to 0.13, 12 mice).</li>
+        </ul>
+      </li>
+    </ul>
+    <p><strong>Interpretation.</strong> Measured as the fMRI literature defines it, against the region's own baseline in population firing, the conservative DMN core is not deactivated by the task in any window. Its apparent rest preference is relative: it is less recruited by movement and the task than the rest of cortex. The only DMN-like absolute change, lower firing during still, engaged waiting, is shared by other cortex.</p>
+    <figure><img src="fig6_contrasts.png" width="1470" height="1025" alt="Forest plots of log rate ratios for seven window contrasts for core, other cortex and all other regions, within-session differences, suppressed fractions with inter-trial and quiescence references, and trial-wise coupling differences."></figure>
+  </section>
+
+<section id="coverage" aria-labelledby="h-coverage">
+    <h2 id="h-coverage">7. Which core region pairs can be computed</h2>
+    <p class="note">Conservative core: ACAd, ACAv, PL, ORBm, RSPagl, RSPd, RSPv.</p>
+    <p>Resting-state networks are defined by co-fluctuation, which needs two regions recorded at the same time. A region pair counts if a session has at least 5 neurons in each region and at least 120 fully still 1&nbsp;s bins. 319 sessions (116 mice) have enough still bins and 308 of them yield region signals (Figure 7).</p>
+    <ul>
+      <li><strong>Core regions per session:</strong> of the 308 sessions, 267 record no core region, 21 record one, 19 two and 1 three. Most sessions record no or one cortical region at all.</li>
+      <li><strong>Frontal core and RSP are never recorded together:</strong> frontal core (ACA, PL, ORBm) appears in 17 sessions and RSP in 24, never in the same one.</li>
+      <li><strong>Core pairs:</strong> 7 of the 21 possible core pairs are recorded, all between neighbouring areas: ACAd–ACAv, ACAd–PL, ACAv–PL, ORBm–PL and the three RSP subdivisions.</li>
+      <li><strong>Pairs in at least 3 mice:</strong> three (ACAd–ACAv, ACAd–PL, RSPd–RSPv). None is recorded on two probes in 3 mice.</li>
+    </ul>
+    <figure><img src="fig7_coverage.png" width="1470" height="845" alt="Matrix of mice per core region pair, histograms of core and cortical regions per session, and bars of possible versus recorded core pairs."></figure>
+  </section>
+
+<section id="coupling" aria-labelledby="h-coupling">
+    <h2 id="h-coupling">8. Do core regions co-fluctuate on the grey screen?</h2>
+    <p>There is no evidence that they do. Each region signal is the mean of z-scored neurons in still 1&nbsp;s bins, after regressing out wheel, licks and motion energy. Each pair correlation is compared with cortical pairs at the same distance and probe relation (Figure 8).</p>
+    <ul>
+      <li><strong>Pair classes:</strong> core–core pairs couple exactly as much as core–other pairs: +0.0005&nbsp;z, CI −0.10 to 0.11; the same holds with 0.5&nbsp;s bins.
+        <ul>
+          <li>That is 25 pairs from 20 sessions and 18 mice; the smallest detectable effect at 80% power is 0.15&nbsp;z.</li>
+          <li>Only 4 core–core pairs come from two probes, too few to test.</li>
+        </ul>
+      </li>
+      <li><strong>Single core pairs</strong> recorded in ≥3 mice are all compatible with zero (ACAd–ACAv +0.03, ACAd–PL 0.00, RSPd–RSPv −0.03). The other four are recorded in only 1–2 mice.</li>
+      <li><strong>Within session:</strong> core–core minus core–other is +0.04 (8 mice, p&nbsp;=&nbsp;0.64).</li>
+      <li><strong>State invariance:</strong> the same region pair in the same session couples similarly on the grey screen and in task ITIs (Spearman ρ&nbsp;=&nbsp;0.39 over 3,516 pairs of all regions). Coupling structure is partly a fixed property of the recorded circuits.</li>
+      <li><strong>Wider literature sets:</strong> see Figure S2.</li>
+    </ul>
+    <figure><img src="fig8_coupling.png" width="1470" height="805" alt="Core pair-class coupling differences, per-mouse coupling by pair class, and coupling of every recorded core pair."></figure>
+  </section>
+
+<section id="single" aria-labelledby="h-single">
+    <h2 id="h-single">9. Single-region resting metrics</h2>
+    <p>Resting-state fMRI also has measures for one region at a time. ALFF and fALFF measure how strongly and how slowly a region fluctuates at rest; ReHo measures how synchronised neighbouring voxels are. Their electrophysiological analogues need only one region per recording, so they pool across all mice (Figure 9).</p>
+    <ul>
+      <li><strong>fALFF</strong> is the fraction of slow (0.01–0.1&nbsp;Hz) power in each neuron's 1&nbsp;s rate, after regressing out wheel, licks and motion energy and adjusting for firing rate. Core regions scatter around the other-cortex level, PL highest and RSPv lowest; the core as a whole does not differ (+0.0005, p&nbsp;=&nbsp;0.97).</li>
+      <li><strong>Fluctuation amplitude</strong> (coefficient of variation of the 1&nbsp;s rate) is largely set by firing rate (ρ&nbsp;=&nbsp;−0.79). After rate adjustment the core is slightly lower (−0.06; mouse CI excludes zero, region-permutation p&nbsp;=&nbsp;0.14), driven by ACAv and RSPagl.</li>
+      <li><strong>Local synchrony</strong> (mean correlation between neurons of one region in still 1&nbsp;s bins) does not differ (−0.01, p&nbsp;=&nbsp;0.57).</li>
+      <li><strong>Independence:</strong> across cortical regions, these resting metrics are unrelated to rest preference (fALFF ρ&nbsp;=&nbsp;−0.05).</li>
+    </ul>
+    <figure><img src="fig9_single_region.png" width="1470" height="737" alt="Rate-adjusted fALFF, fluctuation amplitude and local synchrony for each core region against other cortex, and core minus other cortex for the three metrics."></figure>
+  </section>
+
+<section id="stillness" aria-labelledby="h-stillness">
+    <h2 id="h-stillness">10. Beyond the DMN: neural correlates of awake stillness</h2>
+    <p>Sections 5–9 find little that is specific to the DMN regions at rest. This chapter asks the broader question: during behaviourally defined, putatively awake stillness on the grey screen, what changes in neural activity anywhere in the brain, which changes hold across animals, and which are specific to brain areas? It uses the same grey-screen block and movement thresholds, and the single-cell techniques of this report that held up best: interleaved still-versus-moving contrasts within one period, per-neuron tests on spaced samples, mouse-bootstrap statistics and within-session comparisons. Data: 53,136 neurons (≥0.5&nbsp;Hz) from 389 sessions and 130 mice, with a median 5.6&nbsp;min of awake stillness and 2.4&nbsp;min of movement per session.</p>
+
+    <h3>10.1 Awake stillness and the sleep gate</h3>
+    <ul>
+      <li><strong>Moving bin:</strong> wheel speed &gt;0.05&nbsp;rad/s, a lick, or motion energy above the session's 60th percentile, as in the rest of this report. <strong>Awake-still bin:</strong> not moving (±1 bin margin), at most 30&nbsp;s since the last movement, and pupil at or above the 10th percentile of the session's task-period pupil.</li>
+      <li><strong>Why a sleep gate:</strong> head-fixed mice can enter NREM sleep with their eyes open after tens of seconds of immobility, and their pupil constricts. Still bouts longer than 10&nbsp;s had a median pupil of 0.91× the task median.</li>
+      <li><strong>What it removes:</strong> a median 7% of still time (IQR 1–26%) in the 342 sessions with pupil tracking; the other 47 are gated by the 30&nbsp;s limit only. The stillness index is nearly identical with or without the gate (ρ&nbsp;=&nbsp;0.98, Figure 15c).</li>
+    </ul>
+    <figure><img src="fig10_still_states.png" width="1470" height="921" alt="Example minute of wheel, motion energy and pupil with awake-still, moving and gated-out bins; histograms of still and moving time per session, still bout durations and the fraction of still time gated out."></figure>
+
+    <h3>10.2 Stillness lowers firing almost everywhere</h3>
+    <p>Each neuron's rate in awake-still bins is compared with its rate in moving bins of the same grey-screen period (Figure 11). Rate ratio: log<sub>2</sub>((still&nbsp;+&nbsp;0.1)/(moving&nbsp;+&nbsp;0.1)). Still- or movement-preferring: 0.5&nbsp;s still against 0.5&nbsp;s moving epochs, Welch test p&nbsp;&lt;&nbsp;0.01.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Division</th><th>Rate ratio (mean over mice)</th><th>Mice below 0</th><th>Still-preferring</th><th>Movement-preferring</th></tr></thead>
+        <tbody>
+          <tr><td>Hindbrain</td><td>−0.73</td><td>96%</td><td>16%</td><td>39%</td></tr>
+          <tr><td>Thalamus</td><td>−0.54</td><td>96%</td><td>6%</td><td>52%</td></tr>
+          <tr><td>Midbrain</td><td>−0.44</td><td>93%</td><td>18%</td><td>39%</td></tr>
+          <tr><td>Cortex</td><td>−0.43</td><td>95%</td><td>13%</td><td>40%</td></tr>
+          <tr><td>Striatum/pallidum</td><td>−0.32</td><td>78%</td><td>18%</td><td>36%</td></tr>
+          <tr><td>Hippocampal formation</td><td>−0.24</td><td>82%</td><td>19%</td><td>41%</td></tr>
+          <tr><td>Cerebellum</td><td>−0.21</td><td>89%</td><td>23%</td><td>30%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Neurons are averaged within mouse, then over mice (mice with ≥5 neurons in the division). Still- and movement-preferring fractions are means over mice.</p>
+    <ul>
+      <li><strong>Brain-wide:</strong> the geometric-mean rate ratio is 26% below movement (log<sub>2</sub> −0.43, CI −0.47 to −0.39), in 129 of 130 mice and every division. 15% of neurons are still-preferring (in 126 of 128 mice) and 40% movement-preferring.</li>
+      <li><strong>Most suppressed:</strong> orofacial brainstem (GRN −1.52, SPVC −1.25, IRN, SPVO, V, SPVI) and somatosensory thalamus (VPLpc, VPM, PO), as expected from the face and body movements that define the moving state.</li>
+      <li><strong>Least suppressed or enhanced:</strong> LSv (+0.26) and LSr (+0.13) fire more in stillness (equal-mouse region means); TRS (+0.04) and BST (−0.04) are near zero. Still-preferring neurons are most common in CLI (39%), LSv (38%), DCO (34%), LSr (33%), DN (32%) and IP (30%), but occur in almost every region. These regional rankings are exploratory and sensitive to mouse weighting and coverage.</li>
+    </ul>
+    <figure><img src="fig11_still_rates.png" width="1470" height="1090" alt="Rate ratio, still-preferring and movement-preferring fractions per mouse for seven brain divisions, and the 22 most and 22 least suppressed regions with mouse-bootstrap confidence intervals."></figure>
+
+    <h3>10.3 Stillness preference is reproducible within recordings</h3>
+    <ul>
+      <li><strong>Neuron level</strong> (Figure 12a–c; stillness index SI&nbsp;=&nbsp;(still&nbsp;−&nbsp;moving)/(still&nbsp;+&nbsp;moving)): first versus second half of the grey screen ρ&nbsp;=&nbsp;0.78; grey screen versus the task's inter-trial gaps ρ&nbsp;=&nbsp;0.55; against face/body-only versus against wheel movements ρ&nbsp;=&nbsp;0.74. The last comparison shares the stillness rate between indices, which can inflate it; it supports consistency across movement definitions, not effector-independent tuning. All are within-recording comparisons.</li>
+      <li><strong>Region level</strong> (Figure 12d): region maps from two random halves of the mice agree moderately (rate ratio r&nbsp;=&nbsp;0.46; 0.29 after subtracting each session's mean). Region within session explains 13% of neuron variance against 4% for shuffled labels; the session explains 6%. Most variation lies between neurons within a region.</li>
+    </ul>
+    <figure><img src="fig12_still_stability.png" width="1470" height="872" alt="Hexbin scatter plots of the stillness index across halves, contexts and movement types, and bar chart of region-map split-half reliability for six metrics."></figure>
+
+    <h3>10.4 Stillness is graded in time</h3>
+    <ul>
+      <li><strong>Entering stillness</strong> (Figure 13a): after a movement that starts a ≥4&nbsp;s still bout, hippocampal firing dips about 0.3&nbsp;s after offset (log<sub>2</sub> −0.2) and cortex about 0.6&nbsp;s after (−0.1); both recover within 1–2&nbsp;s. Thalamus falls more slowly and stays low.</li>
+      <li><strong>Deepening stillness</strong> (Figure 13c–f): from 0.5–1&nbsp;s to 2–4&nbsp;s after the last movement, cortex (+0.12, 79% of mice) and hippocampal formation (+0.11, 77%) rise, while thalamus (−0.06, 67%) and hindbrain (−0.05, 57%) fall weakly. Within long bouts a mean 12% of hippocampal neurons rise at uncorrected p&nbsp;&lt;&nbsp;0.01 (DG 17%); after FDR correction few within-bout classifications survive (3% rising at q&nbsp;&lt;&nbsp;0.05), so these are less secure than the rate contrast.</li>
+      <li><strong>Leaving stillness</strong> (Figure 13b): in every division firing rises 0.3–0.5&nbsp;s before movement onset, most steeply in thalamus and cortex.</li>
+    </ul>
+    <figure><img src="fig13_still_dynamics.png" width="1470" height="1204" alt="Population rate aligned to movement offset and onset for five divisions, rate by time since last movement, and per-mouse fractions of neurons rising or falling within long still bouts."></figure>
+
+    <h3>10.5 Neurons fluctuate together more in stillness</h3>
+    <p>Within each region and probe (≥8 neurons), equal numbers of 100&nbsp;ms still and moving bins are compared (Figure 14). Rates are lower in stillness and correlations depend on rate, so each neuron's spikes in its higher-rate state are binomially thinned to its rate in the other state.</p>
+    <ul>
+      <li><strong>Correlation:</strong> raw correlations hardly differ (−0.0001). Rate-matched, they are higher in stillness (+0.011, 82% of mice): cortex +0.023 (91%), hippocampal formation +0.026, thalamus +0.010. This fits the synchronised cortical state of quiet wakefulness (<a href="https://www.nature.com/articles/nature07150">Poulet &amp; Petersen 2008</a>).</li>
+      <li><strong>Dimensionality:</strong> the raw participation ratio is higher in stillness, but this is a rate effect; rate-matched, stillness is slightly lower-dimensional (−0.020, 70% of mice).</li>
+      <li><strong>Synchronous events</strong> (summed count &gt;3&nbsp;SD above the within-state mean) are more frequent in stillness (81% of mice), most in the hippocampal formation. At 100&nbsp;ms they are not identified sharp-wave ripples.</li>
+      <li><strong>Exception:</strong> the cerebellum is less correlated and higher-dimensional in stillness, even rate-matched. Early (&lt;1&nbsp;s) and late (≥2&nbsp;s) stillness give no clear evidence of further build-up.</li>
+    </ul>
+    <figure><img src="fig14_still_population.png" width="1470" height="889" alt="Still minus moving differences in mean pairwise correlation, participation ratio and synchronous-bin fraction per division, raw and rate-matched."></figure>
+
+    <h3>10.6 Arousal within stillness, and the DMN core</h3>
+    <ul>
+      <li><strong>Pupil within stillness</strong> (Figure 15a; partial correlation with time and motion energy removed): not brain-wide (+0.006, 58% of mice positive). Thalamus is the exception (+0.026, 73%), strongest in VPM (+0.09), PO (+0.08), VM and TRN (+0.07).</li>
+      <li><strong>Small-pupil stillness</strong> (below the gate, within 30&nbsp;s of a movement; Figure 15b) is quieter than awake stillness in thalamus (−0.16, 82% of mice), hindbrain (−0.22) and midbrain (−0.12), unchanged in cortex and hippocampus.</li>
+      <li><strong>DMN core</strong> (Figure 15d): no detected difference from other cortex, rate ratio −0.35 vs −0.43 (region permutation p&nbsp;=&nbsp;0.49), still-preferring 17% vs 14% (p&nbsp;=&nbsp;0.36). Paired within mice (39 mice with both), core minus other cortex is −0.01 (CI −0.18 to 0.16). This agrees with sections 5–6: the core is somewhat less movement-modulated than other cortex but not specifically rest-active.</li>
+    </ul>
+    <figure><img src="fig15_still_arousal.png" width="1470" height="829" alt="Pupil partial correlation and small-pupil rate ratio per division, stillness index with and without the sleep gate, and rate ratio of DMN core regions against other cortical regions."></figure>
+
+    <h3>10.7 Robust versus area-specific correlates</h3>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Correlate of awake stillness</th><th>Across animals</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>Lower population firing</td><td class="txt"><span class="verdict v-ok">Robust</span> 129/130 mice</td><td class="txt">All divisions; most in orofacial brainstem and somatosensory thalamus, least in hippocampus, cerebellum and septum</td></tr>
+          <tr><td>A minority of still-preferring neurons (15%)</td><td class="txt"><span class="verdict v-ok">Robust</span> 126/128 mice</td><td class="txt">Everywhere; enriched in cerebellar nuclei and lateral septum; depleted in thalamus</td></tr>
+          <tr><td>Preference is reproducible within a recording</td><td class="txt"><span class="verdict v-ok">Robust</span> ρ 0.55–0.78</td><td class="txt">Brain-wide</td></tr>
+          <tr><td>Higher within-region synchrony, rate-matched</td><td class="txt"><span class="verdict v-ok">Robust</span> 82% of mice</td><td class="txt">Forebrain (cortex 91%, hippocampus, thalamus); reversed in cerebellum</td></tr>
+          <tr><td>More synchronous population events</td><td class="txt"><span class="verdict v-ok">Robust</span> 81% of mice</td><td class="txt">Largest in hippocampal formation</td></tr>
+          <tr><td>Pre-movement rise 0.3–0.5&nbsp;s before leaving stillness</td><td class="txt"><span class="verdict v-ok">Robust</span></td><td class="txt">All divisions</td></tr>
+          <tr><td>Post-movement dip, then recovery within 1–2&nbsp;s</td><td class="txt"><span class="verdict v-part">Area-specific</span></td><td class="txt">Hippocampus and cortex</td></tr>
+          <tr><td>Continued decline with stillness duration</td><td class="txt"><span class="verdict v-part">Area-specific</span> 57–67% of mice</td><td class="txt">Weak in thalamus and hindbrain; cortex and hippocampus rise instead (77–79%)</td></tr>
+          <tr><td>Firing follows pupil within stillness</td><td class="txt"><span class="verdict v-part">Area-specific</span> 73% of mice</td><td class="txt">Thalamus only (VPM, PO, VM, TRN)</td></tr>
+          <tr><td>Lower firing in small-pupil stillness</td><td class="txt"><span class="verdict v-part">Area-specific</span> ~80% of mice</td><td class="txt">Thalamus, midbrain, hindbrain; not cortex or hippocampus</td></tr>
+          <tr><td>DMN core differs from other cortex</td><td class="txt"><span class="verdict v-no">Not detected</span></td><td class="txt">p&nbsp;=&nbsp;0.49 (rate), 0.36 (still-preferring)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The most robust correlates of idleness are not regional. Firing drops, local populations synchronise, and a stable minority of neurons in almost every region fire more. Regions differ mainly in how stillness unfolds over time (descriptively; division differences were not tested formally): thalamus tracks pupil and drifts down, while in hippocampus and cortex a brief undershoot after movement gives way to a synchronised, recovering and rising regime. A brain-wide "idle" signal therefore lives in population structure and in a distributed population of still-preferring cells rather than in the DMN or any other single area.</p>
+    <h3>10.8 Robustness checks</h3>
+    <ul>
+      <li><strong>Slow drift:</strong> comparing still and moving rates only within shared 10&nbsp;s windows (≥0.5&nbsp;s of each state) keeps the effect: rate ratio −0.37 (CI −0.41 to −0.34; 30&nbsp;s windows −0.39), 130 mice, negative in every division.</li>
+      <li><strong>Multiple comparisons:</strong> with Benjamini–Hochberg q&nbsp;&lt;&nbsp;0.01 over all neurons, 14.6% are still-preferring and 38.7% movement-preferring (pooled). FDR does not correct p-values miscalibrated by temporal dependence; the circular-shift null does.</li>
+      <li><strong>Label calibration:</strong> rotating all neurons' counts against the behavioural labels gives a null rate of 1.2% still-preferring and 0.9% movement-preferring neurons, close to the nominal 1%. The null-corrected fractions are 13.6% and 39.4% (section 13.4, Figure 19a).</li>
+      <li><strong>Within-session replication:</strong> stillness-index correlations computed per session (≥20 neurons) and averaged over mice: halves 0.76, grey vs inter-trial gaps 0.54, face vs wheel 0.73.</li>
+      <li><strong>Subsets:</strong> sessions with pupil and motion energy −0.44 (119 mice); units ≥2&nbsp;Hz −0.44. 57 sessions (13 mice) have no wheel trace on the grey screen, so "moving" there rests on motion energy and licks; without them: rate ratio −0.43, 14.8% still-preferring, rate-matched correlation +0.011 (84% of mice).</li>
+    </ul>
+  </section>
+
+  <div class="part" id="part-ibl-meso">
+    <p class="partlabel"><span class="partnum">Part III</span>IBL mesoscope</p>
+    <p>Two-photon mesoscope imaging of dorsal cortex in 153 canonical sessions from 12 mice, during the same task and passive protocol. The deconvolved activity of each ROI is averaged in 1&nbsp;s bins, and ROIs are placed in the Allen atlas mostly from pre-histology estimates. The frontal core lies outside the imaged field, so RSP (RSPagl and RSPd) is the only core region. Most sessions have only 60&nbsp;s of grey screen.</p>
+  </div>
+
+<section id="meso" aria-labelledby="h-meso">
+    <h2 id="h-meso">11. RSP coupling in the mesoscope</h2>
+    <p>The mesoscope images many dorsal areas at once, but none of the frontal core, so its core is RSP (RSPagl and RSPd) alone.</p>
+    <ul>
+      <li><strong>Data:</strong> on the grey screen RSP is imaged in only 1–2 mice, too few to show. Figure 16 therefore uses inter-trial rest: still 1&nbsp;s bins from 1&nbsp;s after feedback to 0.2&nbsp;s before the next stimulus, giving RSP pairs from 14 sessions and 5 mice.</li>
+      <li><strong>RSP–RSP pairs</strong> (2 mice) are more coupled than distance predicts (+0.21&nbsp;z), but they are adjacent subdivisions of one area.</li>
+      <li><strong>RSP–other pairs</strong> (5 mice) are not more coupled than other–other pairs (−0.04 vs 0.00&nbsp;z).</li>
+      <li><strong>Per region:</strong> RSP couples least with trunk, limb and unassigned somatosensory cortex and most with MOp, VISal, VISam and VISp (each in only 2–4 mice). There is no pattern that follows the literature DMN regions.</li>
+    </ul>
+    <figure><img src="fig16_meso.png" width="1470" height="738" alt="Mesoscope inter-trial coupling by pair class per mouse for RSP, and RSP coupling with each imaged region."></figure>
+  </section>
+
+  <section id="mesostill" aria-labelledby="h-mesostill">
+    <h2 id="h-mesostill">12. Correlates of stillness in the mesoscope</h2>
+    <p>Does the section 10 stillness contrast hold in calcium imaging of dorsal cortex? Two features of the mesoscope sessions shape the analysis:</p>
+    <ul>
+      <li>most sessions have only 60&nbsp;s of grey screen;</li>
+      <li>during the task the mice turn the wheel almost continuously, with a median 1&nbsp;s wheel speed of 0.2–0.3&nbsp;rad/s and 1.6&nbsp;s from feedback to the next trial.</li>
+    </ul>
+    <p>The contrast therefore uses the passive block before the task replay: the grey screen plus receptive-field mapping, a median 6.2&nbsp;min per session. The replay is left out because its tones and valve clicks evoke face movements together with cortical responses (Figure 17).</p>
+    <ul>
+      <li><strong>States:</strong> 1&nbsp;s bins of deconvolved activity.
+        <ul>
+          <li><strong>Moving bin:</strong> a lick, or face motion energy above the session's 60th percentile. The wheel is not recorded in this block.</li>
+          <li><strong>Still bin:</strong> no movement within ±1&nbsp;s, and at most 30&nbsp;s since the last movement.</li>
+        </ul>
+      </li>
+      <li><strong>Tests</strong> are the section 10 tests, adapted to calcium:
+        <ul>
+          <li><strong>Rate ratio:</strong> per ROI, log<sub>2</sub>((still&nbsp;+&nbsp;e)/(moving&nbsp;+&nbsp;e)), with e&nbsp;=&nbsp;2% of the ROI's mean because the activity scale is arbitrary per ROI.</li>
+          <li><strong>Still- and movement-preferring ROIs:</strong> Welch test of still against moving bins, at most one of each per 2&nbsp;s, p&nbsp;&lt;&nbsp;0.01.</li>
+          <li><strong>Null:</strong> a circular-shift null with 100 rotations.</li>
+        </ul>
+      </li>
+      <li><strong>Data:</strong> of 153 sessions, 101 have the passive intervals and 58 have motion energy in the block. 48 sessions from 9 mice pass inclusion (≥20 spaced bins of each state), with 351,490 ROIs. One more session was excluded because its null exceeded 5%: its population activity drifted fourfold across the block, and a quarter of its ROIs were silent in all still bins.</li>
+      <li><strong>Activity is lower in stillness:</strong> log<sub>2</sub> −0.20 (CI −0.30 to −0.12), below zero in 8 of 9 mice.
+        <ul>
+          <li>Visual areas: −0.27, 7 of 7 mice.</li>
+          <li>Somatosensory (−0.18, 6 of 9 mice) and motor areas (−0.16, 2 of 3) have CIs that include zero.</li>
+        </ul>
+      </li>
+      <li><strong>A still-preferring minority:</strong> 4.6% of ROIs are still-preferring, against a null of 1.4%, and 13.2% are movement-preferring, against 0.3%. The observed fractions exceed the null in every mouse.</li>
+      <li><strong>RSP (DMN core)</strong> is imaged in only 2 mice (10 sessions). In those sessions:
+        <ul>
+          <li>RSP is less suppressed than the other imaged ROIs (−0.20 against −0.41; 9 of 10 sessions);</li>
+          <li>RSP has more still-preferring ROIs (7.3% against 4.2%).</li>
+        </ul>
+        Two mice cannot support a core-specific claim. The direction matches the Neuropixels data, where the core is slightly, not significantly, less movement-modulated than other cortex (section 10.6).</li>
+      <li><strong>Comparison with Neuropixels:</strong> the sign and breadth of the effect agree with section 10, and visual cortex is clearly suppressed, as in IBL Neuropixels but not in Allen Visual Behavior (section 13). The magnitudes are not comparable, for three reasons:
+        <ul>
+          <li>deconvolved calcium in 1&nbsp;s bins is not a firing rate;</li>
+          <li>movement here is face movement only;</li>
+          <li>the block contains sparse-noise stimuli, though they are not locked to movement.</li>
+        </ul>
+      </li>
+    </ul>
+    <figure><img src="fig17_meso_still.png" width="1470" height="734" alt="Per-mouse log ratio of still to moving activity for all ROIs and for visual, somatosensory, motor and retrosplenial ROIs; still- and movement-preferring ROI fractions against their circular-shift null; RSP against other imaged cortex per session."></figure>
+  </section>
+
+  <div class="part" id="part-allen-ephys">
+    <p class="partlabel"><span class="partnum">Part IV</span>Allen Institute Neuropixels</p>
+    <p>Two external analyses of public Allen Neuropixels data, exported with their tables and scripts (<code>comprehensive_report/allen/</code>). Visual Behavior and Visual Coding sessions (34 mice) have a grey-screen block but almost no DMN core units, so they test the stillness correlates (section 13). OpenScope sessions (7 mice) record frontal core and RSP on separate probes, but have no stimulus-free block, so they test frontal–retrosplenial coupling during passive viewing (section 14). Movement is running speed only.</p>
+  </div>
+
+<section id="allen" aria-labelledby="h-allen">
+    <h2 id="h-allen">13. Correlates of stillness in Allen Visual Behavior and Visual Coding data, compared with IBL</h2>
+    <p>Do the section 10 correlates hold in mice from another lab, rig and task? An independent analysis applied the section 10 pipeline to Allen Institute Neuropixels recordings, and a follow-up calibrated its neuron labels and onset rule. This chapter summarises both and compares them with the IBL data. Where the two pipelines differ, the IBL data were re-analysed with the Allen definitions, to test whether those differences explain the gaps.</p>
+
+    <h3>13.1 Data and methods</h3>
+    <ul>
+      <li><strong>Allen data:</strong> <a href="https://dandiarchive.org/dandiset/000713">Visual Behavior Neuropixels</a> (VBN; post-task grey screen, about 5&nbsp;min, after an active change-detection task under water restriction) and Visual Coding Neuropixels (VC; the longest spontaneous grey block of a passive-viewing session, about 5&nbsp;min). Units are the depositors' sorted units (VBN: Allen "good" units), with ≥0.5&nbsp;Hz on the grey screen, in Allen CCF regions. 44 of 150 VBN sessions (30 mice) and 4 of 10 VC sessions (4 mice) passed the inclusion rule of ≥10 still and ≥10 moving 0.5&nbsp;s epochs. Most exclusions were mice that ran for the whole grey screen. This leaves 63,399 of 84,661 units.</li>
+      <li><strong>Allen states:</strong> 50&nbsp;ms bins. A bin is moving if running speed exceeds 2&nbsp;cm/s, and awake-still if it is not moving (±1 bin margin), at most 30&nbsp;s after the last movement, and (VBN only) has pupil area at or above the task 10th percentile. There is no face video and grey-screen licks are not logged, so orofacial movement falls inside "still". Stillness is short: a median 0.66&nbsp;min per session (24 still and 125 moving epochs), against 6.7&nbsp;min in IBL.</li>
+      <li><strong>Allen statistics</strong> (as in section 10): log<sub>2</sub> rate ratio with 0.1&nbsp;Hz pseudocount; Welch test (p&nbsp;&lt;&nbsp;0.01) of 0.5&nbsp;s still against 0.5&nbsp;s moving epochs, each lying entirely inside one state, at most one per 2&nbsp;s; neurons averaged per session, sessions per mouse; Cosmos divisions with ≥20 neurons per session; population rate around running onsets after ≥1&nbsp;s of stillness, as percent change from −2 to −1&nbsp;s. The analysis is exploratory and was not pre-registered. Its export (report, per-neuron tables, scripts) is in <code>comprehensive_report/allen/</code>.</li>
+      <li><strong>Allen follow-up</strong> (second export, 2 Nov), on the same 44 VBN sessions (30 mice):
+        <ul>
+          <li>a circular-shift null for the neuron labels: all neurons' grey-screen 50&nbsp;ms counts are rotated together by a random offset (≥10&nbsp;s from either end) against the fixed behavioural labels, and the labels are recomputed (200 rotations per session);</li>
+          <li>the pre-movement rise for onsets preceded by ≥3&nbsp;s against ≥1&nbsp;s of awake stillness, in sessions with ≥3 such onsets.</li>
+        </ul>
+        Its OpenScope coupling analysis is described in section 14.</li>
+      <li><strong>IBL counterparts</strong> (<code>neural_correlates_stillness/32_null_onsets.py</code>):
+        <ul>
+          <li>the same null for the section 10 test, in the 386 sessions (129 mice) with ≥10 epochs of each state, also with still epochs subsampled to 24;</li>
+          <li>both onset rules, for any-movement onsets (report definition) and wheel onsets (wheel-only states), with the Allen window and baseline.</li>
+        </ul>
+      </li>
+      <li><strong>IBL re-analysis with the Allen definitions</strong> (<code>neural_correlates_stillness/30_allen_matched.py</code>): the 315 sessions (115 mice, 45,638 of the section 10 neurons) that have a wheel trace on the grey screen and pass the Allen inclusion rule. Three movement definitions: the report's (wheel, licks, face motion); <em>wheel only</em> (&gt;0.05&nbsp;rad/s; licks and face motion count as still, as in Allen); and <em>2&nbsp;cm/s</em>, the Allen running threshold converted to the wheel rim (0.65&nbsp;rad/s, radius 3.1&nbsp;cm), so that slow wheel turns count as still. Pupil gate and 30&nbsp;s limit as in section 10. Allen epoch rule and aggregation. To match the short Allen stillness, the per-neuron test was repeated with still epochs randomly subsampled to 12, 24, 48 and 96 per session.</li>
+    </ul>
+
+    <h3>13.2 What replicates</h3>
+    <ul>
+      <li><strong>Lower firing in stillness in every mouse:</strong> 34 of 34 Allen mice; VBN −0.12 (CI −0.15 to −0.09), VC −0.17 (−0.23 to −0.10). The same IBL sessions give −0.42 (115/115 mice) (Figure 18a).</li>
+      <li><strong>A still-preferring minority, once still time is matched:</strong> Allen mice have 11.9% still-preferring (CI 10.6–13.4) and 24.1% movement-preferring neurons, against 15% and 41% in IBL. The still-preferring fraction depends mainly on still time (Figure 18b). Subsampled to the Allen median of 24 still epochs, IBL gives only 7.3% (9.1% wheel only). At matched still time, then, the still-preferring minority is at least as large in Allen mice. Movement-preferring neurons remain fewer in Allen: 24% against 32–33% at 24 epochs (Figure 18c).</li>
+      <li><strong>The midbrain matches quantitatively:</strong> −0.45 in IBL (wheel only; 55/57 mice) against −0.47 in VBN (26/28) and −0.44 in VC (Figure 18d).</li>
+      <li><strong>The regional ordering partly carries over:</strong> over 25 regions recorded in both datasets, IBL and Allen rate ratios correlate (Spearman ρ&nbsp;=&nbsp;0.45, p&nbsp;=&nbsp;0.02). APN, Eth and POL (midbrain and posterior thalamus) are among the most suppressed regions in both datasets, and hippocampal CA1, CA3 and DG among the least. LGv is the clearest exception: strongly suppressed in IBL, slightly enhanced in Allen mice (Figure 18e).</li>
+      <li><strong>Firing rises before movement:</strong> Allen +6.6% from −0.5 to −0.05&nbsp;s before running onset (25/27 mice). IBL shows the same with wheel onsets (+3.0%, 85/114 mice) and with the any-movement onsets of section 10.4 (+3.4%, 101/120) (Figure 18f). In both datasets the rise grows when onsets need longer prior stillness (section 13.4).</li>
+    </ul>
+
+    <h3>13.3 What does not replicate</h3>
+    <ul>
+      <li><strong>Size in the forebrain:</strong> the Allen effect is about a third of the IBL effect, and 20 of the 25 shared regions are less suppressed in Allen mice (mean difference +0.23). By division, thalamus is −0.15 in VBN against −0.59 in IBL, and hippocampal formation −0.10 against −0.22. Visual cortex shows no stillness effect in VBN (+0.04, CI −0.00 to +0.10; 12/30 mice below zero), against −0.37 in IBL visual areas (32/34 mice). The 4 VC mice sit in between (−0.18, 4/4 below zero).</li>
+      <li><strong>The movement definition explains less than half of the gap:</strong> counting face motion and licks as still (wheel only) moves IBL from −0.42 to −0.38. Raising the threshold to 2&nbsp;cm/s moves it further, to −0.29 (106/115 mice below zero). Both remain well below Allen's −0.12 (Figure 18a). The 2&nbsp;cm/s definition leaves few moving epochs (median 10 per session), which lowers IBL movement-preferring neurons to 14% at 24 still epochs, below Allen's 24%. Only 8% of wheel-only still bins contain face motion or licks, so in IBL the grey-screen movement contrast is carried mostly by wheel turns.</li>
+      <li><strong>Short still periods do not explain it:</strong> still time sets the preference fractions but not the rate ratio (the Allen analysis finds ρ&nbsp;=&nbsp;−0.15 between ratio and still epochs). IBL stillness within 2&nbsp;s of a movement, the regime of most Allen still time, gives −0.43 brain-wide and −0.61 in visual cortex.</li>
+      <li><strong>Remaining candidates</strong> (untested): the behaviour itself, running on a disc against forelimb wheel turns; selection, since only Allen mice that stopped running were included; and the arousal state after each task. The VBN–VC difference in visual cortex fits a context effect (post-task against naive passive viewing), but IBL is also post-task and shows a strong cortical effect. With 4 VC mice this remains a hint.</li>
+    </ul>
+    <figure><img src="fig18_still_allen.png" width="1470" height="1312" alt="Rate ratio per mouse for IBL under three movement definitions and for Allen Visual Behavior and Visual Coding mice; still- and movement-preferring fractions against still epochs per session; rate ratio by division; region-level IBL versus Allen scatter; population rate around movement onset."></figure>
+
+    <h3>13.4 Calibrating the neuron labels, and the onset rule</h3>
+    <ul>
+      <li><strong>The still-preferring minority survives a circular-shift null in both datasets</strong> (Figure 19a).
+        <ul>
+          <li><strong>Allen VBN:</strong> 11.8% of neurons are still-preferring against a null of 0.8% (corrected 11.0%, CI 9.6–12.6), and 23.6% movement-preferring against 2.8% (corrected 20.8%).</li>
+          <li><strong>IBL:</strong> the null is 1.2% and 0.9%, close to the nominal 1%. The corrected fractions are 13.6% (CI 12.4–14.9) and 39.4%.</li>
+          <li>Observed fractions exceed the null's 95th percentile in all 44 Allen sessions, and in 339 (still-preferring) and 382 (movement-preferring) of 386 IBL sessions.</li>
+        </ul>
+      </li>
+      <li><strong>Few epochs inflate the labels</strong> (Figure 19b). The null rate rises as the opposite state gets fewer epochs, up to 5–10% in Allen sessions with fewer than about 20. IBL sessions rarely get there (median 199 still and 141 moving epochs). With still epochs subsampled to the Allen median of 24, the IBL movement-preferring null rises from 0.9% to 2.2%. At that matched still time IBL has 6.8% still-preferring neurons after null correction, against 11.0% in Allen mice, so the comparison of section 13.2 stands.</li>
+      <li><strong>Longer prior stillness gives a larger pre-movement rise, by the same amount in both datasets</strong> (Figure 19c–d). With onsets preceded by ≥3&nbsp;s instead of ≥1&nbsp;s of awake stillness:
+        <ul>
+          <li>the Allen rise grows from +5.0% (24 of 27 mice) to +12.3% (12 of 12 mice);</li>
+          <li>the IBL wheel-onset rise grows from +3.1% (88 of 118) to +8.3% (112 of 116).</li>
+        </ul>
+        Paired over sessions measurable under both rules, the difference is +5.0 percentage points in Allen (15 of 17 sessions) and +4.7 in IBL (277 of 323). IBL any-movement onsets, which include face and lick onsets, rise less: −1.8% under the loose rule, whose −2 to −1&nbsp;s baseline can still contain the previous movement, and +3.5% under the strict one.</li>
+      <li><strong>What this resolves:</strong> the Allen pre-movement rise is not an artefact of the loose onset rule, and IBL wheel onsets depend on prior stillness in the same way. The IBL rise is the smaller one under both rules. Running onsets at 2&nbsp;cm/s can lag the true start of movement, so part of the Allen rise may still be early, sub-threshold movement.</li>
+    </ul>
+    <figure><img src="fig19_allen_followup.png" width="1470" height="1347" alt="Still- and movement-preferring fractions per mouse against their circular-shift null for IBL and Allen; null false-positive rate against epochs per session; pre-movement curves for two onset rules in IBL and Allen; rise per mouse by onset rule; frontal core to RSP coupling percentiles in Allen OpenScope; coupling against distance."></figure>
+
+    <h3>13.5 What this means for the IBL findings and the DMN</h3>
+    <p>The non-regional correlates of section 10.7 hold in independent mice. Firing is lower in stillness in every mouse, a still-preferring minority remains above a calibrated null, and firing rises before movement, more after longer stillness. The regional profile partly carries over: midbrain and posterior thalamus are suppressed most, hippocampus least. The IBL magnitudes are not general. In Allen mice the forebrain, especially visual cortex during VBN's post-task grey screen, is much less movement-modulated, and the movement definition and short still bouts do not account for the difference. Section 10's brain-wide magnitude (26% lower firing) should therefore be read as specific to the IBL task and rig, not as a constant of stillness. The DMN core cannot be compared with other cortex in these data: their cortical units lie in visual areas (VISp, VISl, VISal, VISrl, VISam, VISpm), and only 3 units in 1 mouse are in a core region (RSPd). The OpenScope sessions of section 14 do record the core. Synchrony, the thalamic pupil dependence and within-bout time courses were not tested, because Allen still periods are too short.</p>
+  </section>
+
+  <section id="allencoupling" aria-labelledby="h-allencoupling">
+    <h2 id="h-allencoupling">14. Frontal–retrosplenial coupling in Allen OpenScope recordings</h2>
+    <p>Frontal core with RSP is the link at the centre of every rodent DMN map. The BWM never records it (section 7), and the IBL mesoscope does not image the frontal core. Some Allen OpenScope Neuropixels sessions place probes in both, and the Allen follow-up measured their coupling directly (Figure 19e–f).</p>
+    <ul>
+      <li><strong>Data:</strong> 11 sessions (10 mice) from DANDI <a href="https://dandiarchive.org/dandiset/000563">000563</a>, <a href="https://dandiarchive.org/dandiset/000690">000690</a> and <a href="https://dandiarchive.org/dandiset/001637">001637</a>. 8 sessions from 7 mice have a frontal core region (ACAd, ACAv, PL or ORBm) and an RSP region (RSPagl, RSPd or RSPv) on different probes, each with ≥10 units at ≥0.5&nbsp;Hz.</li>
+      <li><strong>Method:</strong>
+        <ul>
+          <li>Region population rates in 1&nbsp;s bins, with a 60&nbsp;s running mean removed.</li>
+          <li>Fisher-z correlation of every cross-probe region pair (614 pairs), in all bins, and separately in still and moving bins (running above 2&nbsp;cm/s; still means no running within ±1&nbsp;s).</li>
+          <li>The window runs from the first to the last stimulus onset, excluding optotagging. These sessions have no stimulus-free block, so coupling is measured during passive viewing.</li>
+          <li>Distance correction: the residual from a per-session linear fit of z on the distance between Allen CCF region centres.</li>
+          <li>Unlike section 8, movement is not regressed out; the still-bin estimate serves as the movement control. In the Temporal Barcode sessions, removing the repeat-locked component of the flicker stimulus is an extra control.</li>
+        </ul>
+      </li>
+      <li><strong>Result:</strong>
+        <ul>
+          <li>Frontal core–RSP pairs sit at a mean percentile of 60 among the cross-probe pairs of their session: 5 of 7 mice are above the 50th percentile, none above the 90th. After distance correction the mean is 58.</li>
+          <li>Their residual coupling is above zero in 5 of 7 mice (p&nbsp;=&nbsp;0.22).</li>
+          <li>It is no stronger in stillness: still minus moving is +0.008&nbsp;z (higher in 5 of 7 mice, p&nbsp;=&nbsp;0.69).</li>
+          <li>Coupling barely depends on distance in these sessions (0.007&nbsp;z per mm, ρ&nbsp;=&nbsp;0.03), so the correction changes little.</li>
+          <li>Removing the flicker-locked component leaves coupling unchanged in the two mice where it can be tested.</li>
+        </ul>
+      </li>
+      <li><strong>What this means:</strong> measured with single neurons, frontal–retrosplenial coupling is only slightly above that of other cross-probe pairs, and it does not strengthen in stillness. This is the first direct test of the DMN's defining link in this report. It is not a resting-state test: there is no grey screen, only 7 mice, and running is the only movement measure. One session (DANDI 000690) has a block of spontaneous activity and could support a true rest test in one mouse.</li>
+    </ul>
+  </section>
+
+  <div class="part" id="part-allen-meso">
+    <p class="partlabel"><span class="partnum">Part V</span>Allen Institute mesoscope and two-photon</p>
+  </div>
+
+  <section id="allenimaging" aria-labelledby="h-allenimaging">
+    <h2 id="h-allenimaging">15. Allen mesoscope and two-photon data: not analysed yet</h2>
+    <p>No Allen imaging data have been analysed for this report.</p>
+    <ul>
+      <li><strong>What these data cover:</strong> the Allen two-photon datasets, Visual Coding and Visual Behavior Optical Physiology (part of it recorded with a multi-plane mesoscope), image mainly visual cortex.</li>
+      <li><strong>What they could test:</strong> like the Allen Neuropixels data, the correlates of stillness rather than the DMN core. They would add a calcium-imaging counterpart to Part IV, as Part III does for Part II.</li>
+      <li><strong>How:</strong> the rate ratio and the calibrated still-preferring fraction of section 12 can be computed wherever a spontaneous or grey-screen block and running speed are recorded.</li>
+    </ul>
+  </section>
+
+  <div class="part" id="part-synthesis">
+    <p class="partlabel"><span class="partnum">Part VI</span>Across datasets</p>
+    <p>What holds in every dataset, what does not, and how far the evidence for a DMN analogue goes.</p>
+  </div>
+
+  <section id="synthesis" aria-labelledby="h-synthesis">
+    <h2 id="h-synthesis">16. Correlates of stillness across datasets</h2>
+    <p>Each row applies one test to each dataset. Values are means over mice, with the number of mice in which the effect has the stated sign.</p>
+    <div class="tablebox">
+      <table class="deftable">
+        <thead><tr><th>Correlate of awake stillness</th><th>IBL Neuropixels</th><th>IBL mesoscope</th><th>Allen Neuropixels</th><th>Allen imaging</th></tr></thead>
+        <tbody>
+          <tr><td>Lower activity than in movement (log<sub>2</sub> ratio)</td><td class="txt">−0.43; 129/130 mice</td><td class="txt">−0.20; 8/9 mice (calcium)</td><td class="txt">VBN −0.12, VC −0.17; 34/34 mice</td><td class="txt">not analysed</td></tr>
+          <tr><td>Still-preferring minority above the circular-shift null</td><td class="txt">13.6% (null 1.2%)</td><td class="txt">4.6% (null 1.4%)</td><td class="txt">VBN 11.0% (null 0.8%)</td><td class="txt">not analysed</td></tr>
+          <tr><td>Movement-preferring, above the null</td><td class="txt">39.4% (null 0.9%)</td><td class="txt">13.2% (null 0.3%)</td><td class="txt">VBN 20.8% (null 2.8%)</td><td class="txt">not analysed</td></tr>
+          <tr><td>Visual cortex suppressed in stillness</td><td class="txt">−0.37; 32/34 mice</td><td class="txt">−0.27; 7/7 mice</td><td class="txt">VBN +0.04 (12/30 below 0); VC −0.18 (4/4)</td><td class="txt">not analysed</td></tr>
+          <tr><td>Rise before movement, larger after ≥3&nbsp;s than ≥1&nbsp;s of stillness</td><td class="txt">wheel onsets +3.1% → +8.3%</td><td class="txt">n/a (1&nbsp;s bins)</td><td class="txt">running onsets +5.0% → +12.3%</td><td class="txt">not analysed</td></tr>
+          <tr><td>Midbrain suppressed strongly, hippocampus least</td><td class="txt">yes (midbrain −0.45)</td><td class="txt">n/a (cortex only)</td><td class="txt">yes (midbrain −0.47); region ranks ρ&nbsp;=&nbsp;0.45</td><td class="txt">not analysed</td></tr>
+          <tr><td>Higher synchrony in stillness, rate-matched</td><td class="txt">82% of mice</td><td class="txt">not run</td><td class="txt">n/a</td><td class="txt">not analysed</td></tr>
+          <tr><td>DMN core differs from other cortex</td><td class="txt">no (p&nbsp;=&nbsp;0.49)</td><td class="txt">RSP less suppressed in 9/10 sessions (2 mice)</td><td class="txt">n/a (no core units)</td><td class="txt">not analysed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">IBL Neuropixels values use the report's movement definition (wheel, licks, face motion), except the onset row (wheel onsets) and the visual-cortex and midbrain values (wheel only, the 315 sessions of section 13). Mesoscope values are deconvolved calcium in 1&nbsp;s bins and are not comparable in size.</p>
+    <ul>
+      <li><strong>Robust in every dataset tested:</strong>
+        <ul>
+          <li>Activity is lower in awake stillness, across the brain and in nearly every mouse.</li>
+          <li>A minority of neurons or ROIs prefers stillness, well above the null rate.</li>
+          <li>Firing rises before movement, and rises more the longer the mouse has been still.</li>
+        </ul>
+      </li>
+      <li><strong>Dataset-specific:</strong>
+        <ul>
+          <li>The size of the effect: IBL Neuropixels about three times Allen.</li>
+          <li>Visual cortex: suppressed in both IBL datasets and in Allen Visual Coding, but not after the Allen Visual Behavior task.</li>
+          <li>The share of movement-preferring cells.</li>
+        </ul>
+        Matching the movement definition and still time explains only part of these differences (section 13.3).</li>
+      <li><strong>The DMN core:</strong> it never stands out. In IBL Neuropixels its stillness profile equals other cortex. In the mesoscope, RSP is less suppressed, but in only 2 mice.</li>
+    </ul>
+  </section>
+
+<section id="verdict" aria-labelledby="h-verdict">
+    <h2 id="h-verdict">17. How convincing is the evidence for a DMN analogue?</h2>
+    <p>The criteria below are judged over all datasets; the evidence column names the dataset.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Criterion</th><th>Verdict</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr><td>A true rest period exists in the data</td><td><span class="verdict v-ok">Yes</span></td><td class="txt">IBL Neuropixels: 10&nbsp;min grey screen in 396 sessions, about 6.5&nbsp;min of it still. Allen VBN/VC: about 5&nbsp;min, under 1&nbsp;min still. IBL mesoscope: 60&nbsp;s. Allen OpenScope: none</td></tr>
+          <tr><td>The DMN regions are agreed in the literature</td><td><span class="verdict v-part">Partly</span></td><td class="txt">ACA and RSP in all four maps, PL and ORB in three; the rest disputed</td></tr>
+          <tr><td>Core DMN regions have relatively more rest-preferring neurons than other cortex</td><td><span class="verdict v-part">Weak</span></td><td class="txt">42% vs 35% suppressed: mouse CI excludes 0, region permutation p&nbsp;=&nbsp;0.07; not vs higher-order cortex; ORBm and RSP yes, ACA no</td></tr>
+          <tr><td>Core firing drops during the task relative to the region's own rest (fMRI-style deactivation)</td><td><span class="verdict v-no">No</span></td><td class="txt">+19% during movement and feedback, +10% after the stimulus; smaller increase than other cortex (+39%) but not significant within session</td></tr>
+          <tr><td>Core firing drops during engaged, still waiting (quiescence vs inter-trial rest)</td><td><span class="verdict v-part">Not specific</span></td><td class="txt">−6% in the core, −5% in other cortex; differs only from the brain-wide average</td></tr>
+          <tr><td>Core regions fluctuate differently at rest (fALFF, amplitude, synchrony)</td><td><span class="verdict v-no">No</span></td><td class="txt">Reproducible maps, no core difference after rate adjustment</td></tr>
+          <tr><td>Core regions co-fluctuate at rest more than with other regions</td><td><span class="verdict v-no">Not shown</span></td><td class="txt">+0.0005&nbsp;z (18 mice); detectable effect ≥0.15&nbsp;z; two-probe pairs too few</td></tr>
+          <tr><td>Core regions are more active in awake stillness than other cortex (still vs moving on the grey screen)</td><td><span class="verdict v-no">No</span></td><td class="txt">IBL Neuropixels: rate ratio −0.35 vs −0.43, p&nbsp;=&nbsp;0.49; still-preferring 17% vs 14%, p&nbsp;=&nbsp;0.36 (section 10). IBL mesoscope: RSP less suppressed than other imaged cortex in 9 of 10 sessions, but only 2 mice (section 12)</td></tr>
+          <tr><td>Frontal and retrosplenial DMN are coupled</td><td><span class="verdict v-no">Not shown</span></td><td class="txt">Allen OpenScope, passive viewing, 7 mice: frontal core–RSP pairs at the 60th percentile of cross-probe pairs (none above the 90th), no stronger in stillness (section 14). Never recorded together in the BWM; frontal core not imaged in the IBL mesoscope</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Restricted to the regions the literature agrees on, the BWM gives at most weak evidence for task-negative DMN activity, and only in a relative sense: the core is less recruited by movement and the task than other cortex, but its population firing never drops below its own resting level. The orbital and retrosplenial parts of the core prefer rest; the anterior cingulate does not. Earlier, stronger results depended on regions outside this core (ILA, ECT, PERI, TEa). A resting-state DMN is defined by co-fluctuation between frontal and retrosplenial cortex. BWM recordings never contain both. Allen OpenScope recordings do, and there the two are only slightly more coupled than other cortical pairs and not more so in stillness, but these recordings contain no rest block. A convincing test still needs simultaneous frontal and posterior recordings with a long grey-screen block: multi-probe sessions targeting ACA/PL and RSP, or wide-field or mesoscope imaging that includes medial frontal cortex. The one OpenScope session with a spontaneous block is the nearest existing candidate.</p>
+  </section>
+
+  <section id="discussion" aria-labelledby="h-discussion">
+    <h2 class="major newpage" id="h-discussion">Discussion</h2>
+    <h3>Main findings</h3>
+    <ul>
+      <li><strong>A robust, non-regional signature of awake stillness.</strong> It holds in two labs and with both electrophysiology and calcium imaging.
+        <ul>
+          <li>Activity is lower in stillness than during spontaneous movement in nearly every mouse.</li>
+          <li>A minority of neurons prefers stillness. This survives a circular-shift null that keeps each neuron's autocorrelation: 13.6% in IBL and 11.0% in Allen mice.</li>
+          <li>Firing rises before movement.</li>
+        </ul>
+        In IBL Neuropixels, two further properties hold within recordings and across mice: still preference is a reproducible neuron property, and rate-matched local synchrony rises in stillness. The regional profile partly carries over between labs: midbrain and posterior thalamus are suppressed most, hippocampus least.</li>
+      <li><strong>Pre-movement activity depends on prior stillness.</strong> Requiring ≥3&nbsp;s instead of ≥1&nbsp;s of stillness before an onset raises the pre-movement rise by the same amount in both labs (+4.7 and +5.0 percentage points). The rise is therefore not an artefact of a loose onset rule.</li>
+      <li><strong>Magnitudes are not general.</strong> The stillness effect in Allen mice is about a third of IBL's, and visual cortex shows none after the Visual Behavior task, while it is clearly suppressed in IBL Neuropixels, the IBL mesoscope and Allen Visual Coding. Matching the movement definition and still time closes less than half of the gap. Brain-wide magnitudes such as IBL's 26% lower firing should therefore be read as properties of a lab, rig and behaviour, not as constants of stillness.</li>
+      <li><strong>Little evidence for a DMN analogue.</strong>
+        <ul>
+          <li>The conservative core is less recruited by movement and the task than other cortex, but its population firing never drops below its own resting level.</li>
+          <li>In stillness the core behaves like other cortex.</li>
+          <li>Where frontal core and RSP are recorded together (Allen OpenScope), they are coupled only slightly more than other cross-probe pairs, and not more in stillness.</li>
+        </ul>
+        The orbital and retrosplenial parts of the core prefer rest more than the anterior cingulate does. Earlier, stronger results depended on regions outside the core.</li>
+    </ul>
+
+    <h3>What the rodent DMN papers claim, and what was tested</h3>
+    <p><strong>None of the four rodent DMN papers claims or tests that DMN regions deactivate during a task, and none records spikes.</strong> All four define the DMN by resting-state co-fluctuation (plus anatomy), mostly in anaesthetised or sedated animals. The task-negative idea tested in sections 5–6 comes from human imaging. The rodent papers' defining property, coupled fluctuation between frontal and retrosplenial cortex, cannot be tested in the BWM. Allen OpenScope recordings give a first test of it, during passive viewing (section 14).</p>
+    <div class="tablebox">
+      <table class="deftable">
+        <thead><tr><th>Paper</th><th>Main claims</th><th>Relevance to this report</th></tr></thead>
+        <tbody>
+          <tr><td>Lu et al. 2012 (PNAS), rat</td><td class="txt">Rats have a DMN like that of primates and humans. Group ICA of rsfMRI under dexmedetomidine/isoflurane finds orbital, prelimbic and cingulate cortex, auditory/temporal association cortex, posterior parietal cortex, RSP and medial secondary visual cortex (dorsal CA1 tentative). The network splits into a prefrontal-temporal and a parietal module with prefrontal cortex and RSP as hubs. They propose the DMN is a conserved mammalian feature integrating multisensory and emotional information.</td><td class="txt">Defined by coupling at rest under anaesthesia; no task.</td></tr>
+          <tr><td>Grandjean et al. 2020 (NeuroImage), mouse, 17 datasets</td><td class="txt">Mouse resting-state networks, including a DMN, are reproducible across centres. An anterior cingulate seed shows prefrontal cortex, RSP, dorsal striatum, dorsal thalamus and peri-hippocampal areas. How specifically the DMN is detected depends on anaesthesia (best with medetomidine-isoflurane and ventilation), field strength and coil. A lateral cortical network appears antagonistic to the midline DMN.</td><td class="txt">Defined by coupling. The antagonism between DMN and lateral cortex is the closest these papers come to “task-negative vs task-positive”.</td></tr>
+          <tr><td>Whitesell et al. 2021 (Neuron), mouse</td><td class="txt">An Allen-registered rsfMRI DMN map under halothane, combined with tracing. DMN cortical regions are preferentially connected to each other. Layer 2/3 DMN neurons project almost only within the DMN, layer 5 neurons both inside and outside it. RSP contains two layer-5 projection types, inside- and outside-projecting, that differ in laminar position and gene expression.</td><td class="txt">Anatomy and rsfMRI; no activity during tasks.</td></tr>
+          <tr><td>Mandino et al. 2022 (Mol. Psychiatry), mouse with human and macaque comparison</td><td class="txt">The mouse has a triple-network organisation (salience, default-mode and lateral cortical / central-executive) with spatio-temporal properties shared with humans and macaques. The model's predictions hold in a mouse model of depression (chronic social stress). Tracer maps were validated with optogenetics, and mouse maps can be converted to human coordinates. Serotonin is linked to the salience network rather than the DMN.</td><td class="txt">Defined by resting-state co-activation patterns; cortical DMN = ACA and RSP.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Human DMN papers</strong>, cited for the definition of deactivation:
+        <ul>
+          <li><strong>Shulman et al. 1997</strong> (a PET meta-analysis): a consistent set of regions decreases its blood flow during many different active tasks compared with passive conditions: medial frontal cortex, posterior cingulate/precuneus and lateral parietal cortex.</li>
+          <li><strong>Raichle et al. 2001</strong> interpreted these decreases as an organised baseline, a “default mode” suspended during goal-directed tasks, rather than deactivation from an arbitrary baseline.</li>
+        </ul>
+      </li>
+      <li><strong>Movement papers</strong>, cited for the confound: <strong>Stringer et al. 2019</strong> and <strong>Musall et al. 2019</strong> showed that spontaneous and uninstructed movements drive a large share of activity across mouse cortex, during rest and during tasks. This is why section 6 separates movement from engagement.</li>
+      <li><strong>Earlier region sources:</strong> Stafford et al. 2014, Sforazzini et al. 2014 and Gozzi &amp; Schwarz 2016 are cited only for the region set of earlier report versions. They too are rsfMRI and connectome studies.</li>
+    </ul>
+    <p><strong>What this means.</strong> The rodent DMN is established as a resting-state network. Whether its regions are task-negative in mice is an open question, and these data answer it mostly in the negative: the core is less recruited by the task than other cortex, but it is not deactivated. Its defining coupling can so far be tested only during passive viewing, where it is weak. The rodent literature that does test task-induced deactivation, for example fMRI or fibre photometry during behaviour, has not yet been reviewed here. It would give the rest-preference results a direct rodent reference point.</p>
+
+    <h3>Caveats</h3>
+    <ul>
+      <li><strong>Post-task rest.</strong> The IBL and Allen VBN grey screens follow an hour of task under water restriction; this is not a naive resting state, and the rodent DMN maps come from anaesthetised animals. Arousal, satiety and drift all differ between task and grey screen. Comparisons between regions are less affected than absolute levels.</li>
+      <li><strong>What "still" means.</strong>
+        <ul>
+          <li>Movement is defined by what each rig records. In IBL Neuropixels that is wheel, licks and face motion; in the IBL mesoscope, face motion and licks; in Allen data, running only. Orofacial movement therefore falls inside Allen "stillness".</li>
+          <li>Part of the stillness effect in sensory and orofacial regions is the absence of reafferent input; motor and sensory causes are not separated.</li>
+          <li>"Awake" rests on a pupil gate and a 30&nbsp;s limit; pupil is an indirect sleep marker, and there is no LFP or EMG. The meaning of the VBN pupil-area stream is flagged as unconfirmed by its platform.</li>
+        </ul>
+      </li>
+      <li><strong>Neuron labels.</strong> Welch p-values on spaced epochs still carry temporal autocorrelation. The circular-shift null calibrates them, but it is liberal when one state has few epochs (Allen sessions with fewer than about 20). FDR correction does not address this dependence.</li>
+      <li><strong>Coupling.</strong>
+        <ul>
+          <li>Mean region-pair correlations in still 1&nbsp;s bins are small (0.07 across probes, 0.10 within a probe), so coupling differences need many mice.</li>
+          <li>Pairs that share a region signal are not independent within a session.</li>
+          <li>Rate thinning does not control slow shared drift.</li>
+          <li>The OpenScope coupling is measured during passive viewing, in 7 mice with 2–3 loaded probes per session, without regressing out movement.</li>
+        </ul>
+      </li>
+      <li><strong>Mesoscope.</strong>
+        <ul>
+          <li>ROI labels are mostly pre-histology estimates, and RSP lies at the edge of most fields of view.</li>
+          <li>Deconvolved calcium in 1&nbsp;s bins is not a firing rate, and the stillness block contains sparse-noise stimuli.</li>
+          <li>9 mice, with RSP in 2.</li>
+        </ul>
+      </li>
+      <li><strong>Allen analyses.</strong> These are exported analyses (scripts included) that were recomputed here from their tables, not from raw data. Allen stillness is short (median 0.66&nbsp;min per session). Running onsets at a 2&nbsp;cm/s threshold can lag the true start of movement, and only 12 of 30 mice have enough onsets after ≥3&nbsp;s of stillness.</li>
+      <li><strong>Resolution and scope.</strong> At 50–100&nbsp;ms, ripples and fast oscillations cannot be resolved. A sensitivity analysis over the behavioural-window choices (section 6) has not been run. All analyses are exploratory and were not pre-registered.</li>
+    </ul>
+
+    <h3>Outlook</h3>
+    <p>Three recordings would test what these data leave open.</p>
+    <ul>
+      <li><strong>A resting-state DMN test:</strong> frontal core and RSP recorded at the same time during a long grey-screen block. That means multi-probe sessions targeting ACA/PL and RSP, or wide-field or mesoscope imaging that includes medial frontal cortex. The one OpenScope session with a spontaneous block (DANDI 000690) is the nearest existing candidate.</li>
+      <li><strong>Allen imaging:</strong> Allen two-photon and mesoscope data with running speed would add a calcium counterpart to the Allen Neuropixels stillness results.</li>
+      <li><strong>Mesoscope with the wheel:</strong> passive blocks with the wheel recorded would let the mesoscope separate wheel from face movement.</li>
+    </ul>
+  </section>
+
+  <section id="references" aria-labelledby="h-references">
+    <h2 class="major" id="h-references">References</h2>
+    <ul class="refs">
+      <li>Allen Institute MindScope Program (2023). Visual Behavior Neuropixels. DANDI Archive, dandiset <a href="https://dandiarchive.org/dandiset/000713">000713</a>.</li>
+      <li>Allen Institute OpenScope. Neuropixels datasets, DANDI Archive, dandisets <a href="https://dandiarchive.org/dandiset/000563">000563</a>, <a href="https://dandiarchive.org/dandiset/000690">000690</a> and <a href="https://dandiarchive.org/dandiset/001637">001637</a>.</li>
+      <li>Gozzi A, Schwarz AJ (2016). Large-scale functional connectivity networks in the rodent brain. NeuroImage 127:496–509.</li>
+      <li>Grandjean J, et al. (2020). Common functional networks in the mouse brain revealed by multi-centre resting-state fMRI analysis. NeuroImage 205:116278. <a href="https://doi.org/10.1016/j.neuroimage.2019.116278">doi:10.1016/j.neuroimage.2019.116278</a></li>
+      <li>International Brain Laboratory, et al. (2023). A brain-wide map of neural activity during complex behaviour. bioRxiv 2023.07.04.547681. <a href="https://doi.org/10.1101/2023.07.04.547681">doi:10.1101/2023.07.04.547681</a></li>
+      <li>Lu H, et al. (2012). Rat brains also have a default mode network. PNAS 109:3979–3984. <a href="https://doi.org/10.1073/pnas.1200506109">doi:10.1073/pnas.1200506109</a></li>
+      <li>Mandino F, et al. (2022). A triple-network organization for the mouse brain. Molecular Psychiatry 27. <a href="https://doi.org/10.1038/s41380-021-01298-5">doi:10.1038/s41380-021-01298-5</a></li>
+      <li>Musall S, Kaufman MT, Juavinett AL, Gluf S, Churchland AK (2019). Single-trial neural dynamics are dominated by richly varied movements. Nature Neuroscience 22:1677–1686.</li>
+      <li>Poulet JFA, Petersen CCH (2008). Internal brain state regulates membrane potential synchrony in barrel cortex of behaving mice. Nature 454:881–885. <a href="https://www.nature.com/articles/nature07150">doi:10.1038/nature07150</a></li>
+      <li>Raichle ME, MacLeod AM, Snyder AZ, Powers WJ, Gusnard DA, Shulman GL (2001). A default mode of brain function. PNAS 98:676–682.</li>
+      <li>Sforazzini F, Schwarz AJ, Galbusera A, Bifone A, Gozzi A (2014). Distributed BOLD and CBV-weighted resting-state networks in the mouse brain. NeuroImage 87:403–415.</li>
+      <li>Shulman GL, et al. (1997). Common blood flow changes across visual tasks: II. Decreases in cerebral cortex. Journal of Cognitive Neuroscience 9:648–663.</li>
+      <li>Siegle JH, et al. (2021). Survey of spiking in the mouse visual system reveals functional hierarchy. Nature 592:86–92.</li>
+      <li>Stafford JM, et al. (2014). Large-scale topology and the default mode network in the mouse connectome. PNAS 111:18745–18750.</li>
+      <li>Stringer C, Pachitariu M, Steinmetz N, Reddy CB, Carandini M, Harris KD (2019). Spontaneous behaviors drive multidimensional, brainwide activity. Science 364:eaav7893.</li>
+      <li>Wang Q, et al. (2020). The Allen Mouse Brain Common Coordinate Framework: a 3D reference atlas. Cell 181:936–953.</li>
+      <li>Whitesell JD, et al. (2021). Regional, layer, and cell-type-specific connectivity of the mouse default mode network. Neuron 109:545–559. <a href="https://doi.org/10.1016/j.neuron.2020.11.011">doi:10.1016/j.neuron.2020.11.011</a></li>
+    </ul>
+    <p class="note">The four rodent DMN papers were read for this report. The summaries of the human and movement papers are from general knowledge and were not re-checked against the papers. Reference details without a DOI link were not checked against the publisher.</p>
+  </section>
+
+  <section id="methods" aria-labelledby="h-methods">
+    <h2 class="major newpage" id="h-methods">Methods</h2>
+    <div class="methods">
+      <div>
+        <h3>Data</h3>
+        <ul>
+          <li><strong>IBL Neuropixels (BWM):</strong> 2023 release (International Brain Laboratory et al. 2023), all <code>bwm_query</code> insertions, good units: 426 sessions from 138 mice. Spike counts are binned at 50&nbsp;ms over the whole recording, with wheel speed, licks, left-camera motion energy and pupil diameter on the same grid. The grey screen is <code>spontaneousActivity</code> from <code>_ibl_passivePeriods.intervalsTable</code> (396 sessions, 130 mice; 600&nbsp;s, or 300&nbsp;s in 55 sessions), skipping its first second. Neurons need ≥0.5&nbsp;Hz.</li>
+          <li><strong>IBL mesoscope:</strong> 153 canonical sessions from 12 mice; deconvolved ROI activity in 1&nbsp;s bins over the whole recording, with wheel, licks, motion energy and pupil on the same grid. ROIs are placed in the Allen CCF (Wang et al. 2020) mostly from pre-histology estimates.
+            <ul>
+              <li>Grey-screen coupling needs ≥200&nbsp;s of grey screen and motion energy. Figure 16 uses inter-trial rest instead: still 1&nbsp;s bins from 1&nbsp;s after feedback to 0.2&nbsp;s before the next stimulus.</li>
+              <li>The stillness analysis (Figure 17) uses the passive block from the grey-screen start (plus 2&nbsp;s) to the end of receptive-field mapping, taken from <code>_ibl_passivePeriods.intervalsTable</code>. The task replay is excluded.</li>
+            </ul>
+          </li>
+          <li><strong>Allen Visual Behavior (VBN, DANDI 000713) and Visual Coding Neuropixels (VC; Siegle et al. 2021):</strong>
+            <ul>
+              <li><strong>Rest period:</strong> the post-task grey screen (VBN) or the longest spontaneous grey block of a passive-viewing session (VC), about 5&nbsp;min each.</li>
+              <li><strong>Units:</strong> the depositors' sorted units (VBN: "good" units) with ≥0.5&nbsp;Hz on the grey screen, in Allen CCF regions mapped to Beryl.</li>
+              <li><strong>Inclusion:</strong> 44 of 150 VBN sessions (30 mice) and 4 of 10 VC sessions (4 mice) have ≥10 still and ≥10 moving 0.5&nbsp;s epochs, leaving 63,399 of 84,661 units.</li>
+            </ul>
+          </li>
+          <li><strong>Allen OpenScope Neuropixels (DANDI 000563, 000690, 001637):</strong> 11 sessions (10 mice) with frontal or retrosplenial units; 8 sessions (7 mice) have a frontal core and an RSP region on different probes. The analysis window runs from the first to the last stimulus onset, excluding optotagging.</li>
+          <li><strong>Exported analyses:</strong> the Allen analyses are two exports of an external analysis, with per-neuron, per-session and per-mouse tables, scripts and provenance (<code>comprehensive_report/allen/</code>). Every Allen number in this report is recomputed here from those tables.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Behavioural states</h3>
+        <ul>
+          <li><strong>IBL Neuropixels, 50&nbsp;ms bins:</strong>
+            <ul>
+              <li><strong>Moving:</strong> wheel speed &gt;0.05&nbsp;rad/s, a detected lick, or motion energy above the session's 60th percentile.</li>
+              <li><strong>Still:</strong> none of these, with one bin on either side of any movement also excluded.</li>
+              <li><strong>Coupling:</strong> 1&nbsp;s (or 0.5&nbsp;s) bins are used only if all their 50&nbsp;ms bins are still.</li>
+            </ul>
+          </li>
+          <li><strong>Awake-still</strong> (sections 10, 13): a still bin at most 30&nbsp;s after the last movement, with pupil at or above the 10th percentile of the session's task-period pupil. Sessions without pupil are gated by the 30&nbsp;s limit only.</li>
+          <li><strong>IBL with the Allen definitions</strong> (section 13; 315 sessions, 115 mice):
+            <ul>
+              <li><em>wheel only:</em> moving = wheel &gt;0.05&nbsp;rad/s, so licks and face motion count as still;</li>
+              <li><em>2&nbsp;cm/s:</em> moving = wheel &gt;0.65&nbsp;rad/s, the Allen running threshold at the wheel rim (radius 3.1&nbsp;cm).</li>
+            </ul>
+            Sessions need a wheel trace on ≥50% of the grey screen and the Allen inclusion rule.</li>
+          <li><strong>IBL mesoscope, 1&nbsp;s bins:</strong> moving = wheel &gt;0.05&nbsp;rad/s where recorded, a lick, or motion energy above the session's 60th percentile over the whole recording. Still = no movement in the bin or its neighbours, and ≤30&nbsp;s since the last movement.</li>
+          <li><strong>Allen, 50&nbsp;ms bins:</strong> moving = running speed &gt;2&nbsp;cm/s. Awake-still = not moving (±1 bin margin), ≤30&nbsp;s after the last movement, and (VBN only) pupil area at or above the task 10th percentile.</li>
+          <li><strong>OpenScope, 1&nbsp;s bins:</strong> moving = maximum running speed in the bin &gt;2&nbsp;cm/s; still = no running within ±1&nbsp;s.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Region sets</h3>
+        <ul>
+          <li><span class="mem m-both"></span><strong>Conservative core (main):</strong> ACAd, ACAv, PL, ORBm, RSPagl, RSPd, RSPv.</li>
+          <li><strong>Whitesell et al. (2021):</strong> ACAd, ACAv, PL, ILA, ORBl, ORBm, ORBvl, VISa, VISam, RSPagl, RSPd, RSPv, SSp-tr, SSp-ll, MOs (their Fig. 1E, &gt;50% of voxels in the core mask).</li>
+          <li><span class="mem m-lu"></span><strong>Lu et al. (2012), mapped to mouse:</strong> ORBm, ORBl, ORBvl, PL, ACAd, ACAv, AUDp, AUDd, AUDv, TEa (prefrontal-temporal module); RSPagl, RSPd, RSPv, VISa, VISrl, VISam, VISpm, CA1 (parietal module).</li>
+          <li><strong>Grandjean et al. (2020):</strong> ACAd, ACAv, RSPagl, RSPd, RSPv, TEa, and their unspecified prefrontal component mapped to PL, ILA, ORBm, ORBl, ORBvl.</li>
+          <li><strong>Mandino et al. (2022):</strong> ACAd, ACAv, RSPagl, RSPd, RSPv.</li>
+          <li><strong>Higher-order cortex:</strong> cortex outside the tested set and outside the primary areas (VISp, SSp, MOp, AUDp, GU, VISC).</li>
+          <li><strong>Earlier versions</strong> of this report used a broader set (ACA, PL, ILA, ORB, RSP, VISa, VISam, plus TEa, ECT and PERI as "lateral"). ECT and PERI are in none of the four maps (Stafford et al. 2014; Sforazzini et al. 2014; Gozzi and Schwarz 2016 were the sources of that set).</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Metrics</h3>
+        <ul>
+          <li><strong>Rest preference</strong> (Figure 4):
+            <ul>
+              <li><strong>Rest samples:</strong> 0.3&nbsp;s chunks of consecutive still grey-screen bins. The rate uses all chunks (median 1,171 per session); the test uses the first chunk in every 3&nbsp;s window (median 186).</li>
+              <li><strong>Task samples:</strong> per-trial rates in the movement-onset (−0.15–0&nbsp;s), movement (0–0.15&nbsp;s) and feedback (0–0.3&nbsp;s) windows, averaged, under BWM trial criteria (median 381 trials).</li>
+              <li><strong>Indices:</strong> rest index RI&nbsp;=&nbsp;(rest&nbsp;−&nbsp;task)/(rest&nbsp;+&nbsp;task). Drift index = (last&nbsp;−&nbsp;first)/(last&nbsp;+&nbsp;first) task-window rate over thirds of trials.</li>
+            </ul>
+          </li>
+          <li><strong>Behavioural windows</strong> (Figures 5–6):
+            <ul>
+              <li><strong>Rates:</strong> per neuron, the spike count summed over all qualifying trials or bins of a session divided by their duration. Each window needs ≥2&nbsp;s of bins per session. Contrasts are log<sub>2</sub>((a&nbsp;+&nbsp;0.1)/(b&nbsp;+&nbsp;0.1)).</li>
+              <li><strong>Suppressed (Figure 6c):</strong> per-trial rest rate (trials with ≥2 still bins) against the per-trial movement + feedback rate.</li>
+              <li><strong>Trial-wise co-fluctuation:</strong> per region (≥5 neurons on one probe), the mean of z-scored per-trial window rates, with trial number (2nd order), per-trial motion energy and pupil regressed out. Correlations across ≥50 trials, residualised for distance and probe relation.</li>
+            </ul>
+          </li>
+          <li><strong>Co-fluctuation</strong> (Figures 7, 8 and 16):
+            <ul>
+              <li><strong>Nuisance regression:</strong> per neuron, wheel, licks and motion energy (each with a 1-bin lag; no lags in the mesoscope) are regressed out within still bins.</li>
+              <li><strong>Region signal:</strong> the mean of z-scored neurons per region and probe (≥5 neurons; ≥10 ROIs in the mesoscope, with split-half reliability ≥0.5).</li>
+              <li><strong>Coupling:</strong> Fisher z of the pair correlation, minus the mean z of cortical (and CA1) pairs in the same 0.5&nbsp;mm 3-D distance bin and probe relation. The mesoscope uses ML–AP distance with hemispheres folded.</li>
+              <li><strong>Classes:</strong> DMN–DMN, DMN–other and other–other pairs.</li>
+              <li><strong>Rest-preference network:</strong> cortical regions split into terciles of grey-screen RI in one half of the mice, with coupling evaluated in the other half.</li>
+            </ul>
+          </li>
+          <li><strong>Single-region metrics</strong> (Figure 9): 1&nbsp;s binned counts over the grey screen, with wheel, licks and motion energy (1-bin lag) regressed out.
+            <ul>
+              <li><strong>fALFF:</strong> Welch spectrum with 128&nbsp;s segments; power in 0.01–0.1&nbsp;Hz over power in 0.01–0.5&nbsp;Hz.</li>
+              <li><strong>CV:</strong> standard deviation over mean of the 1&nbsp;s rate.</li>
+              <li><strong>Local synchrony:</strong> mean pairwise correlation between neurons of one region on one probe (≥5 neurons), in fully still 1&nbsp;s bins (≥120).</li>
+              <li><strong>Rate adjustment:</strong> each metric is replaced by its residual after a linear fit on log firing rate.</li>
+            </ul>
+          </li>
+          <li><strong>Stillness correlates, IBL Neuropixels</strong> (Figures 10–15). Sessions need ≥30&nbsp;s of awake stillness and ≥10&nbsp;s of movement on the grey screen: 389 sessions, 130 mice, 53,136 neurons.
+            <ul>
+              <li><strong>Rates:</strong> per neuron in awake-still and moving bins; also in each half of the grey screen, in the task's inter-trial gaps, and against face/body-only or wheel bins.</li>
+              <li><strong>Rate ratio:</strong> log<sub>2</sub>((still&nbsp;+&nbsp;0.1)/(moving&nbsp;+&nbsp;0.1)). Stillness index SI&nbsp;=&nbsp;(still&nbsp;−&nbsp;moving)/(still&nbsp;+&nbsp;moving).</li>
+              <li><strong>Still- or movement-preferring:</strong> 0.5&nbsp;s still epochs (all bins awake-still) against 0.5&nbsp;s moving epochs (≥5 of 10 bins moving), first epoch of each kind per 2&nbsp;s (median 197 still and 141 moving epochs per session).</li>
+              <li><strong>Time course:</strong> rates by time since the last and to the next movement (0.1–0.5 … 8–30&nbsp;s); event-aligned rates around movement offsets (starts of ≥4&nbsp;s bouts) and onsets (after ≥3&nbsp;s still), as ratios of mean rates; within-bout change from the first 0.5&nbsp;s to 2–4&nbsp;s of ≥4&nbsp;s bouts.</li>
+              <li><strong>Population:</strong> per region and probe with ≥8 neurons, in 100&nbsp;ms bins whose two 50&nbsp;ms bins share the state, with equal random numbers per state (≥200). Measures: mean pairwise correlation, participation ratio / N, and the fraction of bins with summed count &gt;3&nbsp;SD above the within-state mean. Rate matching thins the higher-rate state binomially.</li>
+              <li><strong>Pupil:</strong> in fully awake-still 1&nbsp;s bins (≥60), the partial correlation of spike count with pupil, with time (quadratic) and motion energy regressed out of both.</li>
+            </ul>
+          </li>
+          <li><strong>Stillness correlates, IBL mesoscope</strong> (Figure 17). Sessions need motion energy in ≥50% of the block, ≥20 spaced bins of each state (at most one per 2&nbsp;s) and ≥50 finite, non-constant ROIs.
+            <ul>
+              <li><strong>Rate ratio:</strong> per ROI, log<sub>2</sub>((still&nbsp;+&nbsp;e)/(moving&nbsp;+&nbsp;e)), with e&nbsp;=&nbsp;2% of the ROI's mean over still and moving bins.</li>
+              <li><strong>Still- or movement-preferring:</strong> tested on the spaced bins.</li>
+              <li><strong>Region groups:</strong> by Beryl prefix (VIS, SS, MO, RSP).</li>
+            </ul>
+          </li>
+          <li><strong>Allen comparison</strong> (Figure 18). Rate ratio, epoch test and onset curves as for IBL Neuropixels, but with Allen states and epochs lying entirely inside one state (at most one per 2&nbsp;s). For the IBL comparison:
+            <ul>
+              <li>the IBL epoch test is repeated with still epochs randomly subsampled to 12, 24, 48 and 96 per session;</li>
+              <li>for the region comparison, Allen CCF labels are mapped to Beryl, with mice that have ≥5 neurons in a region, and regions with ≥3 such mice in both datasets.</li>
+            </ul>
+          </li>
+          <li><strong>Pre-movement rise and onset rules</strong> (Figures 18f, 19c–d):
+            <ul>
+              <li><strong>Onsets:</strong> the first moving bin after ≥1&nbsp;s or ≥3&nbsp;s of awake stillness.</li>
+              <li><strong>Population rate:</strong> mean over kept neurons, from −2 to +1&nbsp;s around each onset.</li>
+              <li><strong>Rise:</strong> mean fractional change over −0.5 to −0.05&nbsp;s against the −2 to −1&nbsp;s mean. Sessions need ≥3 onsets.</li>
+            </ul>
+          </li>
+          <li><strong>Frontal–retrosplenial coupling, OpenScope</strong> (Figure 19e–f):
+            <ul>
+              <li><strong>Region rates:</strong> population rates in 1&nbsp;s bins (regions without layer suffix, ≥10 units at ≥0.5&nbsp;Hz), with a 60&nbsp;s running mean removed.</li>
+              <li><strong>Coupling:</strong> Fisher-z correlation of every cross-probe region pair, in all, still and moving bins.</li>
+              <li><strong>Distance correction:</strong> the residual from a per-session linear fit of z on the distance between Allen CCF region centres (25&nbsp;µm atlas).</li>
+              <li><strong>Percentile:</strong> the rank of each frontal core–RSP pair among all cross-probe pairs of its session.</li>
+              <li><strong>Flicker control</strong> (Temporal Barcode sessions): the repeat-locked component of the flicker is removed.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3>Statistics</h3>
+        <ul>
+          <li><strong>Unit of inference: the mouse.</strong> Neuron (or ROI, or region-probe) values are averaged per mouse before any test across animals. In the stillness, mesoscope and Allen analyses they are averaged per session first, then sessions per mouse. 95% CIs are bootstraps over mice: 1,000 resamples for region tests, 2,000 for the stillness, coupling and Allen comparisons, and 10,000 for the Allen follow-up tables.</li>
+          <li><strong>Per-neuron labels:</strong> Welch t-test, p&nbsp;&lt;&nbsp;0.01, on spaced samples: one rest chunk per 3&nbsp;s against trials for rest preference; one epoch of each state per 2&nbsp;s for stillness.
+            <ul>
+              <li><strong>Benjamini–Hochberg</strong> FDR (q&nbsp;&lt;&nbsp;0.01) is a robustness check.</li>
+              <li><strong>Circular-shift null:</strong> all neurons' grey-screen counts are rotated together by one random offset against the fixed state labels, and the test is repeated. IBL and Allen Neuropixels: 200 offsets ≥10&nbsp;s from either end. IBL mesoscope: 100 offsets ≥60&nbsp;s. Seed 20261030. The null-corrected fraction is the observed fraction minus the null mean, and the per-session permutation p is (1&nbsp;+&nbsp;#null&nbsp;≥&nbsp;observed)/(1&nbsp;+&nbsp;offsets).</li>
+              <li><strong>Mesoscope quality control:</strong> sessions whose null exceeds 5% in either direction are dropped (1 session).</li>
+            </ul>
+          </li>
+          <li><strong>DMN core against other cortex:</strong> the difference of region means (regions with ≥20 neurons in ≥2 sessions) is tested by permuting region labels (20,000 permutations) and by the mouse bootstrap. Within-session tests compare core neurons with non-core neurons of the same session, averaged per mouse (bootstrap and Wilcoxon over mice). Synchrony uses region-sessions, with ≥3 per region from ≥3 sessions.</li>
+          <li><strong>Coupling classes:</strong> differences are bootstrapped over mice (2,000 resamples). The smallest detectable effect is 2.8 × the bootstrap standard error. The rest-preference network uses 200 random half-splits of the mice × 2. For OpenScope, a Wilcoxon test over mice of the residual z and of still minus moving.</li>
+          <li><strong>Reproducibility:</strong> Spearman correlations of the stillness index across halves, contexts and movement types, also per session (≥20 neurons). Region maps: regions with ≥20 neurons from ≥3 mice (192), split-half reliability over mice (200 splits), also after subtracting session means. Variance partition: sums of squares of session, region and region-within-session means, with a null from shuffling region labels within session.</li>
+          <li><strong>Time course and onsets:</strong> Wilcoxon tests over bouts (within-bout change), over mice (rise), and over sessions (paired comparison of onset rules).</li>
+          <li><strong>Exploratory analyses:</strong> nothing was pre-registered, and thresholds were fixed before each run.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Code and data availability</h3>
+        <ul>
+          <li><strong>IBL Neuropixels DMN analyses:</strong> <code>~/default_mode_network/bwm/</code>, namely <code>40_spont_characterize.py</code>, <code>42_spont_A.py</code> (<code>G_full</code>; <code>G_me me_only</code>), <code>21_full_B.py spont motion 1 still</code> (and 0.5), <code>41_spont_network.py</code>, <code>43_spont_single_region.py</code>, <code>44_windows.py</code> and <code>45_window_stats.py</code>. Region sets are in <code>bwm/common.py</code>.</li>
+          <li><strong>Figures 1–9, 16 and S1–S2:</strong> <code>report/fig_regions.py</code>, <code>report/fig_windows.py</code> and <code>report/fig_grey.py</code>.</li>
+          <li><strong>Stillness, IBL Neuropixels (section 10):</strong> <code>neural_correlates_stillness/</code>, namely <code>common_still.py</code> (state definitions), <code>10_neurons.py</code>, <code>11_population.py</code>, <code>20_stats.py</code> and <code>21_population_stats.py</code>. Figures 10–15 come from <code>report/figs.py main</code>. A standalone version with more detail is <code>neural_correlates_stillness/report/stillness.pdf</code>.</li>
+          <li><strong>IBL mesoscope:</strong> <code>meso/33_meso_spont.py 200 require_me</code> (coupling); <code>meso/34_meso_still.py</code> (stillness; fetches and caches the passive intervals). Figure 17 and <code>meso/output/35_meso_still_stats.json</code> come from <code>report/fig_meso_still.py</code>.</li>
+          <li><strong>Allen comparison:</strong> the exports are in <code>comprehensive_report/allen/</code> (see its README).
+            <ul>
+              <li><code>neural_correlates_stillness/30_allen_matched.py</code>: IBL with the Allen definitions.</li>
+              <li><code>32_null_onsets.py</code>: IBL null and onset rules.</li>
+              <li>Figure 18 and <code>output/31_allen_compare.json</code> come from <code>report/fig_allen.py</code>.</li>
+              <li>Figure 19 and <code>output/33_allen_followup.json</code> (every number in sections 13.4 and 14) come from <code>report/fig_allen_followup.py</code>.</li>
+            </ul>
+          </li>
+          <li><strong>This document:</strong> <code>comprehensive_report/dmn_grey.html</code> is the source; <code>neural_correlates_stillness/report/html2tex.py</code> typesets it to <code>dmn_grey.pdf</code>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="si" aria-labelledby="h-si">
+    <h2 id="h-si">Supplementary figures: the wider literature sets</h2>
+    <p>Figure S1 places the conservative core next to the full Whitesell et al. and Lu et al. sets for rest preference, with region membership in all four papers. Figure S2 shows which Whitesell edges can be tested and how they couple, in the BWM and the mesoscope.</p>
+    <figure><img src="figS1_whitesell_restpref.png" width="1478" height="918" alt="Task-suppressed neurons per region with membership in the conservative core and four DMN maps, and set comparisons."></figure>
+    <figure><img src="figS2_whitesell_coupling.png" width="1478" height="1051" alt="Whitesell DMN edge coverage matrix, DMN-DMN minus DMN-other coupling for three definitions in BWM and mesoscope, and per-edge coupling."></figure>
+  </section>
+
+<aside class="update" id="history" aria-label="Revision history">
+    <p><strong>Revision history.</strong> v10 (2 Nov) put the report in manuscript form. It now has a compact abstract of the main, most robust and novel findings, a short Introduction, Results (Parts I–VI and sections 1–17, unchanged), a Discussion and References, followed by Methods (data, behavioural states, region sets, metrics, statistics, code) and the supplementary figures. The Discussion holds the main findings, the comparison with the rodent DMN papers (formerly section 18) and all caveats (formerly "Notes and caveats").</p>
+    <p>v9 (2 Nov) reorganised the report by dataset. Part I holds the question, the DMN regions and a new overview of datasets and tests (section 2). Parts II–V hold IBL Neuropixels, the IBL mesoscope, Allen Neuropixels and Allen imaging (not analysed), and Part VI the comparison (new section 16) and the DMN verdict. The material is otherwise unchanged and renumbered: single-region metrics are now section 9 and Figure 9, the stillness chapter is section 10 with Figures 10–15, the mesoscope coupling is section 11 with Figure 16, and the Allen comparison is section 13 with Figure 18. New analyses:</p>
+    <ul>
+      <li>mesoscope correlates of stillness (section 12, Figure 17);</li>
+      <li>the Allen follow-up (second export): a circular-shift null for the neuron labels and a stricter onset rule, each with its IBL counterpart (section 13.4, Figure 19a–d);</li>
+      <li>frontal–retrosplenial coupling in Allen OpenScope recordings (section 14, Figure 19e–f).</li>
+    </ul>
+    <p>Figure and section numbers below refer to the version in which they were written.</p>
+    <p>v8 (31 Oct) added section 13 and Figure 17: the stillness correlates in Allen Institute Neuropixels data (Visual Behavior and Visual Coding, 34 mice) compared with IBL, including a re-analysis of the IBL grey screen with the Allen movement definitions and still-time subsampling. The report now lives in <code>comprehensive_report/</code> (previously <code>report/grey/</code>). v7 (27 Oct) added section 12 and Figures 11–16, a brain-wide analysis of awake stillness (with a pupil-based sleep gate) beyond the DMN regions: still-versus-moving firing, still-preferring neurons and their reproducibility, time course around movements, rate-matched population synchrony, pupil dependence and robustness checks (local time windows, FDR, within-session replication, sessions without wheel data). All regions and brain divisions in the figures are now coloured with the Allen atlas colours (cerebellum brown). v6 (19 Oct) added firing rates across behavioural windows (section 5, Figures 5–6). The windows are stimulus, movement + feedback, quiescence, inter-trial rest and moving, and grey screen still and moving. Contrasts follow the fMRI definition of deactivation against the region’s own baseline, together with core-versus-other comparisons and trial-wise coupling for inter-trial rest and quiescence. Later figures were renumbered 7–10. v5 (19 Oct) restricted all analyses to a conservative DMN core (ACA, RSP, PL, ORBm), justified by the overlap of four published rodent DMN maps (new Figure 1; Grandjean et al. 2020 and Mandino et al. 2022 added). The task-suppression result weakened from p&nbsp;&lt;&nbsp;0.001 to p&nbsp;=&nbsp;0.07, because the earlier effect came largely from ILA, ECT, PERI and TEa. The example session in Figure 2e now records retrosplenial neurons; figures were renumbered.</p>
+    <p>Earlier: v2 followed an independent check of v1 against the outputs:</p>
+    <ul>
+      <li><strong>Movement fractions:</strong> sessions without wheel or camera data were counted as "no movement". They are now left out (338 sessions with wheel, 361 with motion energy). Wheel movement is 14%, not 12%.</li>
+      <li><strong>Suppression test:</strong> v1 treated about 1,170 overlapping 0.3&nbsp;s rest chunks per session as independent, which inflates significance. The test now uses one chunk per 3&nbsp;s, about 190 per session against about 380 trials. The DMN result holds; all percentages are lower.</li>
+      <li><strong>New controls:</strong> a drift control (last third of trials only), the continuous rest index next to the suppressed fraction, and a robustness check restricted to sessions with motion energy.</li>
+      <li><strong>Coupling:</strong> the distance baseline now uses cortical and CA1 pairs only. Leave-one-session-out and drop-top-pair checks were added, together with the smallest detectable effect and a comparison of pair coupling between grey screen and ITIs. The v1 statement that cross-probe DMN pairs couple more was overstated: two sessions and one pair carry it.</li>
+      <li><strong>Mesoscope:</strong> one CI in v1 was misquoted (it includes 0), and the DMN–DMN pairs come from only 2 mice.</li>
+    </ul>
+    <p>v4 added the Whitesell et al. (2021) comparison (Figures S1–S2 and the table in section 8) and the methods of both reference papers. It also added the single-region resting metrics (section 7, Figure 9) and an abstract paragraph on the indicators used. It corrected the description of our lateral set, which is not part of the Whitesell et al. map.</p>
+    <p>v3 followed a second review:</p>
+    <ul>
+      <li><strong>Added:</strong> the region-pair table in section 4 and the terms box.</li>
+      <li><strong>Corrected:</strong> session counts (319 sessions with enough still bins, 308 with region signals; 14 mesoscope sessions with motion energy).</li>
+      <li><strong>Clarified:</strong> wording of the main comparison.</li>
+      <li><strong>Figures:</strong> fixed labels, legends and missing-data colouring.</li>
+    </ul>
+  </aside>
+</div>
