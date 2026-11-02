@@ -13,10 +13,10 @@ from matplotlib.patches import Ellipse
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "bwm"))
-from plotstyle import NATURE_ONEHALF_COL_IN, save_with_caption  # noqa: F401  # noqa: E402
+from plotstyle import NATURE_ONEHALF_COL_IN, allen_color, save_with_caption  # noqa: F401  # noqa: E402
 from common import CONS_DMN, GRANDJEAN_DMN, GRANDJEAN_PFC_UNSPECIFIED, LU_DMN, MANDINO_DMN, WHITESELL_DMN  # noqa: E402
 
-OUTD = HERE / "grey"
+OUTD = HERE.parent / "comprehensive_report"
 SETS = [("Lu et al. 2012\nrat, rsfMRI ICA", LU_DMN, "#1baf7a"),
         ("Whitesell et al. 2021\nmouse, rsfMRI ICA + tracing", WHITESELL_DMN, "#6250d6"),
         ("Grandjean et al. 2020\nmouse, 17-centre rsfMRI", GRANDJEAN_DMN, "#eda100"),
@@ -59,7 +59,7 @@ for key, regs in zones.items():
     for i, r in enumerate(regs):
         lab = f"{r}{'†' if (r in GRANDJEAN_PFC_UNSPECIFIED and key[2] == '1') else ''}"
         ax.text(x, y + ((len(regs) - 1) / 2 - i) * dy, lab, ha="center", va="center", fontsize=4.3,
-                fontweight="bold" if r in CONS_DMN else "normal", color="k" if r in CONS_DMN else "#333")
+                fontweight="bold" if r in CONS_DMN else "normal", color=allen_color(r))
 # labels just outside each ellipse's upper edge (B, C tops at y = 0.79; A, D upper-outer edges)
 for (lab, mem, col), (tx, ty, ha) in zip(SETS, [(0.02, 0.62, "left"), (0.29, 0.80, "center"), (0.71, 0.80, "center"),
                                                  (0.98, 0.62, "right")]):

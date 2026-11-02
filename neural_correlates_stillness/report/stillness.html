@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neural Correlates of Stillness</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500&display=swap">
+<style>
+/* Layout: one reading column, sibling of the grey-screen DMN report; figures on white plates with their LaTeX captions. Accent = the figures' awake-still green. */
+:root {
+  --bg: #f4f5f4;
+  --fg: #181b1a;
+  --muted: #59605d;
+  --rule: #d6dbd8;
+  --accent: #13865d;
+  --plate: #ffffff;
+  --plate-edge: #e0e4e2;
+  --ok: #1d7f57;
+  --part: #a86a00;
+  --no: #b5403a;
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141816; --fg: #e8eeeb; --muted: #a2aba7; --rule: #2c3330;
+    --accent: #4fcf9c; --plate: #ffffff; --plate-edge: #353d39;
+    --ok: #5cc596; --part: #e0a63a; --no: #ef7f78; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141816; --fg: #e8eeeb; --muted: #a2aba7; --rule: #2c3330;
+  --accent: #4fcf9c; --plate: #ffffff; --plate-edge: #353d39;
+  --ok: #5cc596; --part: #e0a63a; --no: #ef7f78; color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--body); }
+.wrap { max-width: 880px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; display: grid; gap: 40px; }
+.wrap > * { min-width: 0; }
+header { display: grid; gap: 12px; }
+.eyebrow { font: 500 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 500 clamp(30px, 5vw, 42px)/1.1 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 500 24px/1.2 var(--display); margin: 0; text-wrap: balance; }
+h3 { font: 600 15px/1.3 var(--body); margin: 0; }
+p { margin: 0; max-width: 68ch; }
+.lead { color: var(--muted); font-size: 16px; }
+.authors { font: 500 14px/1.4 var(--body); }
+section { display: grid; gap: 14px; }
+figure { margin: 0; background: var(--plate); border: 1px solid var(--plate-edge); border-radius: 6px; padding: 14px; }
+figure img { display: block; width: 100%; height: auto; }
+.tablebox { overflow-x: auto; }
+table { border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 600px; width: 100%; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+thead th { font: 500 12px/1.3 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+td { font-size: 14px; }
+td.num { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
+.note { font-size: 13px; color: var(--muted); }
+ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; max-width: 72ch; }
+code { font: 13px var(--mono); }
+nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 13px var(--mono); }
+a { color: var(--accent); }
+nav a { text-decoration: none; }
+nav a:hover, nav a:focus-visible { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.abstract { border-left: 3px solid var(--accent); padding: 2px 0 2px 16px; }
+.verdict { font: 600 12px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+.v-ok { color: var(--ok); } .v-part { color: var(--part); } .v-no { color: var(--no); }
+.update { border: 1px solid var(--rule); border-left: 3px solid var(--accent); padding: 12px 16px; display: grid; gap: 6px; }
+.update p, .update li { font-size: 14px; }
+.methods { display: grid; gap: 18px; }
+.methods > div { display: grid; gap: 6px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">IBL Brain Wide Map · default mode network follow-up · v2, 27 Oct 2026 · reviewed and sensitivity-tested</div>
+    <h1>Neural correlates of stillness</h1>
+    <p class="authors">International Brain Laboratory, Michael Schartner, Claude Opus 5.5</p>
+    <p class="lead">The grey-screen report looked for default mode network activity at rest and found little that is specific to the DMN regions. This follow-up asks a broader question. During behaviourally defined, putatively awake stillness, what changes in neural activity, which changes hold across animals, and which are specific to brain areas? It uses the same passive grey-screen block and the same movement thresholds. To this it adds a pupil-and-duration filter intended to reduce drowsy periods and the single-cell techniques of the report that held up best: interleaved still-vs-moving contrasts within one period, per-neuron tests on spaced samples, mouse-bootstrap statistics and within-session comparisons. “Awake” is a behavioural proxy throughout; no independent sleep scoring was performed.</p>
+    <nav aria-label="Sections">
+      <a href="#abstract">Abstract</a><a href="#states">Awake stillness</a><a href="#rates">Firing rate</a><a href="#stability">A neuron property</a><a href="#dynamics">Time course</a><a href="#population">Synchrony</a><a href="#arousal">Arousal</a><a href="#robustness">Robustness checks</a><a href="#summary">Summary</a><a href="#methods">Methods</a><a href="#notes">Caveats</a>
+    </nav>
+  </header>
+
+  <section class="abstract" id="abstract" aria-labelledby="h-abstract">
+    <h2 id="h-abstract">Abstract</h2>
+    <p><strong>Data.</strong> 53,136 neurons (≥0.5&nbsp;Hz) from 389 BWM sessions and 130 mice. On the grey screen each session has a median 5.6&nbsp;min of awake stillness and 2.4&nbsp;min of movement.</p>
+    <p><strong>What holds in nearly every mouse, across the brain:</strong></p>
+    <ul>
+      <li><strong>Lower firing.</strong> The geometric mean of pseudocount-adjusted neuron rate ratios, with equal mouse weighting, is 26% below movement (log<sub>2</sub> ratio −0.43, CI −0.47 to −0.39), in 129 of 130 mice and in every major brain division.</li>
+      <li><strong>A stable minority of still-preferring neurons.</strong> 15% of neurons fire significantly more in stillness and 40% significantly less. Still-preferring neurons occur in 126 of 128 mice and in every division.</li>
+      <li><strong>Preference is reproducible within the recording.</strong> It replicates between halves of the grey screen (ρ&nbsp;=&nbsp;0.78), in the task's inter-trial gaps (ρ&nbsp;=&nbsp;0.55), and for face-only versus wheel movements (ρ&nbsp;=&nbsp;0.74).</li>
+      <li><strong>More local synchrony.</strong> With firing rates matched by spike thinning, neurons within a region are more correlated in stillness in 82% of mice (cortex 91%). Synchronous population events are more frequent (81% of mice). Early-versus-late comparisons provide no clear evidence of further synchrony build-up.</li>
+      <li><strong>Movement-locked transients.</strong> Firing rises about 0.3–0.5&nbsp;s before a movement leaves stillness. After a movement ends, cortex and hippocampus briefly dip below their still level.</li>
+    </ul>
+    <p><strong>What is area-specific</strong> (region maps reproduce between halves of the mice, r&nbsp;=&nbsp;0.46; region within session explains 13% of neuron variance against 4% for shuffled labels):</p>
+    <ul>
+      <li><strong>Thalamus</strong> is most movement-driven (52% movement-preferring, 6% still-preferring; VPM and PO 64–65%). Its corrected 2–4&nbsp;s versus 0.5–1&nbsp;s contrast is negative in 67% of mice. It is also the only division whose firing follows pupil size within stillness (73% of mice), and it is quieter in still periods with a small pupil.</li>
+      <li><strong>Hippocampal formation</strong> (DG, SUB, ENTm) recovers and rises within long still bouts. It has the most neurons rising within bouts (12%), the largest rate-matched synchrony increase and the most synchronous events.</li>
+      <li><strong>Still-preferring neurons</strong> are enriched in cerebellar nuclei (DN 32%, IP 30%) and lateral septum (LSv 38%, LSr 33%). Equal-mouse region means are positive in LSv and LSr; BST is slightly negative. These uncorrected regional classifications are exploratory.</li>
+      <li><strong>Orofacial brainstem</strong> (SPVC, GRN, PSV, SPVI) is suppressed most, as expected for face motor and sensory nuclei.</li>
+      <li><strong>Cerebellum</strong> goes the opposite way at population level: less correlated and higher-dimensional in stillness.</li>
+      <li><strong>The conservative DMN core</strong> shows no detected difference from other cortex on these measures (rate ratio p&nbsp;=&nbsp;0.49).</li>
+    </ul>
+  </section>
+
+  <aside class="update" aria-label="Terms used">
+    <p><strong>Terms used in this report</strong></p>
+    <ul>
+      <li><strong>Moving bin:</strong> a 50&nbsp;ms bin with wheel speed &gt;0.05&nbsp;rad/s, a lick, or left-camera motion energy above the session's 60th percentile (as in the grey-screen report).</li>
+      <li><strong>Awake-still bin:</strong> not moving, with one bin of margin on either side of any movement, at most 30&nbsp;s since the last movement, and pupil at or above the 10th percentile of the session's task-period pupil.</li>
+      <li><strong>Rate ratio:</strong> log<sub>2</sub>((still&nbsp;+&nbsp;0.1)/(moving&nbsp;+&nbsp;0.1)) of a neuron's grey-screen rates.</li>
+      <li><strong>Stillness index (SI):</strong> (still&nbsp;−&nbsp;moving)/(still&nbsp;+&nbsp;moving).</li>
+      <li><strong>Still- / movement-preferring:</strong> 0.5&nbsp;s still epochs against 0.5&nbsp;s moving epochs, Welch test p&nbsp;&lt;&nbsp;0.01, at most one epoch of each kind per 2&nbsp;s.</li>
+      <li><strong>Divisions:</strong> Allen Cosmos level; regions: Beryl level.</li>
+    </ul>
+  </aside>
+
+  <section id="states" aria-labelledby="h-states">
+    <h2 id="h-states">1. Awake stillness on the grey screen</h2>
+    <p>The grey screen follows the task (a median 1.1&nbsp;min after the last trial) and lasts 5 or 10&nbsp;min. Stillness comes in short bouts, mostly under 2&nbsp;s, separated by brief face and body movements (Figure 1).</p>
+    <ul>
+      <li><strong>Why a sleep gate:</strong> head-fixed mice can enter NREM sleep with their eyes open after tens of seconds of immobility, and their pupil constricts. Still bouts longer than 10&nbsp;s had a median pupil of 0.91× the task median.</li>
+      <li><strong>What the gate removes:</strong> stillness with a pupil below the session's task-period 10th percentile, or more than 30&nbsp;s after the last movement. In the 342 sessions with pupil tracking it removes a median 7% of still time (IQR 1–26%). 50 sessions contain any stillness longer than 30&nbsp;s.</li>
+      <li><strong>Sessions without sufficient pupil coverage</strong> (47) are gated by the 30&nbsp;s limit only. The stillness index is nearly identical with or without the gate (ρ&nbsp;=&nbsp;0.98, Figure 6c).</li>
+    </ul>
+    <figure><img src="fig1_states.png" alt="Example minute of wheel, motion energy and pupil with awake-still, moving and gated-out bins; histograms of still and moving time per session, still bout durations and the fraction of still time gated out."></figure>
+  </section>
+
+  <section id="rates" aria-labelledby="h-rates">
+    <h2 id="h-rates">2. Stillness lowers firing almost everywhere</h2>
+    <p>Each neuron's rate in awake-still bins is compared with its rate in moving bins of the same grey-screen period, interleaved in time (Figure 2).</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Division</th><th>Rate ratio (mean over mice)</th><th>Mice below 0</th><th>Still-preferring</th><th>Movement-preferring</th></tr></thead>
+        <tbody>
+          <tr><td>Hindbrain</td><td class="num">−0.73</td><td class="num">96%</td><td class="num">16%</td><td class="num">39%</td></tr>
+          <tr><td>Thalamus</td><td class="num">−0.54</td><td class="num">96%</td><td class="num">6%</td><td class="num">52%</td></tr>
+          <tr><td>Midbrain</td><td class="num">−0.44</td><td class="num">93%</td><td class="num">18%</td><td class="num">39%</td></tr>
+          <tr><td>Cortex</td><td class="num">−0.43</td><td class="num">95%</td><td class="num">13%</td><td class="num">40%</td></tr>
+          <tr><td>Striatum/pallidum</td><td class="num">−0.32</td><td class="num">78%</td><td class="num">18%</td><td class="num">36%</td></tr>
+          <tr><td>Hippocampal formation</td><td class="num">−0.24</td><td class="num">82%</td><td class="num">19%</td><td class="num">41%</td></tr>
+          <tr><td>Cerebellum</td><td class="num">−0.21</td><td class="num">89%</td><td class="num">23%</td><td class="num">30%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Neurons are averaged within mouse, then over mice (mice with ≥5 neurons in the division). Still- and movement-preferring fractions are means over mice.</p>
+    <ul>
+      <li><strong>Most suppressed regions:</strong> orofacial brainstem nuclei (GRN −1.52, SPVC −1.25, IRN) and somatosensory thalamus (VPLpc, VPM, PO). These follow from the face and body movements that define the moving state.</li>
+      <li><strong>Least suppressed or enhanced:</strong> LSv (+0.26) and LSr (+0.13) have positive equal-mouse region means; TRS (+0.04) and BST (−0.04) are near zero. Region estimates are sensitive to mouse weighting and anatomical coverage.</li>
+      <li><strong>Still-preferring neurons are not confined to these regions.</strong> They are a minority in almost every region, with the highest fractions in CLI (39%), LSv (38%), DCO (34%), LSr (33%), DN (32%) and IP (30%).</li>
+    </ul>
+    <figure><img src="fig2_rates.png" alt="Rate ratio, still-preferring and movement-preferring fractions per mouse for seven brain divisions, and the 22 most and 22 least suppressed regions with mouse-bootstrap confidence intervals."></figure>
+  </section>
+
+  <section id="stability" aria-labelledby="h-stability">
+    <h2 id="h-stability">3. Stillness preference is reproducible within recordings</h2>
+    <p>Preference estimates correlate across time and behavioural contexts (Figure 3a–c). These are within-recording comparisons, not evidence that tuning remains fixed across days:</p>
+    <ul>
+      <li><strong>Across time:</strong> first versus second half of the grey screen, ρ&nbsp;=&nbsp;0.78.</li>
+      <li><strong>Across contexts:</strong> grey screen versus the inter-trial gaps of the task, recorded about an hour earlier with a different screen and engagement, ρ&nbsp;=&nbsp;0.55.</li>
+      <li><strong>Across movement types:</strong> against face/body movements without wheel turns versus against wheel turns, ρ&nbsp;=&nbsp;0.74. This comparison uses the same stillness rate in both indices, which can inflate the correlation. Wheel turns also need not imply running. It supports consistency across movement definitions but does not establish effector-independent tuning.</li>
+    </ul>
+    <p><strong>How area-specific is it?</strong> Region maps built from two random halves of the mice agree moderately (Figure 3d). For the rate ratio the split-half r is 0.46 (Spearman–Brown 0.63). After each neuron's session mean is subtracted, so that only differences between regions recorded together remain, r is 0.29. Region within session explains 13% of the variance between neurons, against 4% for shuffled labels; the session itself explains 6%. Most of the variation lies between neurons within a region.</p>
+    <figure><img src="fig3_stability.png" alt="Hexbin scatter plots of the stillness index across halves, contexts and movement types, and bar chart of region-map split-half reliability for six metrics."></figure>
+  </section>
+
+  <section id="dynamics" aria-labelledby="h-dynamics">
+    <h2 id="h-dynamics">4. Stillness is graded in time</h2>
+    <p>Stillness is not a single state that switches on when movement stops (Figure 4).</p>
+    <ul>
+      <li><strong>Entering stillness:</strong> when a movement ends and at least 4&nbsp;s of stillness follow, hippocampal firing dips about 0.3&nbsp;s after the offset (log<sub>2</sub> −0.2) and cortex about 0.6&nbsp;s after (−0.1). Both return to their still level within 1–2&nbsp;s. Thalamus falls more slowly and stays below its average still level for the next 4&nbsp;s.</li>
+      <li><strong>Deepening stillness:</strong> from 0.5–1&nbsp;s to 2–4&nbsp;s after the last movement, cortex (+0.12, 79% of mice) and hippocampal formation (+0.11, 77%) rise. Thalamus (−0.06, 67% of mice falling) and hindbrain (−0.05, 57%) fall. These corrected values use 2–4&nbsp;s, not the previously indexed 4–8&nbsp;s bin. Within true-offset long bouts, a mean 12% of hippocampal neurons rise at uncorrected p&lt;0.01. The separate FDR sensitivity shows that within-bout classifications are substantially less secure than the rate contrast.</li>
+      <li><strong>Leaving stillness:</strong> in every division firing starts to rise 0.3–0.5&nbsp;s before movement onset, most steeply in thalamus and cortex. Bins 0.1–0.5&nbsp;s before a movement fire 1–4% above the still average.</li>
+      <li><strong>Very long stillness</strong> (8–30&nbsp;s after a movement) is quieter in most divisions, but few bins reach it and the confidence intervals are wide. These profiles use different sampled bouts at different durations; they do not by themselves describe the trajectory of a single bout.</li>
+    </ul>
+    <figure><img src="fig4_dynamics.png" alt="Population rate aligned to movement offset and onset for five divisions, rate by time since last movement, and per-mouse fractions of neurons rising or falling within long still bouts."></figure>
+  </section>
+
+  <section id="population" aria-labelledby="h-population">
+    <h2 id="h-population">5. Neurons fluctuate together more in stillness</h2>
+    <p>Population structure is compared within each region and probe (≥8 neurons) on equal numbers of 100&nbsp;ms still and moving bins (Figure 5). Correlations and dimensionality depend on firing rate, and rates are lower in stillness, so each neuron's spikes in its higher-rate state are thinned at random to its rate in the other state.</p>
+    <ul>
+      <li><strong>Correlation:</strong> raw correlations hardly differ (−0.00008). Rate-matched, they are higher in stillness (+0.011, 82% of mice): cortex +0.023 (91%), hippocampal formation +0.026 (76%), thalamus +0.010 (76%). The largest increases are in SUB, ENTm, VISpm, VPM, VISa and DG.</li>
+      <li><strong>Dimensionality:</strong> the raw participation ratio is higher in stillness (80% of mice), but this is a rate effect. Rate-matched, stillness is slightly lower-dimensional (−0.020; 70% of mice), most clearly in hippocampus and cortex.</li>
+      <li><strong>Synchronous events</strong> (summed population count &gt;3&nbsp;SD above its within-state mean) are more frequent in stillness (81% of mice), most in the hippocampal formation. These 100&nbsp;ms events measure the tail of each state’s population-count distribution; they are not identified sharp-wave ripples or a direct measure of excess coincidence above an independent-neuron null.</li>
+      <li><strong>Exception:</strong> the cerebellum is less correlated and higher-dimensional in stillness, even when rates are matched.</li>
+      <li><strong>No build-up:</strong> rate-matched correlation and dimensionality do not differ between early (&lt;1&nbsp;s) and late (≥2&nbsp;s) stillness. The early-versus-late comparison provides no clear evidence of additional build-up; it does not establish exact onset or equivalence.</li>
+    </ul>
+    <p>This matches the quiet-wakefulness literature, in which cortical membrane potentials become synchronised and slowly fluctuating when whisking stops (<a href="https://www.nature.com/articles/nature07150">Poulet &amp; Petersen 2008</a>). Here it is a robust, mostly forebrain correlate of stillness that pools across animals.</p>
+    <figure><img src="fig5_population.png" alt="Still minus moving differences in mean pairwise correlation, participation ratio and synchronous-bin fraction per division, raw and rate-matched."></figure>
+  </section>
+
+  <section id="arousal" aria-labelledby="h-arousal">
+    <h2 id="h-arousal">6. Arousal within stillness, and the DMN core</h2>
+    <p>Pupil size is a proxy for arousal. Within awake stillness, and after removing slow drift and residual face movement, does firing still follow the pupil (Figure 6)?</p>
+    <ul>
+      <li><strong>Not brain-wide:</strong> the mean partial correlation is +0.006 and positive in only 58% of mice.</li>
+      <li><strong>Thalamus is the exception:</strong> +0.026, positive in 73% of mice. The strongest regions are VPM (+0.09), PO (+0.08), VM (+0.07) and TRN (+0.07), followed by LD, VPMpc and VPL. Higher visual cortex (VISam, VISpm) is slightly negative.</li>
+      <li><strong>Small-pupil stillness</strong> (pupil below the gate, but within 30&nbsp;s of a movement) is quieter than awake stillness in thalamus (−0.16, 82% of mice), hindbrain (−0.22) and midbrain (−0.12). It is unchanged in cortex and the hippocampal formation.</li>
+      <li><strong>Interpretation:</strong> thalamus carries a graded, arousal-linked signal within stillness, consistent with its continued decline as stillness lasts (section 4). The corresponding division averages in cortex and hippocampus are weaker; this does not exclude neuron-specific or nonlinear arousal effects.</li>
+      <li><strong>DMN core:</strong> the conservative core (ACAd, ACAv, PL, ORBm, RSPagl, RSPd, RSPv) has no detected difference from other cortex: rate ratio −0.35 vs −0.43 (p&nbsp;=&nbsp;0.49), still-preferring 17% vs 14% (p&nbsp;=&nbsp;0.36). This agrees with the grey-screen report's conclusion that the core is less movement-modulated than other cortex but not specifically rest-active.</li>
+    </ul>
+    <figure><img src="fig6_arousal.png" alt="Pupil partial correlation and small-pupil rate ratio per division, stillness index with and without the sleep gate, and rate ratio of DMN core regions against other cortical regions."></figure>
+  </section>
+
+<!-- robustness:start -->
+<section id="robustness" aria-labelledby="h-robustness">
+<h2 id="h-robustness">Sensitivity analyses added in v2</h2>
+<p><strong>Lower firing survives local time matching.</strong> Each 10&nbsp;s or 30&nbsp;s window must contain ≥0.5&nbsp;s in each state, with ≥5 qualifying windows per session. Rates are averaged equally over the same windows in both states, then neuron log ratios are averaged per mouse. The 10&nbsp;s analysis retains 388 sessions and 130 mice. It reduces the magnitude of the contrast but retains a negative estimate in every sampled division. This limits an explanation based only on slow drift, while changing which periods contribute; it is not a causal estimate.</p>
+<div class="tablebox"><table><thead><tr><th>Rate sensitivity check</th><th>Mean [95% CI]</th><th>Mice</th></tr></thead><tbody><tr><td>Whole grey screen</td><td class="num">-0.430 [-0.468, -0.394]</td><td>130</td></tr><tr><td>Within 10 s windows</td><td class="num">-0.372 [-0.406, -0.340]</td><td>130</td></tr><tr><td>Within 30 s windows</td><td class="num">-0.393 [-0.427, -0.360]</td><td>129</td></tr><tr><td>Pupil + motion coverage</td><td class="num">-0.436 [-0.475, -0.397]</td><td>119</td></tr><tr><td>Units ≥2 Hz</td><td class="num">-0.441 [-0.479, -0.405]</td><td>130</td></tr></tbody></table></div>
+<p><strong>Multiplicity.</strong> Across all finite neuron epoch-test p-values, Benjamini–Hochberg q&lt;0.01 retains 14.6% still-preferring and 38.7% movement-preferring neurons. These are pooled fractions of tested neurons, not equal-mouse averages. Both q&lt;0.01 and q&lt;0.05, and a separate correction for within-bout tests, are saved in <code>22_robustness.json</code>. Original Figures 2 and 4 retain their explicitly labelled uncorrected p&lt;0.01 classifications for comparison. FDR correction does not repair miscalibrated p-values from temporal dependence.</p>
+<p><strong>Within-session replication.</strong> Correlations computed separately in sessions with ≥20 complete neurons, then averaged within mouse and over mice: grey halves: 0.758 [0.738, 0.778]; grey versus ITI: 0.536 [0.512, 0.558]; face versus wheel: 0.727 [0.696, 0.755]. CIs resample mice (4,000 draws). The face/wheel comparison still shares its stillness baseline; neither these estimates nor the pooled correlations establish a fixed tuning property.</p>
+<p><strong>Paired DMN comparison.</strong> Within each mouse, region means receive equal weight within the core and other cortex; only mice with both sets contribute. Core-minus-other log₂ rate contrast: -0.010 [-0.180, 0.161], 39 mice. This targets a different estimand from the region permutation test; incomplete anatomical sampling remains a limitation.</p>
+<p><strong>Population validation.</strong> Both states now use identical nonconstant neuron sets separately for raw and thinned comparisons. Residual matched log₂ rate contrast is -0.00091 [-0.00151, -0.00034]. Thinning is stochastic and matches expected rates, not exact realised counts. It does not remove shared slow fluctuations or establish excess synchrony against an independent-spike null.</p>
+<p><strong>Timing corrections.</strong> The 2–4&nbsp;s contrast previously indexed 4–8&nbsp;s; this is corrected. Movement-offset bouts must start two 50&nbsp;ms bins after an actual movement (allowing the margin), rather than at pupil-gate crossings. Aligned windows must lie entirely inside the analysed grey block. Figures and bout tests have been recomputed.</p>
+<figure><img src="fig7_robustness.png" alt="Rate sensitivity checks, FDR-adjusted neuron fractions, and within-session replication with mouse bootstrap confidence intervals."><figcaption class="note">Figure 7. Sensitivity analyses. Rate effects and session correlations use equal mouse weighting; neuron classifications show pooled fractions. Face and wheel indices share their stillness baseline.</figcaption></figure>
+</section>
+<!-- robustness:end -->
+
+  <section id="summary" aria-labelledby="h-summary">
+    <h2 id="h-summary">7. Summary: robust versus area-specific correlates</h2>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Correlate of awake stillness</th><th>Across animals</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>Lower population firing</td><td><span class="verdict v-ok">Robust</span> 129/130 mice</td><td>All divisions; most in orofacial brainstem and somatosensory thalamus, least in hippocampus, cerebellum and septum</td></tr>
+          <tr><td>A minority of still-preferring neurons (15%)</td><td><span class="verdict v-ok">Robust</span> 126/128 mice</td><td>Everywhere; enriched in cerebellar nuclei and lateral septum; depleted in thalamus</td></tr>
+          <tr><td>Preference is reproducible within a recording</td><td><span class="verdict v-ok">Robust</span> ρ 0.55–0.78</td><td>Brain-wide</td></tr>
+          <tr><td>Higher within-region synchrony, rate-matched</td><td><span class="verdict v-ok">Robust</span> 82% of mice</td><td>Forebrain (cortex 91%, hippocampus, thalamus); reversed in cerebellum</td></tr>
+          <tr><td>More synchronous population events</td><td><span class="verdict v-ok">Robust</span> 81% of mice</td><td>Largest in hippocampal formation</td></tr>
+          <tr><td>Pre-movement rise 0.3–0.5&nbsp;s before leaving stillness</td><td><span class="verdict v-ok">Robust</span></td><td>All divisions</td></tr>
+          <tr><td>Post-movement dip, then recovery within 1–2&nbsp;s</td><td><span class="verdict v-part">Area-specific</span></td><td>Hippocampus and cortex</td></tr>
+          <tr><td>Continued decline with stillness duration</td><td><span class="verdict v-part">Area-specific</span> 57–67% of mice</td><td>Thalamus, hindbrain; cortex and hippocampus rise instead</td></tr>
+          <tr><td>Firing follows pupil within stillness</td><td><span class="verdict v-part">Area-specific</span> 73% of mice</td><td>Thalamus only (VPM, PO, VM, TRN)</td></tr>
+          <tr><td>Lower firing in small-pupil stillness</td><td><span class="verdict v-part">Area-specific</span> ~80% of mice</td><td>Thalamus, midbrain, hindbrain; not cortex or hippocampus</td></tr>
+          <tr><td>DMN core differs from other cortex</td><td><span class="verdict v-part">Not detected</span></td><td>p = 0.49 (rate), 0.36 (still-preferring)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The most robust correlates of idleness are not regional. Firing drops, local populations synchronise, and a stable minority of neurons in almost every region fire more. Regions also differ in their descriptive time profiles; division differences have not been established by formal interaction tests. In thalamus it keeps deepening with time and with pupil constriction. In hippocampus and cortex there is a brief undershoot after movement and then a synchronised, partly recovering regime. A brain-wide "idle" signal therefore lives more in population structure and in a distributed population of still-preferring cells than in any single area.</p>
+    <p><strong>Possible next steps:</strong> classify neurons by their stillness-tuning curves (rate vs time since movement) instead of by division; test whether still-preferring neurons in different regions co-fluctuate across probes on the grey screen; and look at the hippocampal synchronous events with LFP to see whether they are sharp-wave ripples.</p>
+  </section>
+
+  <section id="methods" aria-labelledby="h-methods">
+    <h2 id="h-methods">Methods</h2>
+    <div class="methods">
+      <div>
+        <h3>Data</h3>
+        <ul>
+          <li>The per-session extraction of the grey-screen report (<code>bwm/10_extract_full.py</code>): 50&nbsp;ms spike counts of good units over the whole recording; wheel speed, licks, left-camera motion energy and pupil diameter on the same grid; the passive <code>spontaneousActivity</code> interval, first second skipped.</li>
+          <li>Sessions need ≥30&nbsp;s of awake stillness and ≥10&nbsp;s of movement on the grey screen; neurons need ≥0.5&nbsp;Hz overall. Result: 389 sessions, 130 mice, 53,136 neurons.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Per neuron (Figures 2–4, 6)</h3>
+        <ul>
+          <li><strong>Rates</strong> in awake-still and moving bins of the grey screen, in each half of it, in the task's inter-trial gaps (BWM trial mask, trial end to next trial start), against face/body-only bins (motion energy, no wheel, no lick) and against wheel bins.</li>
+          <li><strong>Test:</strong> 0.5&nbsp;s still epochs (all bins awake-still) against 0.5&nbsp;s moving epochs (≥5 of 10 bins moving), keeping the first epoch of each kind per 2&nbsp;s to reduce dense sampling; temporal dependence can remain; Welch test, p&nbsp;&lt;&nbsp;0.01. Median 197 still and 141 moving epochs per session.</li>
+          <li><strong>Within-bout change:</strong> awake-still bouts of ≥4&nbsp;s that begin when a movement ends (median 12 per session); first 0.5&nbsp;s vs 2–4&nbsp;s; Wilcoxon over bouts, p&nbsp;&lt;&nbsp;0.01.</li>
+          <li><strong>Time profiles:</strong> rate in awake-still bins grouped by time since the last movement and to the next movement (0.1–0.5, 0.5–1, 1–2, 2–4, 4–8, 8–30&nbsp;s). Event-aligned rates around movement offsets (start of ≥4&nbsp;s bouts) and onsets (after ≥3&nbsp;s still); population curves are ratios of mean rates per mouse.</li>
+          <li><strong>Pupil:</strong> 1&nbsp;s bins fully awake-still (≥60); partial Pearson correlation of spike count with pupil, with time (quadratic) and motion energy regressed out of both.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Population (Figure 5)</h3>
+        <ul>
+          <li>Per region and probe with ≥8 neurons: 100&nbsp;ms bins whose two 50&nbsp;ms bins are both still or both moving; the same random number of bins per state (≥200).</li>
+          <li>Mean pairwise Pearson correlation; participation ratio of the correlation matrix divided by the number of neurons; fraction of 100&nbsp;ms bins with summed count &gt;3&nbsp;SD above the within-state mean.</li>
+          <li><strong>Rate matching:</strong> each neuron's counts in its higher-rate state are binomially thinned by the ratio of its two mean rates.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Statistics</h3>
+        <ul>
+          <li><strong>Across animals:</strong> neuron (or region-probe) values are averaged per mouse, then over mice; 95% CIs by bootstrap over mice (2,000); "mice below 0" is the fraction of mouse means with that sign.</li>
+          <li><strong>Region maps:</strong> regions with ≥20 neurons from ≥3 mice (192 regions; Figure 2d uses the 153 with ≥5 mice). Region point estimates average per-mouse region means, matching the bootstrap intervals. Reliability retains neuron-weighted region maps: the median Spearman r between region means from two random halves of the mice (200 splits); the within-session version subtracts each neuron's session mean first.</li>
+          <li><strong>Variance explained:</strong> sums of squares of session means, region means and region-within-session means; the null shuffles region labels within session (20 shuffles).</li>
+          <li><strong>DMN core vs other cortex:</strong> region permutation (20,000) and mouse bootstrap, as in the grey-screen report.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="notes" aria-labelledby="h-notes">
+    <h2 id="h-notes">Caveats</h2>
+    <ul>
+      <li><strong>Movement defines the contrast.</strong> "Moving" includes small face movements, so part of the stillness effect in sensory and orofacial regions is the absence of reafferent input. The face-versus-wheel comparison shares a stillness baseline and does not separate motor from sensory causes.</li>
+      <li><strong>Post-task rest.</strong> The grey screen follows an hour of task under water restriction, and the inter-trial replication comes from the same session. Naive rest may differ.</li>
+      <li><strong>Inference limits.</strong> Neuron p-values depend on residual temporal autocorrelation. A 2&nbsp;s window rule does not guarantee independence or minimum 2&nbsp;s separation at window boundaries. Correlation changes may reflect slow shared drift or state mixtures. Rate thinning does not control these confounds. Non-significant contrasts, including early-versus-late synchrony and DMN comparisons, do not establish equivalence.</li>
+      <li><strong>Sleep gate.</strong> “Awake-still” is an operational label, not a validated sleep classification. Pupil is an indirect sleep marker, and there is no LFP or EMG here. The gate changes the stillness index very little, and the small-pupil comparison suggests that drowsy-looking stillness mainly lowers thalamic and brainstem firing.</li>
+      <li><strong>Time resolution.</strong> Spike counts are at 50&nbsp;ms and population measures at 100&nbsp;ms. Ripples and fast oscillations cannot be resolved.</li>
+      <li><strong>Missing wheel data.</strong> 57 of the 389 sessions (13 mice) have no wheel trace on the grey screen; there "moving" rests on motion energy and licks alone. Without these sessions the results are unchanged: rate ratio −0.43 (99% of mice negative), 14.8% still-preferring neurons, rate-matched correlation +0.011 (84% of mice).</li>
+      <li><strong>Unequal coverage.</strong> Divisions and regions are recorded in different mice; within-session versions of the region maps are reported for this reason.</li>
+      <li><strong>Code:</strong> <code>~/default_mode_network/neural_correlates_stillness/</code>: <code>common_still.py</code> (state definitions), <code>10_neurons.py</code>, <code>11_population.py</code>, <code>20_stats.py</code>, <code>21_population_stats.py</code>, <code>22_robustness.py</code>, <code>23_local_contrast.py</code>, <code>report/figs.py</code>, <code>report/robustness.py</code>.</li>
+    </ul>
+  </section>
+</div>
+
+</html>

@@ -13,11 +13,11 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "bwm"))
 from matplotlib.patches import Rectangle  # noqa: E402
-from plotstyle import NATURE_DOUBLE_COL_IN, panel_label, save_with_caption, style_axes  # noqa: E402
+from plotstyle import NATURE_DOUBLE_COL_IN, allen_color, panel_label, save_with_caption, style_axes  # noqa: E402
 from common import CONS_DMN  # noqa: E402
 
 BWM = HERE.parent / "bwm" / "output"
-OUTD = HERE / "grey"
+OUTD = HERE.parent / "comprehensive_report"
 S = json.load(open(BWM / "45_window_stats.json"))
 WIN = [("stim", "stimulus", "#eb6834"), ("movefb", "movement +\nfeedback", "#c4451c"), ("quies", "quiescence", "#6250d6"),
        ("iti", "ITI rest", "#2a78d6"), ("iti_move", "ITI moving", "#86b6ef"), ("grey", "grey still", "#5f5e58"),
@@ -82,7 +82,7 @@ for ax, (key, lab) in zip(axs.flat, groups):
         ax.bar(i, m, color=col, width=0.8)
         ax.plot([i, i], [lo, hi], color="k", lw=0.6)
     nmice = S["rates"]["movefb"][key][3]
-    ax.set_title(f"{lab} ({nmice})", fontsize=6.5, color=C_CORE if key in CONS_DMN or key == "core" else "k")
+    ax.set_title(f"{lab} ({nmice})", fontsize=6.5, color=allen_color(key) if key in CONS_DMN else C_CORE if key == "core" else "k")
     style_axes(ax)
     ax.set_xticks([])
     if ax in axs[:, 0]:

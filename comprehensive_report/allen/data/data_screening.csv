@@ -1,0 +1,7 @@
+dataset,stage,screened,included
+VBN,first cohort (12 random thalamus/midbrain mice),12,4
+VBN,batch 1,36,8
+VBN,batch 2,32,11
+VBN,batch 3,35,10
+VBN,batch 4,35,11
+VC,Visual Coding,10,4

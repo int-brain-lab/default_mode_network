@@ -5,8 +5,9 @@ Map, BWM) and mesoscope data show signatures of the mouse default mode network
 (DMN) known from resting-state fMRI.
 
 **Reports**
-- `report/grey/dmn_grey.html`: the current report, on the passive grey-screen period. Open it in a browser; the figures sit next to it. It covers the period's timing and movement, task suppression of DMN regions, which region pairs can be tested, resting coupling, and a comparison with Lu et al. 2012.
+- `comprehensive_report/dmn_grey.html`: the comprehensive report (also as `dmn_grey.tex`/`.pdf`). Open it in a browser; the figures sit next to it. It applies one set of tests (correlates of awake stillness; evidence for a DMN analogue) to each dataset in its own part: IBL Neuropixels (Part II: grey-screen period, task suppression of DMN regions, testable region pairs, resting coupling, single-region metrics, brain-wide stillness correlates), the IBL mesoscope (Part III: RSP coupling, stillness), Allen Institute Neuropixels (Part IV: stillness compared with IBL, label calibration and onset rule, frontal–retrosplenial coupling in OpenScope; exports in `comprehensive_report/allen/`) and Allen imaging (Part V, not analysed), then compares them (Part VI). Figures are written there by `report/fig_*.py` (incl. `fig_meso_still.py`), `neural_correlates_stillness/report/figs.py main`, `fig_allen.py` and `fig_allen_followup.py`; the PDF by `neural_correlates_stillness/report/html2tex.py ../../comprehensive_report/dmn_grey.html`.
 - `report/REPORT.md` with `report/fig_dmn.pdf`: the earlier summary based on task inter-trial intervals (ITIs) as rest.
+- `report/arousal/AROUSAL.md` with `figA1_cells.pdf`, `figA2_hemo.pdf`: the Landemard et al. 2026 Arousal+/Arousal− model applied to the conservative core.
 
 **Short version** (report v5)
 - **Region definition:** the main analyses use a conservative DMN core (ACA, RSP, PL, ORBm). ACA and RSP are in all four published rodent DMN maps (Lu 2012, Grandjean 2020, Whitesell 2021, Mandino 2022), and PL and ORB in three.
@@ -51,6 +52,7 @@ The grey-screen analyses are run separately (see below).
 | 44_windows.py | session-averaged rates per neuron in stimulus, movement + feedback, quiescence, inter-trial rest/moving and grey still/moving windows; trial-wise coupling in quiescence and inter-trial rest |
 | 45_window_stats.py | DMN-motivated contrasts (within region, core vs other cortex / all regions, within session), suppressed fractions, trial-wise coupling classes |
 | 43_spont_single_region.py | single-region resting metrics on the grey screen: fALFF, fluctuation amplitude, local synchrony (ReHo analogue) |
+| 50_arousal_model.py, 51_arousal_stats.py | Arousal+/Arousal− model of Landemard et al. 2026: whisking-defined classes, HRF-predicted blood volume, task vs grey contrasts, pair coupling (`51_arousal_stats.py meso` for the mesoscope) |
 | common.py, dmnstats.py | region sets, loaders, region-level statistics |
 
 ### meso/
@@ -59,6 +61,7 @@ The grey-screen analyses are run separately (see below).
 | 10_extract_meso.py | canonical mesoscope sessions: per-trial window means and 1 s binned traces |
 | 30_meso_C.py, 31_meso_stats.py, 32_meso_checks.py | rest preference, ITI region coupling, seed maps, robustness checks (use ITI start 1 s: `30_meso_C.py motion 1.0`) |
 | 33_meso_spont.py | grey-screen coupling (`200 require_me`: periods ≥200 s with motion energy) |
+| 52_meso_arousal.py | Arousal+/Arousal− model on the mesoscope (classes from the task period, 1 s bins) |
 
 ### report/
 - `fig_dmn.py`: figure for the ITI report.
