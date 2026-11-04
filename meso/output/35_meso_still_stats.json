@@ -90,5 +90,51 @@
    "RSPagl": 13644,
    "RSPd": 5336
   }
+ },
+ "repro": {
+  "halves": {
+   "pooled_rho": 0.4997841086028255,
+   "rois": 335204,
+   "sessions": 46,
+   "mice": 9,
+   "session_median": 0.5056124395690672,
+   "mouse_mean": 0.519233845748653,
+   "mouse_min": 0.3317798842497727,
+   "null_mouse_mean": -0.023580840465040637,
+   "sessions_above_null95": 45
+  },
+  "chunks": {
+   "pooled_rho": 0.5501614340025326,
+   "rois": 343070,
+   "sessions": 47,
+   "mice": 9,
+   "session_median": 0.5411107862908904,
+   "mouse_mean": 0.5758135765802411,
+   "mouse_min": 0.37334280400946596,
+   "null_mouse_mean": -0.017258912590840815,
+   "sessions_above_null95": 46
+  },
+  "regions": {
+   "n": 16,
+   "raw": {
+    "r": 0.168,
+    "spearman_brown": 0.288,
+    "q05_q95": [
+     -0.06,
+     0.587
+    ]
+   },
+   "within_session": {
+    "r": 0.512,
+    "spearman_brown": 0.677,
+    "q05_q95": [
+     0.25,
+     0.791
+    ]
+   },
+   "var_session": 0.041112110018730164,
+   "var_region_within_session": 0.041567496955394745,
+   "var_region_within_session_shuffle": 0.001152693759649992
+  }
  }
 }
