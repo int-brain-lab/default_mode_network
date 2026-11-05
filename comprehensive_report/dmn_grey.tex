@@ -32,7 +32,7 @@
 \renewcommand{\textfraction}{0.07}
 \renewcommand{\floatpagefraction}{0.85}
 \begin{document}
-{\small\color{muted} IBL Neuropixels $\cdot$ IBL mesoscope $\cdot$ Allen Neuropixels $\cdot$ v10, 2 Nov 2026}\\[4pt]
+{\small\color{muted} IBL Neuropixels $\cdot$ IBL mesoscope $\cdot$ Allen Neuropixels $\cdot$ v12, 5 Nov 2026}\\[4pt]
 {\LARGE\bfseries Default mode network analogues and correlates of stillness in IBL and Allen Institute data}\\[4pt]
 {\normalsize International Brain Laboratory, Michael Schartner, Claude Opus 5.5}\\[2pt]
 {\color{accent}\rule{\linewidth}{1.2pt}}
@@ -164,17 +164,17 @@ Allen mesoscope and two-photon (Part V) & calcium, mainly visual cortex & not an
 \textbf{Which test runs on which dataset.} "Not run" means the data would allow the test but it has not been done. "n/a" means the data cannot support it.
 
 {\small\renewcommand{\arraystretch}{1.2}
-\begin{xltabular}{\linewidth}{>{\hsize=1.379\hsize\raggedright\arraybackslash}X>{\hsize=1.004\hsize\raggedright\arraybackslash}X>{\hsize=0.819\hsize\raggedright\arraybackslash}X>{\hsize=1.195\hsize\raggedright\arraybackslash}X>{\hsize=0.603\hsize\raggedright\arraybackslash}X}
+\begin{xltabular}{\linewidth}{>{\hsize=1.234\hsize\raggedright\arraybackslash}X>{\hsize=0.898\hsize\raggedright\arraybackslash}X>{\hsize=1.261\hsize\raggedright\arraybackslash}X>{\hsize=1.068\hsize\raggedright\arraybackslash}X>{\hsize=0.539\hsize\raggedright\arraybackslash}X}
 \toprule
 \textbf{Test} & \textbf{IBL Neuropixels} & \textbf{IBL mesoscope} & \textbf{Allen Neuropixels} & \textbf{Allen imaging} \\
 \midrule
 \endhead
 DMN: rest preference against the task & sections 5--6 & not run & n/a (no core units in VBN/VC; no task in OpenScope) & not analysed \\
-DMN: single-region resting metrics & section 9 & not run & n/a (no core units) & not analysed \\
+DMN: single-region resting metrics & section 9 & n/a (60 s grey screen, too short for 0.01--0.1 Hz) & n/a (no core units) & not analysed \\
 DMN: co-fluctuation of core regions & sections 7--8 (no frontal--RSP pair) & section 11 (RSP only) & section 14 (frontal--RSP, passive viewing) & not analysed \\
 Stillness: rate ratio, still against moving & section 10.2 & section 12 & section 13 & not analysed \\
 Stillness: still- and movement-preferring cells, circular-shift null & sections 10.2, 13.4 & section 12 & section 13.4 & not analysed \\
-Stillness: reproducibility within recordings & section 10.3 & not run & not run & not analysed \\
+Stillness: reproducibility within recordings & section 10.3 & section 12 (halves of the block; not against the task, not by effector) & not run & not analysed \\
 Stillness: time course and pre-movement rise & sections 10.4, 13.4 & n/a (1 s calcium bins) & sections 13.2, 13.4 & not analysed \\
 Stillness: population synchrony & section 10.5 & not run & n/a (still periods too short) & not analysed \\
 Stillness: pupil within stillness & section 10.6 & not run & not run & not analysed \\
@@ -643,12 +643,27 @@ The contrast therefore uses the passive block before the task replay: the grey s
 \item movement here is face movement only;
 \item the block contains sparse-noise stimuli, though they are not locked to movement.
 \end{itemize}
+\item \textbf{Stillness preference is reproducible within recordings} (Figure 17d--f), as in section 10.3. Each ROI's stillness index is computed separately in two parts of the passive block (each with $\geq$10 still and $\geq$10 moving bins). 
+\begin{itemize}
+\item First against second half of the block: $\rho$ = 0.50 over 335,204 ROIs (46 sessions, 9 mice), against $-$0.02 when the second half's activity is rotated against its state labels. The correlation exceeds the null's 95th percentile in 45 of 46 sessions, and every mouse is at $\rho$ $\geq$ 0.33 (mean 0.52).
+\item Alternating 30 s chunks, which spread slow drift over both parts: $\rho$ = 0.55 (mouse mean 0.58, null $-$0.02).
+\item This is lower than the 0.78 of IBL Neuropixels, where each half has about 3 min of still time. Here each half has under 2 min of still and about 40 s of moving bins, and the activity is deconvolved calcium in 1 s bins.
+\item Region maps: over 16 Beryl regions ($\geq$20 ROIs from $\geq$3 mice), maps from two halves of the mice agree weakly from raw values (r = 0.17, 5--95\% range $-$0.06 to 0.59) and moderately after subtracting each session's mean (r = 0.51). Region within session explains 4.2\% of ROI variance (label shuffle 0.1\%), the session 4.1\%. As in Neuropixels, most variation lies between ROIs within a region.
+\item Section 10.3's other two comparisons are not possible here. The task has no still bins outside the stimulus-to-feedback windows (median 0 per session), and the wheel is not recorded in the passive block, so face and wheel movements cannot be separated.
+\end{itemize}
+\item \textbf{Pilot: do resting fluctuations sample the task repertoire?} Deco et al. (2013) propose that rest is a low-activity state from which noise drives excursions towards the network configurations that tasks recruit. Resting fluctuations should then be concentrated in the task-evoked dimensions. We measured how much of the variance of still bins in the passive block falls into the top 5 dimensions of the task-evoked patterns. These are the stimulus, choice, feedback and post-feedback windows minus the pre-stimulus window, by stimulus side and outcome. The measure is relative to the most any 5 dimensions capture (alignment index; Elsayed et al. 2016), with the uniform direction removed. 
+\begin{itemize}
+\item Rest is aligned with the evoked patterns above chance (0.034 against 0.012 for ROI-permuted patterns; 46 of 48 sessions, 9 of 9 mice).
+\item It is far less aligned than random high-variance dimensions of the same recording (0.085; Elsayed and Cunningham 2017), in every session. Restricting the evoked dimensions to those replicated in odd and even trials does not change this.
+\item The dominant dimensions of single-trial task activity capture rest about as well as random high-variance dimensions (0.079, median over mice 0.048). Still bins of the grey screen alone (34 sessions) give the same picture.
+\end{itemize}
+ Resting fluctuations thus explore the same space as ongoing variability during the task, but not preferentially the task-evoked configurations. This does not support the strong form of the prediction. It is a pilot: the evoked dimensions are noisy (odd- and even-trial subspaces share 22\%), rest has about 220 still 1 s bins per session for about 7,600 ROIs, and the test has not been run on Neuropixels data (code: \texttt{resting\_\allowbreak{}repertoire/\allowbreak{}}).
 \end{itemize}
 \begin{figure}[!htbp]
 \renewcommand{\thefigure}{\arabic{figure}}\setcounter{figure}{16}
 \centering
 \includegraphics[width=\linewidth]{fig17_meso_still_panels.pdf}
-\caption{Correlates of stillness in the IBL mesoscope: lower activity in stillness across dorsal cortex. \textbf{a} Activity in still against moving 1\,s bins of the passive block before the task replay (grey screen and receptive-field mapping; median 6.2\,min per session), log$_2$((still\,+\,$e$)/(moving\,+\,$e$)) of each ROI's deconvolved activity with $e$ = 2\% of its mean; ROIs averaged per session (sessions with $\geq$20 ROIs in the group), sessions per mouse. Moving: lick or face motion energy above the session's 60th percentile (the wheel is not recorded in this block); still: no movement within $\pm$1\,s and $\leq$30\,s after the last movement. Groups by Beryl region (Allen colours); black, mean and 95\% bootstrap CI over mice; n, mice. \textbf{b} Still- and movement-preferring ROIs per mouse (Welch test of still against moving bins, at most one of each per 2\,s, $p<0.01$), observed against a circular-shift null (activity rotated against the behavioural labels, 100 offsets $\geq$60\,s). Bars: means over mice. One session whose null exceeded 5\% (slow drift; a quarter of its ROIs silent in all still bins) is excluded from all panels. \textbf{c} RSP against the other imaged ROIs of the same session (lines: sessions).}
+\caption{Correlates of stillness in the IBL mesoscope: lower activity in stillness across dorsal cortex, and a stillness preference that is reproducible within recordings. \textbf{a} Activity in still against moving 1\,s bins of the passive block before the task replay (grey screen and receptive-field mapping; median 6.2\,min per session), log$_2$((still\,+\,$e$)/(moving\,+\,$e$)) of each ROI's deconvolved activity with $e$ = 2\% of its mean; ROIs averaged per session (sessions with $\geq$20 ROIs in the group), sessions per mouse. Moving: lick or face motion energy above the session's 60th percentile (the wheel is not recorded in this block); still: no movement within $\pm$1\,s and $\leq$30\,s after the last movement. Groups by Beryl region (Allen colours); black, mean and 95\% bootstrap CI over mice; n, mice. \textbf{b} Still- and movement-preferring ROIs per mouse (Welch test of still against moving bins, at most one of each per 2\,s, $p<0.01$), observed against a circular-shift null (activity rotated against the behavioural labels, 100 offsets $\geq$60\,s). Bars: means over mice. One session whose null exceeded 5\% (slow drift; a quarter of its ROIs silent in all still bins) is excluded from all panels. \textbf{c} RSP against the other imaged ROIs of the same session (lines: sessions). \textbf{d} Reproducibility within recordings: stillness index SI = (still $-$ moving)/(still $+$ moving) of each ROI in the first against the second half of the passive block (each half $\geq$10 still and $\geq$10 moving bins; 335,204 ROIs, 46 sessions; log colour scale). \textbf{e} Spearman $\rho$ of SI between the two halves, and between alternating 30\,s chunks, per session averaged per mouse (black), against a null in which the second part's activity is rotated against its state labels (20 offsets $\geq$15\,s; grey). Lines: mice. \textbf{f} Reliability of region maps of the log$_2$ ratio over animals: Spearman r between region means from two random halves of the mice (200 splits, median and 5--95\% range), from raw ROI values (blue) and after subtracting each session's mean (orange); 16 Beryl regions with $\geq$20 ROIs from $\geq$3 mice. Region within session explains 4.2\% of ROI variance (label shuffle 0.1\%), session 4.1\%.}
 \label{fig:fig17_meso_still}
 \end{figure}
 \clearpage
@@ -772,7 +787,7 @@ What holds in every dataset, what does not, and how far the evidence for a DMN a
 Each row applies one test to each dataset. Values are means over mice, with the number of mice in which the effect has the stated sign.
 
 {\small\renewcommand{\arraystretch}{1.2}
-\begin{xltabular}{\linewidth}{>{\hsize=1.302\hsize\raggedright\arraybackslash}X>{\hsize=0.874\hsize\raggedright\arraybackslash}X>{\hsize=1.128\hsize\raggedright\arraybackslash}X>{\hsize=1.090\hsize\raggedright\arraybackslash}X>{\hsize=0.606\hsize\raggedright\arraybackslash}X}
+\begin{xltabular}{\linewidth}{>{\hsize=1.392\hsize\raggedright\arraybackslash}X>{\hsize=0.853\hsize\raggedright\arraybackslash}X>{\hsize=1.101\hsize\raggedright\arraybackslash}X>{\hsize=1.063\hsize\raggedright\arraybackslash}X>{\hsize=0.592\hsize\raggedright\arraybackslash}X}
 \toprule
 \textbf{Correlate of awake stillness} & \textbf{IBL Neuropixels} & \textbf{IBL mesoscope} & \textbf{Allen Neuropixels} & \textbf{Allen imaging} \\
 \midrule
@@ -783,6 +798,7 @@ Movement-preferring, above the null & 39.4\% (null 0.9\%) & 13.2\% (null 0.3\%) 
 Visual cortex suppressed in stillness & $-$0.37; 32/34 mice & $-$0.27; 7/7 mice & VBN +0.04 (12/30 below 0); VC $-$0.18 (4/4) & not analysed \\
 Rise before movement, larger after $\geq$3 s than $\geq$1 s of stillness & wheel onsets +3.1\% $\rightarrow$ +8.3\% & n/a (1 s bins) & running onsets +5.0\% $\rightarrow$ +12.3\% & not analysed \\
 Midbrain suppressed strongly, hippocampus least & yes (midbrain $-$0.45) & n/a (cortex only) & yes (midbrain $-$0.47); region ranks $\rho$ = 0.45 & not analysed \\
+Stillness preference reproducible within a recording (halves, Spearman $\rho$) & 0.78 & 0.50 (null $-$0.02); 9/9 mice & not run & not analysed \\
 Higher synchrony in stillness, rate-matched & 82\% of mice & not run & n/a & not analysed \\
 DMN core differs from other cortex & no (p = 0.49) & RSP less suppressed in 9/10 sessions (2 mice) & n/a (no core units) & not analysed \\
 \bottomrule
@@ -916,6 +932,9 @@ Three recordings would test what these data leave open.
 \begin{itemize}
 \item Allen Institute MindScope Program (2023). Visual Behavior Neuropixels. DANDI Archive, dandiset \href{https://dandiarchive.org/dandiset/000713}{000713}.
 \item Allen Institute OpenScope. Neuropixels datasets, DANDI Archive, dandisets \href{https://dandiarchive.org/dandiset/000563}{000563}, \href{https://dandiarchive.org/dandiset/000690}{000690} and \href{https://dandiarchive.org/dandiset/001637}{001637}.
+\item Deco G, Jirsa VK, McIntosh AR (2013). Resting brains never rest: computational insights into potential cognitive architectures. Trends Neurosci 36:268--274. \href{https://doi.org/10.1016/j.tins.2013.03.001}{doi:10.1016/j.tins.2013.03.001}
+\item Elsayed GF, Cunningham JP (2017). Structure in neural population recordings: an expected byproduct of simpler phenomena? Nat Neurosci 20:1310--1318.
+\item Elsayed GF, Lara AH, Kaufman MT, Churchland MM, Cunningham JP (2016). Reorganization between preparatory and movement population responses in motor cortex. Nat Commun 7:13239.
 \item Gozzi A, Schwarz AJ (2016). Large-scale functional connectivity networks in the rodent brain. NeuroImage 127:496--509.
 \item Grandjean J, et al. (2020). Common functional networks in the mouse brain revealed by multi-centre resting-state fMRI analysis. NeuroImage 205:116278. \href{https://doi.org/10.1016/j.neuroimage.2019.116278}{doi:10.1016/j.neuroimage.2019.116278}
 \item International Brain Laboratory, et al. (2023). A brain-wide map of neural activity during complex behaviour. bioRxiv 2023.07.04.547681. \href{https://doi.org/10.1101/2023.07.04.547681}{doi:10.1101/2023.07.04.547681}
@@ -1057,7 +1076,7 @@ Three recordings would test what these data leave open.
 \end{itemize}
 \item \textbf{DMN core against other cortex:} the difference of region means (regions with $\geq$20 neurons in $\geq$2 sessions) is tested by permuting region labels (20,000 permutations) and by the mouse bootstrap. Within-session tests compare core neurons with non-core neurons of the same session, averaged per mouse (bootstrap and Wilcoxon over mice). Synchrony uses region-sessions, with $\geq$3 per region from $\geq$3 sessions.
 \item \textbf{Coupling classes:} differences are bootstrapped over mice (2,000 resamples). The smallest detectable effect is 2.8 $\times$ the bootstrap standard error. The rest-preference network uses 200 random half-splits of the mice $\times$ 2. For OpenScope, a Wilcoxon test over mice of the residual z and of still minus moving.
-\item \textbf{Reproducibility:} Spearman correlations of the stillness index across halves, contexts and movement types, also per session ($\geq$20 neurons). Region maps: regions with $\geq$20 neurons from $\geq$3 mice (192), split-half reliability over mice (200 splits), also after subtracting session means. Variance partition: sums of squares of session, region and region-within-session means, with a null from shuffling region labels within session.
+\item \textbf{Reproducibility:} Spearman correlations of the stillness index across halves, contexts and movement types, also per session ($\geq$20 neurons). Region maps: regions with $\geq$20 neurons from $\geq$3 mice (192), split-half reliability over mice (200 splits), also after subtracting session means. Variance partition: sums of squares of session, region and region-within-session means, with a null from shuffling region labels within session. Mesoscope: the same on ROIs, with halves and alternating 30 s chunks of the passive block (each part $\geq$10 still and $\geq$10 moving bins) and a null that rotates the second part's activity against its state labels (20 offsets $\geq$15 s); region maps from Beryl regions with $\geq$20 ROIs from $\geq$3 mice (16).
 \item \textbf{Time course and onsets:} Wilcoxon tests over bouts (within-bout change), over mice (rise), and over sessions (paired comparison of onset rules).
 \item \textbf{Exploratory analyses:} nothing was pre-registered, and thresholds were fixed before each run.
 \end{itemize}
@@ -1094,7 +1113,11 @@ Figure S1 places the conservative core next to the full Whitesell et al. and Lu 
 \label{fig:figS2_whitesell_coupling}
 \end{figure}
 \begin{tcolorbox}[breakable,colback=accent!8,colframe=accent,boxrule=0pt,leftrule=2pt,arc=0pt,fontupper=\small]
-\textbf{Revision history.} v10 (2 Nov) put the report in manuscript form. It now has a compact abstract of the main, most robust and novel findings, a short Introduction, Results (Parts I--VI and sections 1--17, unchanged), a Discussion and References, followed by Methods (data, behavioural states, region sets, metrics, statistics, code) and the supplementary figures. The Discussion holds the main findings, the comparison with the rodent DMN papers (formerly section 18) and all caveats (formerly "Notes and caveats").
+\textbf{Revision history.} v12 (5 Nov) added a pilot test of Deco et al. (2013) in the mesoscope: are resting fluctuations concentrated in the task-evoked dimensions? (section 12; \texttt{resting\_\allowbreak{}repertoire/\allowbreak{}}).
+
+v11 (4 Nov) added reproducibility within recordings for the IBL mesoscope (section 12, Figure 17d--f; \texttt{meso/\allowbreak{}36\_\allowbreak{}meso\_\allowbreak{}still\_\allowbreak{}repro.py}) and the corresponding row in section 16. In the overview of tests (section 2), single-region resting metrics in the mesoscope are now marked n/a: its 60 s grey screen is too short for 0.01--0.1 Hz power.
+
+v10 (2 Nov) put the report in manuscript form. It now has a compact abstract of the main, most robust and novel findings, a short Introduction, Results (Parts I--VI and sections 1--17, unchanged), a Discussion and References, followed by Methods (data, behavioural states, region sets, metrics, statistics, code) and the supplementary figures. The Discussion holds the main findings, the comparison with the rodent DMN papers (formerly section 18) and all caveats (formerly "Notes and caveats").
 
 v9 (2 Nov) reorganised the report by dataset. Part I holds the question, the DMN regions and a new overview of datasets and tests (section 2). Parts II--V hold IBL Neuropixels, the IBL mesoscope, Allen Neuropixels and Allen imaging (not analysed), and Part VI the comparison (new section 16) and the DMN verdict. The material is otherwise unchanged and renumbered: single-region metrics are now section 9 and Figure 9, the stillness chapter is section 10 with Figures 10--15, the mesoscope coupling is section 11 with Figure 16, and the Allen comparison is section 13 with Figure 18. New analyses:
 
