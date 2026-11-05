@@ -32,7 +32,7 @@
 \renewcommand{\textfraction}{0.07}
 \renewcommand{\floatpagefraction}{0.85}
 \begin{document}
-{\small\color{muted} IBL Neuropixels $\cdot$ IBL mesoscope $\cdot$ Allen Neuropixels $\cdot$ v11, 4 Nov 2026}\\[4pt]
+{\small\color{muted} IBL Neuropixels $\cdot$ IBL mesoscope $\cdot$ Allen Neuropixels $\cdot$ v12, 5 Nov 2026}\\[4pt]
 {\LARGE\bfseries Default mode network analogues and correlates of stillness in IBL and Allen Institute data}\\[4pt]
 {\normalsize International Brain Laboratory, Michael Schartner, Claude Opus 5.5}\\[2pt]
 {\color{accent}\rule{\linewidth}{1.2pt}}
@@ -651,6 +651,13 @@ The contrast therefore uses the passive block before the task replay: the grey s
 \item Region maps: over 16 Beryl regions ($\geq$20 ROIs from $\geq$3 mice), maps from two halves of the mice agree weakly from raw values (r = 0.17, 5--95\% range $-$0.06 to 0.59) and moderately after subtracting each session's mean (r = 0.51). Region within session explains 4.2\% of ROI variance (label shuffle 0.1\%), the session 4.1\%. As in Neuropixels, most variation lies between ROIs within a region.
 \item Section 10.3's other two comparisons are not possible here. The task has no still bins outside the stimulus-to-feedback windows (median 0 per session), and the wheel is not recorded in the passive block, so face and wheel movements cannot be separated.
 \end{itemize}
+\item \textbf{Pilot: do resting fluctuations sample the task repertoire?} Deco et al. (2013) propose that rest is a low-activity state from which noise drives excursions towards the network configurations that tasks recruit. Resting fluctuations should then be concentrated in the task-evoked dimensions. We measured how much of the variance of still bins in the passive block falls into the top 5 dimensions of the task-evoked patterns. These are the stimulus, choice, feedback and post-feedback windows minus the pre-stimulus window, by stimulus side and outcome. The measure is relative to the most any 5 dimensions capture (alignment index; Elsayed et al. 2016), with the uniform direction removed. 
+\begin{itemize}
+\item Rest is aligned with the evoked patterns above chance (0.034 against 0.012 for ROI-permuted patterns; 46 of 48 sessions, 9 of 9 mice).
+\item It is far less aligned than random high-variance dimensions of the same recording (0.085; Elsayed and Cunningham 2017), in every session. Restricting the evoked dimensions to those replicated in odd and even trials does not change this.
+\item The dominant dimensions of single-trial task activity capture rest about as well as random high-variance dimensions (0.079, median over mice 0.048). Still bins of the grey screen alone (34 sessions) give the same picture.
+\end{itemize}
+ Resting fluctuations thus explore the same space as ongoing variability during the task, but not preferentially the task-evoked configurations. This does not support the strong form of the prediction. It is a pilot: the evoked dimensions are noisy (odd- and even-trial subspaces share 22\%), rest has about 220 still 1 s bins per session for about 7,600 ROIs, and the test has not been run on Neuropixels data (code: \texttt{resting\_\allowbreak{}repertoire/\allowbreak{}}).
 \end{itemize}
 \begin{figure}[!htbp]
 \renewcommand{\thefigure}{\arabic{figure}}\setcounter{figure}{16}
@@ -925,6 +932,9 @@ Three recordings would test what these data leave open.
 \begin{itemize}
 \item Allen Institute MindScope Program (2023). Visual Behavior Neuropixels. DANDI Archive, dandiset \href{https://dandiarchive.org/dandiset/000713}{000713}.
 \item Allen Institute OpenScope. Neuropixels datasets, DANDI Archive, dandisets \href{https://dandiarchive.org/dandiset/000563}{000563}, \href{https://dandiarchive.org/dandiset/000690}{000690} and \href{https://dandiarchive.org/dandiset/001637}{001637}.
+\item Deco G, Jirsa VK, McIntosh AR (2013). Resting brains never rest: computational insights into potential cognitive architectures. Trends Neurosci 36:268--274. \href{https://doi.org/10.1016/j.tins.2013.03.001}{doi:10.1016/j.tins.2013.03.001}
+\item Elsayed GF, Cunningham JP (2017). Structure in neural population recordings: an expected byproduct of simpler phenomena? Nat Neurosci 20:1310--1318.
+\item Elsayed GF, Lara AH, Kaufman MT, Churchland MM, Cunningham JP (2016). Reorganization between preparatory and movement population responses in motor cortex. Nat Commun 7:13239.
 \item Gozzi A, Schwarz AJ (2016). Large-scale functional connectivity networks in the rodent brain. NeuroImage 127:496--509.
 \item Grandjean J, et al. (2020). Common functional networks in the mouse brain revealed by multi-centre resting-state fMRI analysis. NeuroImage 205:116278. \href{https://doi.org/10.1016/j.neuroimage.2019.116278}{doi:10.1016/j.neuroimage.2019.116278}
 \item International Brain Laboratory, et al. (2023). A brain-wide map of neural activity during complex behaviour. bioRxiv 2023.07.04.547681. \href{https://doi.org/10.1101/2023.07.04.547681}{doi:10.1101/2023.07.04.547681}
@@ -1103,7 +1113,9 @@ Figure S1 places the conservative core next to the full Whitesell et al. and Lu 
 \label{fig:figS2_whitesell_coupling}
 \end{figure}
 \begin{tcolorbox}[breakable,colback=accent!8,colframe=accent,boxrule=0pt,leftrule=2pt,arc=0pt,fontupper=\small]
-\textbf{Revision history.} v11 (4 Nov) added reproducibility within recordings for the IBL mesoscope (section 12, Figure 17d--f; \texttt{meso/\allowbreak{}36\_\allowbreak{}meso\_\allowbreak{}still\_\allowbreak{}repro.py}) and the corresponding row in section 16. In the overview of tests (section 2), single-region resting metrics in the mesoscope are now marked n/a: its 60 s grey screen is too short for 0.01--0.1 Hz power.
+\textbf{Revision history.} v12 (5 Nov) added a pilot test of Deco et al. (2013) in the mesoscope: are resting fluctuations concentrated in the task-evoked dimensions? (section 12; \texttt{resting\_\allowbreak{}repertoire/\allowbreak{}}).
+
+v11 (4 Nov) added reproducibility within recordings for the IBL mesoscope (section 12, Figure 17d--f; \texttt{meso/\allowbreak{}36\_\allowbreak{}meso\_\allowbreak{}still\_\allowbreak{}repro.py}) and the corresponding row in section 16. In the overview of tests (section 2), single-region resting metrics in the mesoscope are now marked n/a: its 60 s grey screen is too short for 0.01--0.1 Hz power.
 
 v10 (2 Nov) put the report in manuscript form. It now has a compact abstract of the main, most robust and novel findings, a short Introduction, Results (Parts I--VI and sections 1--17, unchanged), a Discussion and References, followed by Methods (data, behavioural states, region sets, metrics, statistics, code) and the supplementary figures. The Discussion holds the main findings, the comparison with the rodent DMN papers (formerly section 18) and all caveats (formerly "Notes and caveats").
 
